@@ -15,6 +15,14 @@
       if (meta) meta.content = dark ? '#161714' : '#f3f2ef';
     };
     sync();
+    // Sin elección guardada, sigue al sistema también si cambia en vivo
+    matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+      let saved = null;
+      try { saved = localStorage.getItem('tema'); } catch (err) {}
+      if (saved) return;
+      root.dataset.theme = e.matches ? 'dark' : 'light';
+      sync();
+    });
     btn.addEventListener('click', () => {
       root.dataset.theme = root.dataset.theme === 'dark' ? 'light' : 'dark';
       try { localStorage.setItem('tema', root.dataset.theme); } catch (e) {}
