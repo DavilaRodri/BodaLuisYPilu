@@ -331,13 +331,13 @@ h1, h2, h3 { font-family: var(--serif); font-weight: 500; letter-spacing: -0.01e
 
 /* ---------- Confirmación ---------- */
 .rsvp { padding-bottom: var(--section); }
-.rsvp__grid { display: grid; grid-template-columns: 5fr 7fr; gap: clamp(32px, 5vw, 72px); align-items: start; }
+.rsvp__grid { display: grid; grid-template-columns: 5fr 7fr; gap: clamp(28px, 3vw, 40px); align-items: start; }
 .rsvp__intro { position: sticky; top: 110px; }
 .rsvp__intro h2 { font-size: var(--fs-h2); }
 .rsvp__intro > p { margin-top: 16px; max-width: 40ch; }
-.rsvp__photo { margin-top: 32px; max-width: 360px; }
-.rsvp__photo .core { aspect-ratio: 4 / 5; }
-.rsvp__photo img { width: 100%; height: 100%; object-fit: cover; object-position: 18% 50%; }
+.rsvp__photo { margin-top: 32px; }
+.rsvp__photo .core { aspect-ratio: 1 / 1; }
+.rsvp__photo img { width: 100%; height: 100%; object-fit: cover; object-position: 26% 50%; }
 
 .form .core { padding: clamp(24px, 3.5vw, 40px); }
 .form fieldset { border: 0; padding: 0; margin: 0 0 28px; min-width: 0; }
