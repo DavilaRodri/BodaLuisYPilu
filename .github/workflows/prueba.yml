@@ -1,0 +1,15 @@
+name: Prueba temporal
+on: [push]
+jobs:
+  prueba:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          sleep 60
+          curl -fsS -o /dev/null -w "web %{http_code}\n" https://davilarodri.github.io/BodaLuisYPilu/
+          curl -fsS https://davilarodri.github.io/BodaLuisYPilu/js/app.js | grep -c Authorization || true
+          curl -sS -w " insert %{http_code}\n" -X POST https://acpcbnidfunrivrdkwlf.supabase.co/rest/v1/confirmaciones \
+            -H "apikey: sb_publishable_XLnys24am80Ih8pZnnCrRw_IVWl0dsm" -H "Content-Type: application/json" -H "Prefer: return=minimal" \
+            -H "Origin: https://davilarodri.github.io" \
+            -d '{"asistira":true,"nombres":["PRUEBA Claude"],"comentario":"borrar"}'
+          curl -sS -w " leer %{http_code}\n" "https://acpcbnidfunrivrdkwlf.supabase.co/rest/v1/confirmaciones?select=*" -H "apikey: sb_publishable_XLnys24am80Ih8pZnnCrRw_IVWl0dsm"
