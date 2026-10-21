@@ -83,7 +83,6 @@
         method: 'POST',
         headers: {
           apikey: cfg.supabaseKey,
-          Authorization: 'Bearer ' + cfg.supabaseKey,
           'Content-Type': 'application/json',
           Prefer: 'return=minimal'
         },
