@@ -4,176 +4,195 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Luis &amp; Pilar · 4 de septiembre de 2027</title>
-  <meta name="description" content="Nos casamos el 4 de septiembre de 2027 en Peraleda de la Mata. Confirma tu asistencia.">
+  <meta name="description" content="Luis y Pilar se casan el 4 de septiembre de 2027 en Peraleda de la Mata. Confirma tu asistencia.">
   <meta property="og:title" content="Luis & Pilar se casan">
   <meta property="og:description" content="4 de septiembre de 2027 · Peraleda de la Mata y Finca Valmojado">
   <meta property="og:image" content="img/pareja-og.jpg">
-  <meta name="theme-color" content="#dcd6cb">
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%2323529a'/%3E%3Ctext x='16' y='22' font-family='Georgia' font-size='15' fill='%23f2f1ee' text-anchor='middle'%3EL%26amp;P%3C/text%3E%3C/svg%3E">
+  <meta name="theme-color" content="#f6f3ee">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='16' fill='%234f5d3f'/%3E%3Ctext x='16' y='21' font-family='Georgia' font-size='13' fill='%23fff' text-anchor='middle'%3EL%26amp;P%3C/text%3E%3C/svg%3E">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;1,400;1,500&family=Jost:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/estilo.css">
   <script>document.documentElement.classList.remove('no-js')</script>
 </head>
 <body>
   <a class="skip" href="#confirmar">Ir a confirmar asistencia</a>
 
-  <!-- Patrón del azulejo de la fuente de la plaza -->
   <svg width="0" height="0" style="position:absolute" aria-hidden="true">
-    <defs>
-      <pattern id="azulejo" width="56" height="56" patternUnits="userSpaceOnUse">
-        <rect width="56" height="56" fill="#23529a"/>
-        <circle cx="0" cy="0" r="12" fill="#f2f1ee"/>
-        <circle cx="56" cy="0" r="12" fill="#f2f1ee"/>
-        <circle cx="0" cy="56" r="12" fill="#f2f1ee"/>
-        <circle cx="56" cy="56" r="12" fill="#f2f1ee"/>
-        <circle cx="28" cy="17" r="8" fill="#c4933c"/>
-        <circle cx="28" cy="39" r="8" fill="#c4933c"/>
-        <circle cx="17" cy="28" r="8" fill="#c4933c"/>
-        <circle cx="39" cy="28" r="8" fill="#c4933c"/>
-        <circle cx="28" cy="28" r="5" fill="#f2f1ee"/>
-      </pattern>
-    </defs>
+    <symbol id="flecha" viewBox="0 0 16 16"><path d="M4 12 12 4M5.5 4H12v6.5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
   </svg>
 
+  <nav class="nav" aria-label="Principal">
+    <a class="nav__mark" href="#inicio">L&amp;P</a>
+    <div class="nav__links">
+      <a href="#lugares">Lugares</a>
+      <a href="#dia">El día</a>
+      <a href="#confirmar">Asistencia</a>
+    </div>
+    <a class="btn" href="#confirmar">Confirmar<span class="btn__icon"><svg aria-hidden="true"><use href="#flecha"/></svg></span></a>
+  </nav>
+
   <main id="inicio">
-    <section class="hero" aria-label="Invitación">
-      <div class="card">
-        <span class="tiles" aria-hidden="true"><svg><rect width="100%" height="100%" fill="url(#azulejo)"/></svg></span>
-        <div class="card__body">
-          <h1 class="card__names rise"><span>Luis</span><span class="amp">y</span><span>Pilar</span></h1>
-          <p class="card__lead rise" style="--i:1">Nos casamos, y queremos que estés con nosotros.</p>
-          <p class="card__date rise" style="--i:2"><time datetime="2027-09-04">4 · IX · 2027</time></p>
-          <p class="card__where rise" style="--i:3">Iglesia de Santiago Apóstol, Peraleda de la Mata. Después, Finca Valmojado, en Valdehúncar.</p>
-          <a class="btn rise" style="--i:4" href="#confirmar">Confirmar asistencia</a>
+    <header class="hero">
+      <div class="wrap hero__grid">
+        <div class="hero__text">
+          <p class="hero__kicker rise">Nos casamos</p>
+          <h1 class="rise" style="--i:1">Luis <span class="amp">&amp;</span> Pilar</h1>
+          <p class="hero__date rise" style="--i:2"><time datetime="2027-09-04">Sábado, 4 de septiembre de 2027</time></p>
+          <p class="hero__place rise" style="--i:3">Peraleda de la Mata y Valdehúncar, Cáceres</p>
+          <div class="hero__actions rise" style="--i:4">
+            <a class="btn" href="#confirmar">Confirmar asistencia<span class="btn__icon"><svg aria-hidden="true"><use href="#flecha"/></svg></span></a>
+            <a class="link" href="#lugares">Ver los lugares</a>
+          </div>
         </div>
-        <p class="card__foot">
-          <a class="link" href="#iglesia">La iglesia</a>
-          <a class="link" href="#finca">La finca</a>
-          <a class="link" href="#confirmar">Quién viene</a>
-        </p>
+
+        <figure class="hero__media shell rise" style="--i:2">
+          <div class="core" data-fade>
+            <img class="is-on" src="img/pareja.jpg" width="1600" height="1200" alt="Luis y Pilar abrazados frente al mar al atardecer" data-caption="Luis y Pilar" fetchpriority="high">
+            <img src="img/iglesia.jpg" width="1536" height="1024" alt="Acuarela de la iglesia de Santiago Apóstol de Peraleda de la Mata" data-caption="Iglesia de Santiago Apóstol" loading="lazy">
+            <img src="img/finca.jpg" width="1536" height="1024" alt="Acuarela de la Finca Valmojado entre olivos" data-caption="Finca Valmojado" loading="lazy">
+            <figcaption class="hero__caption" aria-hidden="true">Luis y Pilar</figcaption>
+          </div>
+        </figure>
       </div>
+    </header>
 
-      <div class="frame" data-fade>
-        <img class="is-on" src="img/pareja.jpg" width="1600" height="1200" alt="Luis y Pilar abrazados frente al mar al atardecer" fetchpriority="high">
-        <img src="img/iglesia.jpg" width="1536" height="1024" alt="Acuarela de la iglesia de Santiago Apóstol de Peraleda de la Mata, con su torre y la fuente de azulejos" loading="lazy">
-        <img src="img/finca.jpg" width="1536" height="1024" alt="Acuarela de la Finca Valmojado, casa de piedra con olivos y camino empedrado" loading="lazy">
-        <img src="img/altar.jpg" width="1536" height="1024" alt="Acuarela del retablo dorado del interior de la iglesia" loading="lazy">
-      </div>
-    </section>
-
-    <section class="intro" aria-labelledby="t-dia">
-      <h2 id="t-dia" class="rise">Sábado, 4 de septiembre</h2>
-      <p class="intro__note rise" style="--i:1">Primero la iglesia del pueblo, en la plaza de la fuente de azulejos. Luego, a pocos kilómetros, la finca entre olivos, hasta que se haga de noche. Las horas las pondremos aquí en cuanto estén cerradas.</p>
-      <ul class="facts">
-        <li class="rise" style="--i:0"><strong>4.9.2027</strong><span>Sábado de finales de verano</span></li>
-        <li class="rise" style="--i:1"><strong>Peraleda</strong><span>Iglesia de Santiago Apóstol</span></li>
-        <li class="rise" style="--i:2"><strong>Valmojado</strong><span>La finca, en Valdehúncar</span></li>
-        <li class="rise" style="--i:3"><strong data-countdown>…</strong><span>Días que faltan</span></li>
-      </ul>
-    </section>
-
-    <section class="place" id="iglesia" aria-labelledby="t-iglesia">
-      <img class="place__img" src="img/iglesia.jpg" width="1536" height="1024" alt="Acuarela de la fachada de la iglesia de Santiago Apóstol en la plaza de Peraleda de la Mata" loading="lazy">
-      <div class="visit rise">
-        <div class="visit__body">
-          <h2 id="t-iglesia">La iglesia</h2>
-          <p class="visit__kind">Iglesia de Santiago Apóstol</p>
-          <address>Peraleda de la Mata, Cáceres</address>
-          <p class="visit__note">Ceremonia. Hora por confirmar.</p>
+    <section class="countdown" aria-label="Cuenta atrás">
+      <div class="wrap">
+        <div class="shell rise">
+          <div class="core">
+            <p class="countdown__label">Cuenta atrás<span>Hasta el 4 de septiembre de 2027</span></p>
+            <div class="unit"><strong data-cd="d">—</strong><span>días</span></div>
+            <div class="unit"><strong data-cd="h">—</strong><span>horas</span></div>
+            <div class="unit"><strong data-cd="m">—</strong><span>minutos</span></div>
+            <div class="unit"><strong data-cd="s">—</strong><span>segundos</span></div>
+          </div>
         </div>
-        <a class="btn" href="https://www.google.com/maps/search/?api=1&amp;query=Iglesia+de+Santiago+Ap%C3%B3stol+Peraleda+de+la+Mata" target="_blank" rel="noopener">Cómo llegar</a>
       </div>
     </section>
 
-    <section class="plate" aria-label="Dentro de la iglesia">
-      <figure class="rise">
-        <img src="img/altar.jpg" width="1536" height="1024" alt="Acuarela del retablo dorado y los bancos de madera de la iglesia" loading="lazy">
-      </figure>
-      <div class="plate__text rise" style="--i:1">
-        <p>Dentro, el retablo dorado y los bancos de madera donde nos daremos el sí.</p>
-        <p>Fuera, la plaza con su fuente de azulejos: buen sitio para encontrarnos antes de entrar.</p>
-      </div>
-    </section>
-
-    <section class="place place--left" id="finca" aria-labelledby="t-finca">
-      <img class="place__img" src="img/finca.jpg" width="1536" height="1024" alt="Acuarela de la Finca Valmojado, casa de piedra con tejado de teja, olivos y farolas" loading="lazy">
-      <div class="visit rise">
-        <div class="visit__body">
-          <h2 id="t-finca">La finca</h2>
-          <p class="visit__kind">Finca Valmojado</p>
-          <address>Valdehúncar, Cáceres</address>
-          <p class="visit__note">Celebración después de la ceremonia. Hora por confirmar.</p>
+    <section class="places" id="lugares" aria-labelledby="t-lugares">
+      <div class="wrap">
+        <div class="head">
+          <h2 id="t-lugares" class="rise">Dónde celebramos</h2>
+          <p class="rise" style="--i:1">La ceremonia será en la iglesia del pueblo y después lo celebraremos en la finca, muy cerca. Los horarios los publicaremos aquí en cuanto estén cerrados.</p>
         </div>
-        <a class="btn" href="https://www.google.com/maps/search/?api=1&amp;query=Finca+Valmojado+Valdeh%C3%BAncar" target="_blank" rel="noopener">Cómo llegar</a>
+
+        <div class="places__grid">
+          <article class="place shell rise">
+            <div class="core">
+              <div class="place__img"><img src="img/iglesia.jpg" width="1536" height="1024" alt="Acuarela de la fachada de la iglesia de Santiago Apóstol, con su torre y la fuente de azulejos" loading="lazy"></div>
+              <div class="place__body">
+                <p class="place__kind">La ceremonia</p>
+                <h3>Iglesia de Santiago Apóstol</h3>
+                <address>Peraleda de la Mata, Cáceres</address>
+                <div class="place__meta">
+                  <p class="place__time"><strong>4 de septiembre</strong>Hora por confirmar</p>
+                  <a class="btn btn--light" href="https://www.google.com/maps/search/?api=1&amp;query=Iglesia+de+Santiago+Ap%C3%B3stol+Peraleda+de+la+Mata" target="_blank" rel="noopener">Cómo llegar<span class="btn__icon"><svg aria-hidden="true"><use href="#flecha"/></svg></span></a>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article class="place shell rise" style="--i:1">
+            <div class="core">
+              <div class="place__img"><img src="img/finca.jpg" width="1536" height="1024" alt="Acuarela de la Finca Valmojado, casa de piedra con olivos y camino empedrado" loading="lazy"></div>
+              <div class="place__body">
+                <p class="place__kind">La celebración</p>
+                <h3>Finca Valmojado</h3>
+                <address>Valdehúncar, Cáceres</address>
+                <div class="place__meta">
+                  <p class="place__time"><strong>Después de la ceremonia</strong>Hora por confirmar</p>
+                  <a class="btn btn--light" href="https://www.google.com/maps/search/?api=1&amp;query=Finca+Valmojado+Valdeh%C3%BAncar" target="_blank" rel="noopener">Cómo llegar<span class="btn__icon"><svg aria-hidden="true"><use href="#flecha"/></svg></span></a>
+                </div>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="story" id="dia" aria-labelledby="t-dia">
+      <div class="wrap story__grid">
+        <figure class="story__img shell rise">
+          <div class="core"><img src="img/altar.jpg" width="1536" height="1024" alt="Acuarela del retablo dorado y los bancos de madera del interior de la iglesia" loading="lazy"></div>
+        </figure>
+        <div class="story__text">
+          <h2 id="t-dia" class="rise">El día de la boda</h2>
+          <p class="rise" style="--i:1">Nos daremos el sí frente al retablo de la iglesia de Peraleda, y seguiremos la fiesta entre los olivos de Valmojado hasta que se haga de noche.</p>
+          <ul class="steps rise" style="--i:2">
+            <li><strong>Ceremonia</strong><span>Iglesia de Santiago Apóstol · hora por confirmar</span></li>
+            <li><strong>Celebración</strong><span>Finca Valmojado · hora por confirmar</span></li>
+            <li><strong>Confirmación</strong><span>En esta misma página</span></li>
+          </ul>
+        </div>
       </div>
     </section>
 
     <section class="rsvp" id="confirmar" aria-labelledby="t-confirmar">
-      <div class="rsvp__head">
-        <h2 id="t-confirmar" class="rise">¿Vienes?</h2>
-        <p class="rise" style="--i:1">Dinos si podrás acompañarnos y escribe el nombre de cada persona que viene contigo, niños incluidos. Si no puedes venir, avísanos igualmente.</p>
-        <p class="count rise" style="--i:2">Faltan <strong data-countdown>…</strong> días.</p>
+      <div class="wrap rsvp__grid">
+        <div class="rsvp__intro">
+          <h2 id="t-confirmar" class="rise">Confirma tu asistencia</h2>
+          <p class="rise" style="--i:1">Dinos si podrás acompañarnos y escribe el nombre de cada persona que viene, niños incluidos. Si no puedes venir, avísanos igualmente.</p>
+          <figure class="rsvp__photo shell rise" style="--i:2">
+            <div class="core"><img src="img/pareja.jpg" width="1600" height="1200" alt="Luis y Pilar sonriendo frente al mar" loading="lazy"></div>
+          </figure>
+        </div>
+
+        <form class="form shell rise" id="rsvp" novalidate>
+          <div class="core">
+            <div class="form__fields">
+              <fieldset>
+                <legend>¿Asistirás a la boda?</legend>
+                <div class="choice">
+                  <label><input type="radio" name="asistira" value="si" required>Sí, allí estaré</label>
+                  <label><input type="radio" name="asistira" value="no">No podré ir</label>
+                </div>
+              </fieldset>
+
+              <fieldset>
+                <legend id="t-nombres">Nombre de cada asistente</legend>
+                <div class="names" id="names">
+                  <div class="name-row">
+                    <input class="field" type="text" name="nombre" autocomplete="name" placeholder="Nombre y apellidos" aria-labelledby="t-nombres" maxlength="120">
+                  </div>
+                </div>
+                <button type="button" class="add" id="add"><span class="add__plus" aria-hidden="true">+</span>Añadir otra persona</button>
+              </fieldset>
+
+              <fieldset>
+                <label class="label" for="comentario">¿Algo que debamos saber? <span class="hint">(opcional)</span></label>
+                <textarea class="field" id="comentario" name="comentario" maxlength="1000" placeholder="Alergias, intolerancias o cualquier cosa que quieras contarnos"></textarea>
+              </fieldset>
+
+              <p class="form__msg" id="msg" role="status" aria-live="polite"></p>
+              <button class="btn btn--block" type="submit" id="send"><span id="send-text">Enviar confirmación</span><span class="btn__icon"><svg aria-hidden="true"><use href="#flecha"/></svg></span></button>
+            </div>
+
+            <div class="thanks" tabindex="-1">
+              <h3>¡Gracias!</h3>
+              <p id="thanks-text">Hemos recibido tu confirmación.</p>
+              <button type="button" class="add" id="again"><span class="add__plus" aria-hidden="true">+</span>Enviar otra confirmación</button>
+            </div>
+          </div>
+        </form>
       </div>
-
-      <form class="form rise" id="rsvp" novalidate>
-        <div class="form__body">
-          <fieldset>
-            <legend>¿Asistirás a la boda?</legend>
-            <div class="choice">
-              <label><input type="radio" name="asistira" value="si" required><span>Sí, allí estaré</span></label>
-              <label><input type="radio" name="asistira" value="no"><span>No podré ir</span></label>
-            </div>
-          </fieldset>
-
-          <fieldset>
-            <legend id="t-nombres">Nombre de cada asistente</legend>
-            <div class="names" id="names">
-              <div class="name-row">
-                <input class="field" type="text" name="nombre" autocomplete="name" placeholder="Nombre y apellidos" aria-labelledby="t-nombres" required maxlength="120">
-              </div>
-            </div>
-            <button type="button" class="add" id="add">Añadir otra persona</button>
-            <p class="hint" id="hint-names">Una línea por persona.</p>
-          </fieldset>
-
-          <fieldset>
-            <legend><label for="comentario">¿Algo que debamos saber?</label></legend>
-            <textarea class="field" id="comentario" name="comentario" maxlength="1000" placeholder="Alergias, intolerancias o lo que quieras contarnos (opcional)"></textarea>
-          </fieldset>
-        </div>
-        <p class="form__msg" id="msg" role="status" aria-live="polite"></p>
-        <button class="btn" type="submit" id="send">Enviar confirmación</button>
-        <div class="thanks" tabindex="-1">
-          <h3>¡Gracias!</h3>
-          <p id="thanks-text">Hemos recibido tu confirmación.</p>
-          <p><button type="button" class="add" id="again">Enviar otra confirmación</button></p>
-        </div>
-      </form>
     </section>
   </main>
 
   <footer class="foot">
-    <div class="postcard">
-      <svg class="scallop" aria-hidden="true"><defs><pattern id="ondas" width="100" height="50" patternUnits="userSpaceOnUse"><circle cx="50" cy="0" r="46"/></pattern></defs><rect width="100%" height="50" fill="url(#ondas)"/></svg>
-      <div class="postcard__grid">
-        <div class="postcard__msg">
-          <h2>Os esperamos</h2>
-          <p>Gracias por venir desde donde estéis. Iremos completando esta página con los horarios y todo lo demás según se acerque el día.</p>
-          <p>Un abrazo,<br>Luis y Pilar</p>
-        </div>
-        <div class="postcard__side">
-          <figure class="stamp"><img src="img/pareja-og.jpg" width="600" height="600" alt="Luis y Pilar" loading="lazy"></figure>
-          <ul>
-            <li><a class="link" href="#iglesia">Iglesia de Santiago Apóstol, Peraleda de la Mata</a></li>
-            <li><a class="link" href="#finca">Finca Valmojado, Valdehúncar</a></li>
-            <li><a class="link" href="#confirmar">Confirmar asistencia</a></li>
-            <li>Sábado, 4 de septiembre de 2027</li>
-          </ul>
+    <div class="wrap">
+      <div class="shell">
+        <div class="core">
+          <div>
+            <h2>Os esperamos</h2>
+            <p>Luis y Pilar · 4 de septiembre de 2027</p>
+          </div>
+          <a class="btn btn--light" href="#confirmar">Confirmar asistencia<span class="btn__icon"><svg aria-hidden="true"><use href="#flecha"/></svg></span></a>
         </div>
       </div>
-      <p class="imprint">Luis &amp; Pilar · Peraleda de la Mata · MMXXVII</p>
+      <p class="foot__small">Peraleda de la Mata · Valdehúncar · Cáceres</p>
     </div>
   </footer>
 
