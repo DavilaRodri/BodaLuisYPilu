@@ -1,6 +1,6 @@
-# Boda Luis y Pilar
+# Boda Pilar y Luis
 
-Web de la boda de Luis y Pilar (4 de septiembre de 2027). Página estática servida con GitHub Pages.
+Web de la boda de Pilar y Luis (4 de septiembre de 2027). Página estática servida con GitHub Pages.
 
 - `index.html`: la invitación, los lugares y el formulario de confirmación.
 - `lista.html`: lista privada de confirmaciones. Se abre con `lista.html#CLAVE`; la clave la tienen los novios.
