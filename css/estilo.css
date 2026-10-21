@@ -443,6 +443,9 @@ textarea.field { min-height: 110px; resize: vertical; }
 .foot h2 { font-size: var(--fs-h2); }
 .foot p { margin-top: 6px; opacity: .85; }
 .foot__small { margin-top: 18px; font-size: var(--fs-small); color: var(--muted); text-align: center; }
+.foot__credit { margin-top: 6px; font-size: var(--fs-small); color: var(--muted); text-align: center; }
+.foot__credit .link { color: var(--ink); }
+.foot__credit .heart { color: #c0392b; }
 
 /* ---------- Entradas ---------- */
 .rise {
