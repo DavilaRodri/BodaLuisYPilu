@@ -2,6 +2,26 @@
   const cfg = window.BODA;
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+  // Modo noche
+  (function () {
+    const btn = document.getElementById('tema');
+    if (!btn) return;
+    const root = document.documentElement;
+    const sync = () => {
+      const dark = root.dataset.theme === 'dark';
+      btn.setAttribute('aria-pressed', dark);
+      btn.setAttribute('aria-label', dark ? 'Cambiar a modo día' : 'Cambiar a modo noche');
+      const meta = document.querySelector('meta[name="theme-color"]');
+      if (meta) meta.content = dark ? '#161714' : '#f3f2ef';
+    };
+    sync();
+    btn.addEventListener('click', () => {
+      root.dataset.theme = root.dataset.theme === 'dark' ? 'light' : 'dark';
+      try { localStorage.setItem('tema', root.dataset.theme); } catch (e) {}
+      sync();
+    });
+  })();
+
   // Cuenta atrás
   const target = new Date(cfg.fecha).getTime();
   const cd = {};

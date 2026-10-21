@@ -9,6 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;1,400&family=Jost:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/estilo.css">
+  <script>(function(){var t=null;try{t=localStorage.getItem('tema')}catch(e){}if(!t)t=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';document.documentElement.dataset.theme=t})();</script>
   <style>
     [hidden] { display: none !important; }
     .wrap { padding: clamp(32px, 5vw, 64px) 0 80px; }
@@ -23,13 +24,13 @@
     th, td { text-align: left; padding: 14px 16px; border-bottom: 1px solid var(--line); /* taste-skill-ignore: tabla */ vertical-align: top; }
     th { font-weight: 500; }
     td.si { color: var(--accent); }
-    td.no { color: #a1271b; }
+    td.no { color: var(--error); }
     td ul { margin: 0; padding-left: 1.1em; }
     .state { padding: 24px 0; }
     .login { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 24px; max-width: 520px; }
     .login .field { flex: 1 1 220px; }
     .btn--ghost { background: var(--shell); color: var(--ink); }
-    .btn--ghost:hover { background: var(--ink); color: #fff; }
+    .btn--ghost:hover { background: var(--ink); color: var(--bg); }
   </style>
 </head>
 <body>
