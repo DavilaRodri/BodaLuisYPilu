@@ -1,0 +1,430 @@
+/* Boda Luis y Pilar — la web es la invitación */
+
+:root {
+  --bg: #dcd6cb;          /* piedra de la plaza */
+  --surface: #cfc8bb;
+  --paper: #f2f1ee;       /* la tarjeta */
+  --ink: #141a2b;         /* tinta azul noche */
+  --muted: #545566;
+  --accent: #23529a;      /* azul del azulejo */
+  --accent-ink: #ffffff;
+  --ochre: #c4933c;       /* amarillo del azulejo */
+
+  --step-small: clamp(0.875rem, 0.85rem + 0.1vw, 0.9375rem);
+  --step-body: clamp(1.125rem, 1.06rem + 0.25vw, 1.25rem);
+  --step-lead: clamp(1.375rem, 1.2rem + 0.7vw, 1.75rem);
+  --step-head: clamp(2.75rem, 1.4rem + 5vw, 5.75rem);
+  --step-giant: clamp(4.25rem, 2rem + 9vw, 10rem);
+
+  --gap: 12px;
+  --margin: clamp(16px, 2.2vw, 32px);
+  --radius: 0px;
+  --ease: cubic-bezier(.2, .7, .2, 1);
+}
+
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: "EB Garamond", Georgia, serif;
+  font-size: var(--step-body);
+  line-height: 1.5;
+  font-variant-numeric: oldstyle-nums;
+  -webkit-font-smoothing: antialiased;
+}
+
+img { display: block; max-width: 100%; height: auto; }
+a { color: inherit; }
+h1, h2, h3, p { margin: 0; }
+h1, h2, h3 { font-weight: 400; letter-spacing: -0.02em; line-height: 0.95; }
+
+::selection { background: var(--accent); color: var(--accent-ink); }
+:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+
+.skip { position: absolute; left: -9999px; }
+.skip:focus { left: var(--margin); top: var(--margin); background: var(--paper); padding: 8px 12px; z-index: 10; }
+
+/* ---------- Botón ---------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 52px;
+  padding: 0 28px;
+  background: var(--accent);
+  color: var(--accent-ink);
+  font: inherit;
+  font-size: var(--step-body);
+  text-decoration: none;
+  border: 0;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: transform .18s var(--ease), background-color .18s var(--ease);
+}
+.btn:hover { background: var(--ink); }
+.btn:active { transform: translateY(1px) scale(.985); }
+.btn[disabled] { opacity: .6; cursor: progress; }
+
+.link {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
+  transition: color .18s var(--ease);
+}
+.link:hover { color: var(--accent); }
+
+/* ---------- Franja de azulejos ---------- */
+.tiles {
+  display: block;
+  width: 100%;
+  height: 56px;
+  background-color: var(--accent);
+}
+.tiles svg { display: block; width: 100%; height: 100%; }
+
+/* ---------- Cabecera ---------- */
+.bar {
+  position: absolute;
+  inset: 0 0 auto 0;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 24px;
+  padding: 28px calc(var(--margin) + 16px);
+  pointer-events: none;
+}
+.bar > * { pointer-events: auto; }
+.bar .mark { display: none; font-size: var(--step-lead); text-decoration: none; letter-spacing: -0.02em; }
+.bar nav { display: flex; gap: 28px; font-size: var(--step-body); }
+.bar nav a { text-decoration: none; color: var(--paper); }
+.bar nav a:hover { text-decoration: underline; text-underline-offset: 4px; }
+
+/* ---------- Portada: tarjeta junto a la imagen ---------- */
+.hero {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--gap);
+  padding: var(--gap);
+  min-height: 100svh;
+}
+
+.card {
+  background: var(--paper);
+  border-radius: var(--radius);
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100svh - 2 * var(--gap));
+}
+.card__body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 48px clamp(24px, 4vw, 64px) 32px;
+}
+.card__names {
+  font-size: clamp(4rem, 1.5rem + 6.4vw, 8.25rem);
+  line-height: .86;
+  letter-spacing: -0.035em;
+}
+.card__names span { display: block; }
+.card__names .amp { font-size: .5em; line-height: 1; padding: .08em 0; }
+.card__lead {
+  margin-top: 28px;
+  font-size: var(--step-lead);
+  line-height: 1.3;
+  max-width: 24ch;
+}
+.card__date {
+  margin-top: 20px;
+  font-size: var(--step-head);
+  line-height: 1;
+  font-variant-numeric: lining-nums;
+}
+.card__where { margin-top: 14px; max-width: 34ch; }
+.card__body .btn { margin-top: 32px; }
+.card__foot {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 12px 32px;
+  padding: 0 24px 28px;
+  font-size: var(--step-small);
+}
+
+.frame {
+  position: sticky;
+  top: var(--gap);
+  height: calc(100svh - 2 * var(--gap));
+  overflow: hidden;
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+.frame img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 1.6s ease;
+}
+.frame img.is-on { opacity: 1; }
+.frame img.is-on.drift { animation: drift 9s ease-out both; }
+@keyframes drift { from { transform: scale(1.06); } to { transform: scale(1); } }
+
+/* ---------- Fecha y datos ---------- */
+.intro {
+  padding: clamp(96px, 12vw, 160px) var(--margin) clamp(96px, 10vw, 140px);
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 0 var(--gap);
+  align-items: end;
+}
+.intro h2 { grid-column: 1 / 8; font-size: var(--step-giant); line-height: .88; }
+.intro__note { grid-column: 9 / 13; max-width: 34ch; }
+.facts {
+  grid-column: 1 / -1;
+  margin-top: clamp(72px, 9vw, 120px);
+  display: flex;
+  justify-content: space-between;
+  gap: 32px;
+  list-style: none;
+  padding: 0;
+}
+.facts li { max-width: 18ch; }
+.facts strong { display: block; font-weight: 400; font-size: var(--step-head); line-height: 1; letter-spacing: -0.02em; font-variant-numeric: lining-nums; }
+.facts span { display: block; margin-top: 10px; color: var(--muted); }
+
+/* ---------- Lugares ---------- */
+.place {
+  position: relative;
+  min-height: 100svh;
+  padding: 60px var(--margin);
+}
+.place__img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.visit {
+  position: relative;
+  width: min(420px, 100%);
+  margin-left: auto;
+  background: var(--paper);
+  border-radius: var(--radius);
+  display: flex;
+  flex-direction: column;
+}
+.place--left .visit { margin-left: 0; }
+.visit__body { padding: 32px 32px 28px; }
+.visit h2 { font-size: var(--step-head); }
+.visit__kind { margin-top: 18px; font-size: var(--step-lead); line-height: 1.25; }
+.visit address { font-style: normal; margin-top: 14px; }
+.visit__note { margin-top: 14px; color: var(--muted); }
+.visit .btn { width: 100%; min-height: 56px; }
+
+/* El altar dentro de la iglesia, como lámina pegada */
+.plate {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: var(--gap);
+  padding: var(--gap);
+  background: var(--ink);
+  color: var(--paper);
+}
+.plate figure { margin: 0; grid-column: 1 / 9; }
+.plate figure img { width: 100%; aspect-ratio: 3 / 2; object-fit: cover; }
+.plate__text {
+  grid-column: 9 / 13;
+  align-self: end;
+  padding: 24px 16px 24px 12px;
+}
+.plate__text p:first-child { font-size: var(--step-lead); line-height: 1.3; }
+.plate__text p + p { margin-top: 16px; }
+
+/* ---------- Confirmación ---------- */
+.rsvp {
+  padding: clamp(96px, 12vw, 180px) var(--margin);
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: var(--gap);
+  align-items: start;
+}
+.rsvp__head { grid-column: 1 / 6; position: sticky; top: 48px; }
+.rsvp__head h2 { font-size: var(--step-giant); line-height: .88; }
+.rsvp__head p { margin-top: 28px; max-width: 34ch; }
+.rsvp__head .count { margin-top: 28px; font-size: var(--step-lead); }
+.rsvp__head .count strong { font-weight: 400; color: var(--accent); font-variant-numeric: lining-nums; }
+
+.form {
+  grid-column: 7 / 13;
+  background: var(--paper);
+  border-radius: var(--radius);
+}
+.form__body { padding: clamp(24px, 3.5vw, 48px); }
+.form fieldset { border: 0; padding: 0; margin: 0 0 36px; }
+.form legend { font-size: var(--step-lead); line-height: 1.25; margin-bottom: 16px; padding: 0; }
+
+.choice { display: grid; grid-template-columns: 1fr 1fr; gap: var(--gap); }
+.choice label {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 64px;
+  padding: 12px;
+  background: var(--bg);
+  cursor: pointer;
+  text-align: center;
+  transition: background-color .18s var(--ease), color .18s var(--ease), transform .18s var(--ease);
+}
+.choice label:hover { background: var(--surface); }
+.choice input { position: absolute; opacity: 0; inset: 0; cursor: pointer; }
+.choice input:checked + span { color: var(--accent-ink); }
+.choice label:has(input:checked) { background: var(--accent); color: var(--accent-ink); }
+.choice label:has(input:focus-visible) { outline: 3px solid var(--accent); outline-offset: 3px; }
+.choice label:active { transform: scale(.985); }
+
+.names { display: grid; gap: 10px; }
+.name-row { display: flex; gap: 10px; }
+.field {
+  width: 100%;
+  min-height: 52px;
+  padding: 10px 14px;
+  font: inherit;
+  font-size: var(--step-body);
+  color: var(--ink);
+  background: #fff;
+  border: 1px solid #b9b2a5; /* taste-skill-ignore: campo de formulario */
+  border-radius: 0;
+}
+.field:focus { outline: 3px solid var(--accent); outline-offset: 0; border-color: var(--accent); }
+textarea.field { min-height: 110px; resize: vertical; }
+.remove {
+  flex: 0 0 52px;
+  min-height: 52px;
+  border: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font: inherit;
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: background-color .18s var(--ease);
+}
+.remove:hover { background: var(--surface); }
+.add {
+  margin-top: 14px;
+  background: none;
+  border: 0;
+  padding: 6px 0;
+  font: inherit;
+  color: var(--accent);
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.add:hover { color: var(--ink); }
+.hint { margin-top: 8px; color: var(--muted); font-size: var(--step-small); }
+.form .btn { width: 100%; min-height: 60px; }
+.form__msg { padding: 16px clamp(24px, 3.5vw, 48px) 0; min-height: 1.5em; }
+.form__msg.is-error { color: #a1271b; }
+
+.thanks { display: none; padding: clamp(32px, 5vw, 64px); text-align: center; }
+.thanks h3 { font-size: var(--step-head); }
+.thanks p { margin-top: 18px; }
+.form.is-done .form__body,
+.form.is-done .form__msg,
+.form.is-done > .btn { display: none; }
+.form.is-done .thanks { display: block; }
+
+/* ---------- Pie: el dorso de la tarjeta ---------- */
+.foot { padding: 0 var(--margin) clamp(48px, 6vw, 80px); }
+.postcard {
+  position: relative;
+  max-width: 1100px;
+  margin: 0 auto;
+  background: var(--paper);
+  padding: clamp(80px, 9vw, 110px) clamp(24px, 5vw, 64px) 28px;
+}
+.scallop { position: absolute; top: 0; left: 0; width: 100%; height: 50px; display: block; }
+.scallop circle { fill: var(--bg); }
+.postcard__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; }
+.postcard h2 { font-size: var(--step-head); }
+.postcard__msg p { margin-top: 18px; max-width: 36ch; }
+.postcard__side { position: relative; padding-top: 140px; }
+.stamp {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 96px;
+  padding: 6px;
+  background: var(--paper);
+  transform: rotate(3deg);
+  outline: 4px dotted var(--bg);
+  outline-offset: -2px;
+}
+.stamp img { aspect-ratio: 3 / 4; object-fit: cover; width: 100%; }
+.postcard__side ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+.imprint { margin-top: 56px; text-align: center; font-size: var(--step-small); color: var(--muted); }
+
+/* ---------- Entradas ---------- */
+.rise { opacity: 0; transform: translateY(24px); transition: opacity .8s var(--ease), transform .8s var(--ease); transition-delay: calc(var(--i, 0) * 80ms); }
+.rise.is-in { opacity: 1; transform: none; }
+.no-js .rise { opacity: 1; transform: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .rise { opacity: 1; transform: none; transition: none; }
+  .frame img { transition: none; }
+  .frame img.is-on.drift { animation: none; }
+}
+
+/* ---------- Tableta ---------- */
+@media (max-width: 1080px) {
+  .intro h2 { grid-column: 1 / -1; }
+  .intro__note { grid-column: 1 / -1; margin-top: 28px; }
+  .facts { display: grid; grid-template-columns: 1fr 1fr; gap: 40px 24px; }
+  .facts li { max-width: none; }
+  .plate figure, .plate__text { grid-column: 1 / -1; }
+  .rsvp__head { grid-column: 1 / -1; position: static; }
+  .form { grid-column: 1 / -1; margin-top: 40px; }
+}
+
+/* ---------- Móvil ---------- */
+@media (max-width: 760px) {
+  .bar { position: static; justify-content: flex-start; padding: 16px var(--margin) 4px; }
+  .bar .mark { display: block; }
+  .bar nav { display: none; }
+  .hero { grid-template-columns: 1fr; padding: 12px; }
+  .frame { position: relative; top: 0; height: 34svh; order: -1; }
+  .card { min-height: 0; margin-top: -24px; position: relative; z-index: 1; margin-inline: 8px; }
+  .tiles { height: 40px; }
+  .card__body { padding: 28px 20px 28px; }
+  .card__names { font-size: 3.75rem; }
+  .card__date { font-size: 2.5rem; }
+  .card__lead { font-size: 1.25rem; }
+  .card__body .btn { margin-top: 24px; }
+  .card__lead { margin-top: 18px; }
+  .facts { display: grid; grid-template-columns: 1fr 1fr; gap: 32px 20px; }
+  .place { min-height: 0; padding: 0 0 0; display: flex; flex-direction: column; }
+  .place__img { position: relative; height: 70svh; }
+  .visit { position: relative; top: 0; margin: -80px 16px 0; width: auto; }
+  .place--left .visit { margin-left: 16px; }
+  .plate { padding: 12px; }
+  .plate__text { padding: 12px 4px 20px; }
+  .postcard__grid { grid-template-columns: 1fr; gap: 40px; }
+  .postcard__side { padding-top: 0; }
+  .stamp { position: static; width: 72px; margin: 0 0 20px auto; }
+}

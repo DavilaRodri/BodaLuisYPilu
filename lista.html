@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Quién viene · Luis &amp; Pilar</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/estilo.css">
+  <style>
+    .wrap { padding: clamp(24px, 5vw, 64px) var(--margin) 80px; max-width: 1200px; margin: 0 auto; }
+    .wrap h1 { font-size: var(--step-head); }
+    .totals { display: flex; flex-wrap: wrap; gap: 24px 56px; margin: 40px 0; list-style: none; padding: 0; }
+    .totals strong { display: block; font-weight: 400; font-size: var(--step-head); line-height: 1; color: var(--accent); font-variant-numeric: lining-nums; }
+    .tools { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 24px; }
+    .sheet { background: var(--paper); overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; font-size: var(--step-body); }
+    th, td { text-align: left; padding: 14px 16px; border-bottom: 1px solid #ddd5c6; vertical-align: top; }
+    th { font-weight: 500; }
+    td.si { color: var(--accent); }
+    td.no { color: #a1271b; }
+    td ul { margin: 0; padding-left: 1.1em; }
+    .state { padding: 24px 0; }
+    .login { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 24px; max-width: 520px; }
+    .login .field { flex: 1 1 220px; }
+    .btn--ghost { background: var(--surface); color: var(--ink); }
+    .btn--ghost:hover { background: var(--ink); color: var(--paper); }
+  </style>
+</head>
+<body>
+  <span class="tiles" aria-hidden="true" style="height:24px"><svg><defs><pattern id="azulejo" width="56" height="56" patternUnits="userSpaceOnUse"><rect width="56" height="56" fill="#23529a"/><circle cx="28" cy="17" r="8" fill="#c4933c"/><circle cx="28" cy="39" r="8" fill="#c4933c"/><circle cx="17" cy="28" r="8" fill="#c4933c"/><circle cx="39" cy="28" r="8" fill="#c4933c"/><circle cx="28" cy="28" r="5" fill="#f2f1ee"/></pattern></defs><rect width="100%" height="100%" fill="url(#azulejo)"/></svg></span>
+  <main class="wrap">
+    <h1>Quién viene</h1>
+
+    <form class="login" id="login" hidden>
+      <input class="field" id="clave" type="password" placeholder="Clave de la lista" autocomplete="current-password" aria-label="Clave de la lista">
+      <button class="btn" type="submit">Ver lista</button>
+    </form>
+
+    <ul class="totals" id="totals" hidden>
+      <li><strong id="n-personas">0</strong>personas vienen</li>
+      <li><strong id="n-si">0</strong>confirmaciones de sí</li>
+      <li><strong id="n-no">0</strong>no podrán ir</li>
+    </ul>
+
+    <div class="tools" id="tools" hidden>
+      <button class="btn" type="button" id="csv">Descargar para Excel</button>
+      <button class="btn btn--ghost" type="button" id="reload">Actualizar</button>
+    </div>
+
+    <p class="state" id="state" role="status">Cargando…</p>
+    <div class="sheet" id="sheet" hidden>
+      <table>
+        <thead><tr><th>Fecha</th><th>¿Viene?</th><th>Personas</th><th>Comentario</th></tr></thead>
+        <tbody id="rows"></tbody>
+      </table>
+    </div>
+  </main>
+
+  <script src="js/config.js"></script>
+  <script>
+  (function () {
+    const cfg = window.BODA;
+    const $ = id => document.getElementById(id);
+    let data = [];
+
+    function key() {
+      return decodeURIComponent(location.hash.slice(1)) || localStorageGet();
+    }
+    function localStorageGet() { try { return localStorage.getItem('boda-clave') || ''; } catch (e) { return ''; } }
+    function localStorageSet(v) { try { localStorage.setItem('boda-clave', v); } catch (e) {} }
+
+    async function load() {
+      const k = key();
+      if (!k) { $('state').textContent = 'Escribe la clave para ver la lista.'; $('login').hidden = false; return; }
+      $('state').textContent = 'Cargando…';
+      try {
+        const res = await fetch(cfg.supabaseUrl + '/rest/v1/rpc/lista_confirmaciones', {
+          method: 'POST',
+          headers: { apikey: cfg.supabaseKey, Authorization: 'Bearer ' + cfg.supabaseKey, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ clave: k })
+        });
+        if (!res.ok) throw new Error(res.status);
+        data = await res.json();
+        localStorageSet(k);
+        render();
+      } catch (e) {
+        $('state').textContent = 'La clave no es correcta o no hay conexión.';
+        $('login').hidden = false;
+      }
+    }
+
+    function esc(s) { return String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
+    function fecha(s) { return new Date(s).toLocaleString('es-ES', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }); }
+
+    function render() {
+      $('login').hidden = true;
+      const si = data.filter(r => r.asistira);
+      $('n-personas').textContent = si.reduce((n, r) => n + r.nombres.length, 0);
+      $('n-si').textContent = si.length;
+      $('n-no').textContent = data.length - si.length;
+      $('totals').hidden = $('tools').hidden = false;
+      if (!data.length) { $('state').textContent = 'Todavía no ha confirmado nadie.'; $('sheet').hidden = true; return; }
+      $('state').textContent = '';
+      $('sheet').hidden = false;
+      $('rows').innerHTML = data.map(r =>
+        '<tr><td>' + esc(fecha(r.creado)) + '</td>' +
+        '<td class="' + (r.asistira ? 'si">Sí' : 'no">No') + '</td>' +
+        '<td><ul>' + r.nombres.map(n => '<li>' + esc(n) + '</li>').join('') + '</ul></td>' +
+        '<td>' + esc(r.comentario) + '</td></tr>').join('');
+    }
+
+    $('csv').addEventListener('click', () => {
+      const q = v => '"' + String(v ?? '').replace(/"/g, '""') + '"';
+      const lines = [['Fecha', 'Viene', 'Nombre', 'Comentario'].map(q).join(';')];
+      data.forEach(r => r.nombres.forEach(n =>
+        lines.push([new Date(r.creado).toLocaleString('es-ES'), r.asistira ? 'Sí' : 'No', n, r.comentario].map(q).join(';'))));
+      const blob = new Blob(['﻿' + lines.join('\r\n')], { type: 'text/csv;charset=utf-8' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'invitados-boda-luis-pilar.csv';
+      a.click();
+      URL.revokeObjectURL(a.href);
+    });
+    $('reload').addEventListener('click', load);
+    $('login').addEventListener('submit', e => {
+      e.preventDefault();
+      location.hash = encodeURIComponent($('clave').value.trim());
+    });
+    window.addEventListener('hashchange', load);
+    load();
+  })();
+  </script>
+</body>
+</html>
