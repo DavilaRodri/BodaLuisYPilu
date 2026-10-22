@@ -3,7 +3,9 @@
 :root {
   --bg: #f3eee5;
   --muted: #5f5a50;
-  --shell: #ddd4c4;
+  --shell: #e1e4d2;
+  --olive: #6f7c4a;      /* oliva para botones secundarios */
+  --olive-dark: #5e6a3d;
   --card: #fbf8f2;
   --ink: #26241f;
   --muted: #6b665c;
@@ -150,9 +152,9 @@ h1, h2, h3 { font-family: var(--sans); font-weight: 300; letter-spacing: -0.015e
 .btn:active { transform: scale(.98); }
 .btn[disabled] { opacity: .65; cursor: progress; }
 
-.btn--light { background: var(--card); color: var(--ink); }
-.btn--light .btn__icon { background: var(--shell); }
-.btn--light:hover { background: var(--hover-light); }
+.btn--light { background: var(--olive); color: #fff; }
+.btn--light .btn__icon { background: rgba(255, 255, 255, .18); }
+.btn--light:hover { background: var(--olive-dark); }
 
 .btn--block { width: 100%; justify-content: space-between; }
 
@@ -362,8 +364,7 @@ h1, h2, h3 { font-family: var(--sans); font-weight: 300; letter-spacing: -0.015e
   font-size: var(--fs-small);
   font-weight: 400;
 }
-.hotel .btn { grid-column: 2; grid-row: 1 / span 2; background: var(--shell); }
-.hotel .btn .btn__icon { background: #fbf8f2; }
+.hotel .btn { grid-column: 2; grid-row: 1 / span 2; }
 
 /* ---------- Autobuses ---------- */
 .buses { padding-bottom: var(--section); }
@@ -514,8 +515,8 @@ textarea.field { min-height: 110px; resize: vertical; }
 .person__name { margin-top: 6px; font-size: 1.375rem; font-weight: 300; line-height: 1.2; }
 .person__tel { display: block; margin-top: 4px; font-size: 1.0625rem; letter-spacing: .06em; color: var(--ink); opacity: .8; text-decoration: none; font-variant-numeric: tabular-nums; }
 .person__actions { display: flex; justify-content: center; gap: 8px; margin-top: 14px; }
-.person__actions .btn { min-height: 36px; padding: 2px 16px; font-size: .8125rem; background: var(--shell); }
-.person__actions .btn:hover { background: var(--accent); color: var(--accent-ink); }
+.person__actions .btn { min-height: 36px; padding: 2px 16px; font-size: .8125rem; }
+
 
 /* ---------- Regalo ---------- */
 .gift { padding-bottom: var(--section); }
