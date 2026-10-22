@@ -3,5 +3,8 @@
 window.BODA = {
   supabaseUrl: 'https://acpcbnidfunrivrdkwlf.supabase.co',
   supabaseKey: 'sb_publishable_XLnys24am80Ih8pZnnCrRw_IVWl0dsm',
-  fecha: '2027-09-04T12:00:00+02:00'
+  fecha: '2027-09-04T12:00:00+02:00',
+  // Regalo: rellenar cuando los novios pasen la cuenta
+  iban: '',
+  titular: ''
 };

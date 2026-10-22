@@ -8,11 +8,11 @@
   <meta property="og:title" content="Pilar & Luis se casan">
   <meta property="og:description" content="4 de septiembre de 2027 · Peraleda de la Mata y Finca Valmojado">
   <meta property="og:image" content="img/pareja-og.jpg">
-  <meta name="theme-color" content="#161714">
+  <meta name="theme-color" content="#1a1a16">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='16' fill='%234f5d3f'/%3E%3Ctext x='16' y='21' font-family='Georgia' font-size='13' fill='%23fff' text-anchor='middle'%3EP%26amp;L%3C/text%3E%3C/svg%3E">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;1,400;1,500&family=Jost:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/estilo.css">
   <script>
     (function () {
@@ -35,8 +35,9 @@
     <a class="nav__mark" href="#inicio">P&amp;L</a>
     <div class="nav__links">
       <a href="#lugares">Lugares</a>
-      <a href="#dia">El día</a>
+      <a href="#hoteles">Hoteles</a>
       <a href="#confirmar">Asistencia</a>
+      <a href="#regalo">Regalo</a>
     </div>
     <button class="theme" type="button" id="tema" aria-label="Cambiar a modo noche" aria-pressed="false">
       <svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
@@ -49,22 +50,20 @@
     <header class="hero">
       <div class="wrap hero__grid">
         <div class="hero__text">
-          <p class="hero__kicker rise">Nos casamos</p>
-          <h1 class="rise" style="--i:1">Pilar <span class="amp">&amp;</span> Luis</h1>
-          <p class="hero__date rise" style="--i:2"><time datetime="2027-09-04">Sábado, 4 de septiembre de 2027</time></p>
-          <p class="hero__place rise" style="--i:3">Peraleda de la Mata y Valdehúncar, Cáceres</p>
-          <div class="hero__actions rise" style="--i:4">
+          <h1 class="rise">Pilar <span class="amp">&amp;</span> Luis</h1>
+          <p class="hero__date rise" style="--i:1"><time datetime="2027-09-04">Sábado, 4 de septiembre de 2027</time></p>
+          <p class="hero__place rise" style="--i:2">Peraleda de la Mata y Valdehúncar, Cáceres</p>
+          <div class="hero__actions rise" style="--i:3">
             <a class="btn" href="#confirmar">Confirmar asistencia<span class="btn__icon"><svg aria-hidden="true"><use href="#flecha"/></svg></span></a>
             <a class="link" href="#lugares">Ver los lugares</a>
           </div>
         </div>
 
-        <figure class="hero__media shell rise" style="--i:2">
-          <div class="core" data-fade>
-            <img class="is-on" src="img/pareja.jpg" width="1600" height="1200" alt="Pilar y Luis abrazados frente al mar al atardecer" data-caption="Pilar y Luis" fetchpriority="high">
-            <img src="img/iglesia.jpg" width="1536" height="1024" alt="Acuarela de la iglesia de Santiago Apóstol de Peraleda de la Mata" data-caption="Iglesia de Santiago Apóstol" loading="lazy">
-            <img src="img/finca.jpg" width="1536" height="1024" alt="Acuarela de la Finca Valmojado entre olivos" data-caption="Finca Valmojado" loading="lazy">
-            <figcaption class="hero__caption" aria-hidden="true">Pilar y Luis</figcaption>
+        <figure class="hero__media napkin rise" style="--i:1">
+          <div class="napkin__photo" data-fade>
+            <img class="is-on" src="img/pareja.jpg" width="1600" height="1200" alt="Pilar y Luis abrazados frente al mar al atardecer" fetchpriority="high">
+            <img src="img/iglesia.jpg" width="1536" height="1024" alt="Acuarela de la iglesia de Santiago Apóstol de Peraleda de la Mata" loading="lazy">
+            <img src="img/finca.jpg" width="1536" height="1024" alt="Acuarela de la Finca Valmojado entre encinas" loading="lazy">
           </div>
         </figure>
       </div>
@@ -88,7 +87,7 @@
       <div class="wrap">
         <div class="head">
           <h2 id="t-lugares" class="rise">Dónde celebramos</h2>
-          <p class="rise" style="--i:1">La ceremonia será en la iglesia del pueblo y después lo celebraremos en la finca, muy cerca. Los horarios los publicaremos aquí en cuanto estén cerrados.</p>
+          <p class="rise" style="--i:1">La ceremonia será en la iglesia de Peraleda de la Mata y después lo celebraremos en la Finca Valmojado.</p>
         </div>
 
         <div class="places__grid">
@@ -99,25 +98,19 @@
                 <p class="place__kind">La ceremonia</p>
                 <h3>Iglesia de Santiago Apóstol</h3>
                 <address>Peraleda de la Mata, Cáceres</address>
-                <div class="place__meta">
-                  <p class="place__time"><strong>4 de septiembre</strong>Hora por confirmar</p>
-                  <a class="btn btn--light" href="https://www.google.com/maps/search/?api=1&amp;query=Iglesia+de+Santiago+Ap%C3%B3stol+Peraleda+de+la+Mata" target="_blank" rel="noopener">Cómo llegar<span class="btn__icon"><svg aria-hidden="true"><use href="#flecha"/></svg></span></a>
-                </div>
+                <a class="btn btn--light" href="https://www.google.com/maps/search/?api=1&amp;query=Iglesia+de+Santiago+Ap%C3%B3stol+Peraleda+de+la+Mata" target="_blank" rel="noopener">Cómo llegar<span class="btn__icon"><svg aria-hidden="true"><use href="#flecha"/></svg></span></a>
               </div>
             </div>
           </article>
 
           <article class="place shell rise" style="--i:1">
             <div class="core">
-              <div class="place__img"><img src="img/finca.jpg" width="1536" height="1024" alt="Acuarela de la Finca Valmojado, casa de piedra con olivos y camino empedrado" loading="lazy"></div>
+              <div class="place__img"><img src="img/finca.jpg" width="1536" height="1024" alt="Acuarela de la Finca Valmojado, casa de piedra entre encinas y camino empedrado" loading="lazy"></div>
               <div class="place__body">
                 <p class="place__kind">La celebración</p>
                 <h3>Finca Valmojado</h3>
                 <address>Valdehúncar, Cáceres</address>
-                <div class="place__meta">
-                  <p class="place__time"><strong>Después de la ceremonia</strong>Hora por confirmar</p>
-                  <a class="btn btn--light" href="https://www.google.com/maps/search/?api=1&amp;query=Finca+Valmojado+Valdeh%C3%BAncar" target="_blank" rel="noopener">Cómo llegar<span class="btn__icon"><svg aria-hidden="true"><use href="#flecha"/></svg></span></a>
-                </div>
+                <a class="btn btn--light" href="https://www.google.com/maps/search/?api=1&amp;query=Finca+Valmojado+Valdeh%C3%BAncar" target="_blank" rel="noopener">Cómo llegar<span class="btn__icon"><svg aria-hidden="true"><use href="#flecha"/></svg></span></a>
               </div>
             </div>
           </article>
@@ -127,18 +120,73 @@
 
     <section class="story" id="dia" aria-labelledby="t-dia">
       <div class="wrap story__grid">
-        <figure class="story__img shell rise">
-          <div class="core"><img src="img/altar.jpg" width="1536" height="1024" alt="Acuarela del retablo dorado y los bancos de madera del interior de la iglesia" loading="lazy"></div>
+        <figure class="story__img napkin rise">
+          <div class="napkin__photo"><img src="img/altar.jpg" width="1536" height="1024" alt="Acuarela del retablo dorado y los bancos de madera del interior de la iglesia" loading="lazy"></div>
         </figure>
         <div class="story__text">
           <h2 id="t-dia" class="rise">El día de la boda</h2>
-          <p class="rise" style="--i:1">Nos daremos el sí frente al retablo de la iglesia de Peraleda, y seguiremos la fiesta entre los olivos de Valmojado hasta que se haga de noche.</p>
-          <ul class="steps rise" style="--i:2">
-            <li><strong>Ceremonia</strong><span>Iglesia de Santiago Apóstol · hora por confirmar</span></li>
-            <li><strong>Celebración</strong><span>Finca Valmojado · hora por confirmar</span></li>
-            <li><strong>Confirmación</strong><span>En esta misma página</span></li>
-          </ul>
+          <p class="rise" style="--i:1">Nos daremos el sí frente al retablo de la iglesia de Peraleda de la Mata y seguiremos la fiesta entre las encinas de Valmojado hasta que se haga de noche.</p>
         </div>
+      </div>
+    </section>
+
+    <section class="hotels" id="hoteles" aria-labelledby="t-hoteles">
+      <div class="wrap">
+        <div class="head">
+          <h2 id="t-hoteles" class="rise">Dónde dormir</h2>
+          <p class="rise" style="--i:1">Estos hoteles están cerca de la finca y tendrán precio especial para los invitados. Al reservar, di que vienes a la boda de Pilar y Luis y usa el código de cada hotel.</p>
+        </div>
+
+        <ul class="hotels__list">
+          <li class="hotel rise">
+            <div>
+              <h3>Hotel Alonso de Monroy</h3>
+              <p class="hotel__town">Belvís de Monroy</p>
+            </div>
+            <p class="hotel__code">Código: <span>muy pronto</span></p>
+            <a class="btn btn--light" href="https://www.google.com/maps/search/?api=1&amp;query=Hotel+Alonso+de+Monroy+Belv%C3%ADs+de+Monroy" target="_blank" rel="noopener">Mapa<span class="btn__icon"><svg aria-hidden="true"><use href="#flecha"/></svg></span></a>
+          </li>
+          <li class="hotel rise" style="--i:1">
+            <div>
+              <h3>Hotel Moya</h3>
+              <p class="hotel__town">Navalmoral de la Mata</p>
+            </div>
+            <p class="hotel__code">Código: <span>muy pronto</span></p>
+            <a class="btn btn--light" href="https://www.google.com/maps/search/?api=1&amp;query=Hotel+Moya+Navalmoral+de+la+Mata" target="_blank" rel="noopener">Mapa<span class="btn__icon"><svg aria-hidden="true"><use href="#flecha"/></svg></span></a>
+          </li>
+          <li class="hotel rise" style="--i:2">
+            <div>
+              <h3>Hotel TAYP</h3>
+              <p class="hotel__town">Navalmoral de la Mata</p>
+            </div>
+            <p class="hotel__code">Código: <span>muy pronto</span></p>
+            <a class="btn btn--light" href="https://www.google.com/maps/search/?api=1&amp;query=TAYP+Navalmoral+de+la+Mata" target="_blank" rel="noopener">Mapa<span class="btn__icon"><svg aria-hidden="true"><use href="#flecha"/></svg></span></a>
+          </li>
+          <li class="hotel rise" style="--i:3">
+            <div>
+              <h3>Vincci Valdecañas Golf</h3>
+              <p class="hotel__town">El Gordo</p>
+            </div>
+            <p class="hotel__code">Código: <span>muy pronto</span></p>
+            <a class="btn btn--light" href="https://www.google.com/maps/search/?api=1&amp;query=Vincci+Valdeca%C3%B1as+Golf+El+Gordo" target="_blank" rel="noopener">Mapa<span class="btn__icon"><svg aria-hidden="true"><use href="#flecha"/></svg></span></a>
+          </li>
+          <li class="hotel rise" style="--i:4">
+            <div>
+              <h3>Hotel Valles de Gredos</h3>
+              <p class="hotel__town">Talayuela</p>
+            </div>
+            <p class="hotel__code">Código: <span>muy pronto</span></p>
+            <a class="btn btn--light" href="https://www.google.com/maps/search/?api=1&amp;query=Hotel+Valles+de+Gredos+Talayuela" target="_blank" rel="noopener">Mapa<span class="btn__icon"><svg aria-hidden="true"><use href="#flecha"/></svg></span></a>
+          </li>
+          <li class="hotel rise" style="--i:5">
+            <div>
+              <h3>Hotel Valdepalacios</h3>
+              <p class="hotel__town">Torrico, junto a Oropesa</p>
+            </div>
+            <p class="hotel__code">Código: <span>muy pronto</span></p>
+            <a class="btn btn--light" href="https://www.google.com/maps/search/?api=1&amp;query=Hotel+Valdepalacios+Torrico" target="_blank" rel="noopener">Mapa<span class="btn__icon"><svg aria-hidden="true"><use href="#flecha"/></svg></span></a>
+          </li>
+        </ul>
       </div>
     </section>
 
@@ -147,8 +195,8 @@
         <div class="rsvp__intro">
           <h2 id="t-confirmar" class="rise">Confirma tu asistencia</h2>
           <p class="rise" style="--i:1">Dinos si podrás acompañarnos y escribe el nombre de cada persona que viene, niños incluidos. Si no puedes venir, avísanos igualmente.</p>
-          <figure class="rsvp__photo shell rise" style="--i:2">
-            <div class="core"><img src="img/pareja.jpg" width="1600" height="1200" alt="Pilar y Luis sonriendo frente al mar" loading="lazy"></div>
+          <figure class="rsvp__photo napkin rise" style="--i:2">
+            <div class="napkin__photo"><img src="img/pareja.jpg" width="1600" height="1200" alt="Pilar y Luis sonriendo frente al mar" loading="lazy"></div>
           </figure>
         </div>
 
@@ -191,18 +239,58 @@
         </form>
       </div>
     </section>
+
+    <section class="contact" id="contacto" aria-labelledby="t-contacto">
+      <div class="wrap contact__grid">
+        <div>
+          <h2 id="t-contacto" class="rise">¿Alguna duda?</h2>
+          <p class="rise" style="--i:1">Escríbenos o llámanos cuando quieras.</p>
+        </div>
+        <ul class="people">
+          <li class="person rise">
+            <p class="person__name">Pilar</p>
+            <a class="person__tel" href="tel:+34608224334">608 22 43 34</a>
+            <div class="person__actions">
+              <a class="btn btn--light" href="tel:+34608224334">Llamar</a>
+              <a class="btn btn--light" href="https://wa.me/34608224334" target="_blank" rel="noopener">WhatsApp</a>
+            </div>
+          </li>
+          <li class="person rise" style="--i:1">
+            <p class="person__name">Luis</p>
+            <a class="person__tel" href="tel:+34650495429">650 49 54 29</a>
+            <div class="person__actions">
+              <a class="btn btn--light" href="tel:+34650495429">Llamar</a>
+              <a class="btn btn--light" href="https://wa.me/34650495429" target="_blank" rel="noopener">WhatsApp</a>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="gift" id="regalo" aria-labelledby="t-regalo">
+      <div class="wrap">
+        <div class="gift__card rise">
+          <div class="gift__text">
+            <h2 id="t-regalo">Un detalle para el viaje</h2>
+            <p>Lo más importante para nosotros es que estéis ese día. Si además queréis tener un detalle, nos ayudaría muchísimo a disfrutar del viaje de novios. ¡Gracias de corazón!</p>
+          </div>
+          <div class="gift__account">
+            <p class="gift__label">Número de cuenta</p>
+            <p class="gift__iban" id="iban">Lo pondremos aquí muy pronto</p>
+            <p class="gift__holder" id="titular" hidden></p>
+            <button class="btn btn--light" type="button" id="copiar" hidden>Copiar número<span class="btn__icon"><svg aria-hidden="true"><use href="#flecha"/></svg></span></button>
+          </div>
+        </div>
+      </div>
+    </section>
   </main>
 
   <footer class="foot">
     <div class="wrap">
-      <div class="shell">
-        <div class="core">
-          <div>
-            <h2>Os esperamos</h2>
-            <p>Pilar y Luis · 4 de septiembre de 2027</p>
-          </div>
-          <a class="btn btn--light" href="#confirmar">Confirmar asistencia<span class="btn__icon"><svg aria-hidden="true"><use href="#flecha"/></svg></span></a>
-        </div>
+      <div class="napkin foot__napkin">
+        <p class="foot__names">Os esperamos</p>
+        <p class="foot__line">Pilar y Luis · 4 de septiembre de 2027</p>
+        <a class="btn" href="#confirmar">Confirmar asistencia<span class="btn__icon"><svg aria-hidden="true"><use href="#flecha"/></svg></span></a>
       </div>
       <p class="foot__small">Peraleda de la Mata · Valdehúncar · Cáceres</p>
       <p class="foot__credit">Hecho por <a class="link" href="https://rodrigodavila.com" target="_blank" rel="noopener">RD</a> con <span class="heart" aria-label="cariño">❤</span></p>

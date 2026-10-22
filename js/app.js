@@ -64,7 +64,6 @@
   const frame = document.querySelector('[data-fade]');
   if (frame && !reduce) {
     const imgs = [...frame.querySelectorAll('img')];
-    const caption = frame.querySelector('.hero__caption');
     imgs.forEach(img => { img.loading = 'eager'; });
     let i = 0;
     imgs[0].classList.add('drift');
@@ -73,8 +72,27 @@
       imgs[i].classList.remove('is-on', 'drift');
       i = (i + 1) % imgs.length;
       imgs[i].classList.add('is-on', 'drift');
-      if (caption) caption.textContent = imgs[i].dataset.caption;
     }, 5500);
+  }
+
+  // Número de cuenta para el regalo
+  if (cfg.iban) {
+    const iban = document.getElementById('iban');
+    const copy = document.getElementById('copiar');
+    iban.textContent = cfg.iban;
+    if (cfg.titular) {
+      const holder = document.getElementById('titular');
+      holder.textContent = 'A nombre de ' + cfg.titular;
+      holder.hidden = false;
+    }
+    copy.hidden = false;
+    copy.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(cfg.iban.replace(/\s+/g, ''));
+        copy.firstChild.textContent = 'Copiado';
+        setTimeout(() => { copy.firstChild.textContent = 'Copiar número'; }, 2000);
+      } catch (e) {}
+    });
   }
 
   // Formulario de confirmación
