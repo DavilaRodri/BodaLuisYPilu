@@ -368,16 +368,55 @@ h1, h2, h3 { font-family: var(--sans); font-weight: 300; letter-spacing: -0.015e
 
 /* ---------- Autobuses ---------- */
 .buses { padding-bottom: var(--section); }
-.buses__grid { display: grid; grid-template-columns: 6fr 5fr; gap: clamp(28px, 4vw, 64px); align-items: center; }
-.buses h2 { font-size: var(--fs-h2); }
+.buses__grid { display: grid; grid-template-columns: 5fr 6fr; grid-template-areas: "text map" "plan map"; gap: 24px clamp(28px, 4vw, 56px); align-items: start; }
+.buses__grid > div:first-child { grid-area: text; }
 .buses__grid > div > p { margin-top: 14px; max-width: 46ch; }
 .buses__grid > div > .buses__note { color: var(--accent); }
-.route { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
-.route > li { padding: 16px 20px; border-radius: 16px; background: var(--shell); }
 .route__label { font-size: var(--fs-small); color: var(--muted); }
-.route > li > p:not(.route__label) { font-size: 1.125rem; }
-.route ul { list-style: none; margin: 6px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px; }
-.route ul li { padding: 5px 12px; border-radius: 999px; background: var(--card); font-size: .9375rem; }
+.busplan { grid-area: plan; }
+.stops { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+.stops button {
+  min-height: 40px; padding: 4px 16px; border: 1px solid rgba(38, 36, 31, .18); border-radius: 999px;
+  background: transparent; color: var(--ink); font: inherit; font-size: .9375rem; cursor: pointer;
+  transition: background .3s var(--ease), color .3s var(--ease), border-color .3s var(--ease), transform .2s var(--ease);
+}
+.stops button:hover { border-color: var(--olive); }
+.stops button:active { transform: scale(.97); }
+.stops button[aria-pressed="true"] { background: var(--olive); border-color: var(--olive); color: #fff; }
+.legs { list-style: none; margin: 22px 0 0; padding: 0; display: grid; gap: 4px; counter-reset: leg; }
+.legs li { position: relative; padding: 8px 0 8px 40px; font-size: 1.0625rem; color: var(--muted); transition: color .4s var(--ease); }
+.legs li::before {
+  counter-increment: leg; content: counter(leg);
+  position: absolute; left: 0; top: 50%; translate: 0 -50%;
+  display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%;
+  border: 1px solid rgba(38, 36, 31, .2); font-size: .8125rem; color: var(--muted);
+  transition: background .4s var(--ease), color .4s var(--ease), border-color .4s var(--ease);
+}
+.legs li span { display: block; font-size: .75rem; letter-spacing: .14em; text-transform: uppercase; }
+.legs b { font-weight: 400; }
+.legs li.is-done, .legs li.is-now { color: var(--ink); }
+.legs li.is-done::before { border-color: var(--olive); color: var(--olive); }
+.legs li.is-now::before { background: var(--olive); border-color: var(--olive); color: #fff; }
+.busmap { grid-area: map; margin: 0; align-self: center; }
+.busmap svg { display: block; width: 100%; height: auto; overflow: hidden; }
+.m-river { fill: none; stroke: #b7c7cb; stroke-width: 5; stroke-linecap: round; }
+.m-lake { fill: #c6d4d6; }
+.m-water { font-size: 9px; letter-spacing: .18em; text-transform: uppercase; fill: #7f9599; }
+.m-hills path { fill: none; stroke: rgba(38, 36, 31, .16); stroke-width: 1; }
+.m-trees circle { fill: #9aa57a; opacity: .55; }
+.m-routes path { fill: none; stroke: rgba(38, 36, 31, .22); stroke-width: 1.2; stroke-dasharray: 3 4; }
+.m-trail { fill: none; stroke: var(--olive); stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+.m-place circle { fill: #fffdf9; stroke: var(--ink); stroke-width: 1.2; }
+.m-place text { font-size: 11px; fill: var(--ink); }
+.m-place .m-sub { font-size: 8px; letter-spacing: .16em; text-transform: uppercase; fill: var(--muted); }
+.m-place--stop { cursor: pointer; }
+.m-place--stop.is-on circle { fill: var(--olive); stroke: var(--olive); }
+.m-place--key circle { fill: var(--accent); stroke: #fffdf9; stroke-width: 2; r: 6; }
+.m-place.is-here circle { animation: pulso 1.2s var(--ease) infinite; }
+@keyframes pulso { 50% { stroke-width: 6; stroke: rgba(111, 124, 74, .35); } }
+.m-bus__body rect:first-child { fill: var(--accent-dark); }
+.m-bus__win { fill: #f3efe4; }
+.m-bus__wheel { fill: #26241f; stroke: #fffdf9; stroke-width: 1; }
 
 /* ---------- Confirmación ---------- */
 .rsvp { padding-bottom: var(--section); }
@@ -564,6 +603,11 @@ textarea.field { min-height: 110px; resize: vertical; }
 /* ---------- Tableta ---------- */
 @media (max-width: 960px) {
   .rsvp__grid, .contact__grid, .gift__paper, .buses__grid{ grid-template-columns: 1fr; }
+  .buses__grid { grid-template-areas: "text" "map" "plan"; }
+  .busmap { margin-inline: -12px; }
+  .m-place text { font-size: 13px; }
+  .m-place .m-sub { font-size: 8.5px; }
+  .stops button { min-height: 38px; padding: 4px 13px; font-size: .875rem; }
   .hotels__list { grid-template-columns: 1fr; }
   .countdown .core { grid-template-columns: repeat(4, 1fr); }
   .countdown__label { grid-column: 1 / -1; text-align: center; margin-bottom: 6px; }

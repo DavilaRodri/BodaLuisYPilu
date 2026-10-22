@@ -13,7 +13,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/estilo.css?v=16">
+  <link rel="stylesheet" href="css/estilo.css?v=17">
   <script>
     (function () {
       document.documentElement.dataset.theme = 'light';
@@ -197,20 +197,49 @@
               <p>Habrá autobuses de ida y vuelta. Os llevarán a la iglesia, después a la finca y, al terminar, de vuelta a cada parada. Los horarios y el punto exacto de salida los pondremos aquí.</p>
               <p class="buses__note">Al confirmar, marca quién irá en autobús y desde dónde para que reservemos las plazas.</p>
             </div>
-            <ol class="route">
-              <li class="route__stops">
-                <p class="route__label">Salidas</p>
-                <ul>
-                  <li>Castañar de Ibor</li>
-                  <li>Navalmoral de la Mata</li>
-                  <li>Belvís de Monroy</li>
-                  <li>Valdecañas</li>
-                </ul>
-              </li>
-              <li><p class="route__label">Primero</p><p>Iglesia de Santiago Apóstol</p></li>
-              <li><p class="route__label">Después</p><p>Finca Valmojado</p></li>
-              <li><p class="route__label">Al terminar</p><p>Vuelta a cada parada</p></li>
-            </ol>
+            <figure class="busmap" id="busmap">
+              <svg viewBox="90 60 390 330" role="img" aria-labelledby="busmap-t">
+                <title id="busmap-t">Mapa de la zona con las paradas de autobús, la iglesia de Peraleda de la Mata y la Finca Valmojado</title>
+                <g class="m-hills" aria-hidden="true">
+                  <path d="M290 330q30-26 60-6t62-8M300 352q34-22 66-4t64-10M286 376q40-20 74-2t70-8"/>
+                </g>
+                <path class="m-river" d="M60 250C110 240 160 228 205 236S275 246 305 236 345 222 370 224" aria-hidden="true"/>
+                <path class="m-lake" d="M364 220c16-10 34-8 50-14s32-6 46 0 14 22 2 30-30 4-44 10-30 8-44 2-20-18-10-28z" aria-hidden="true"/>
+                <text class="m-water" x="150" y="262">Río Tajo</text>
+                <text class="m-water" x="430" y="272" text-anchor="middle">Embalse</text>
+                <g class="m-trees" aria-hidden="true">
+                  <circle cx="236" cy="190" r="3"/><circle cx="246" cy="196" r="2.5"/><circle cx="282" cy="186" r="3"/><circle cx="274" cy="194" r="2.2"/><circle cx="290" cy="160" r="2.5"/><circle cx="196" cy="150" r="2.5"/><circle cx="182" cy="140" r="2"/><circle cx="350" cy="160" r="2.5"/><circle cx="342" cy="300" r="2.5"/><circle cx="380" cy="320" r="2.2"/><circle cx="160" cy="120" r="2.2"/><circle cx="270" cy="112" r="2"/>
+                </g>
+                <g class="m-routes"></g>
+                <path class="m-trail" d=""/>
+                <g class="m-places"></g>
+                <g class="m-bus" aria-hidden="true">
+                  <g class="m-bus__body">
+                    <rect x="-13" y="-8" width="26" height="13" rx="3.5"/>
+                    <rect class="m-bus__win" x="-10" y="-5.5" width="5" height="4" rx="1"/>
+                    <rect class="m-bus__win" x="-3.5" y="-5.5" width="5" height="4" rx="1"/>
+                    <rect class="m-bus__win" x="3" y="-5.5" width="7" height="4" rx="1"/>
+                    <circle class="m-bus__wheel" cx="-7" cy="5.5" r="2.6"/>
+                    <circle class="m-bus__wheel" cx="7" cy="5.5" r="2.6"/>
+                  </g>
+                </g>
+              </svg>
+            </figure>
+            <div class="busplan">
+              <p class="route__label">Elige tu parada</p>
+              <div class="stops" role="group" aria-label="Parada de salida">
+                <button type="button" data-stop="castanar">Castañar de Ibor</button>
+                <button type="button" data-stop="navalmoral" aria-pressed="true">Navalmoral de la Mata</button>
+                <button type="button" data-stop="belvis">Belvís de Monroy</button>
+                <button type="button" data-stop="valdecanas">Valdecañas</button>
+              </div>
+              <ol class="legs" aria-live="polite">
+                <li><span>Salida</span> <b data-from>Navalmoral de la Mata</b></li>
+                <li><span>Primero</span> Iglesia de Santiago Apóstol</li>
+                <li><span>Después</span> Finca Valmojado</li>
+                <li><span>Al terminar</span> vuelta a <b data-from>Navalmoral de la Mata</b></li>
+              </ol>
+            </div>
           </div>
         </div>
       </div>
@@ -328,7 +357,8 @@
     </div>
   </footer>
 
-  <script src="js/config.js?v=16"></script>
-  <script src="js/app.js?v=16"></script>
+  <script src="js/config.js?v=17"></script>
+  <script src="js/app.js?v=17"></script>
+  <script src="js/mapa.js?v=17"></script>
 </body>
 </html>
