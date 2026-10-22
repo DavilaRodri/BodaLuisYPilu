@@ -337,7 +337,8 @@ h1, h2, h3 { font-family: var(--sans); font-weight: 300; letter-spacing: -0.015e
 /* ---------- Hoteles ---------- */
 .hotels { padding-bottom: var(--section); }
 .hotels__img { width: min(100%, 420px); }
-.hotels__img .napkin__photo { aspect-ratio: 3 / 4; }
+.story__img--finca { width: min(100%, 420px); }
+.story__img--finca .napkin__photo { aspect-ratio: 3 / 4; }
 .hotels__napkin { width: 100%; }
 .hotels__list { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; column-gap: clamp(28px, 4vw, 56px); }
 .hotel {
