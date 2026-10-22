@@ -211,31 +211,42 @@ h1, h2, h3 { font-family: var(--sans); font-weight: 300; letter-spacing: -0.015e
 :root[data-theme="dark"] .shell { background-blend-mode: overlay; }
 
 /* ---------- Servilleta ---------- */
-/* Servilleta de lino blanco con borde festoneado y dobladillo cosido; la foto va centrada */
+/* Servilleta de lino blanco con flecos deshilachados y vainica; la foto va centrada */
 .napkin {
   margin: 0;
-  filter: drop-shadow(0 14px 22px rgba(20, 22, 14, .28)) drop-shadow(0 2px 3px rgba(20, 22, 14, .2)); /* taste-skill-ignore: la servilleta es un objeto sobre la tela */
+  filter: drop-shadow(0 14px 22px rgba(20, 22, 14, .26)) drop-shadow(0 2px 3px rgba(20, 22, 14, .18)); /* taste-skill-ignore: la servilleta es un objeto sobre la tela */
 }
 .napkin__paper {
-  --r: 9px;
+  --f: 11px;
+  --hilos: repeating-linear-gradient(90deg, #000 0 1px, #0000 1px 2.3px, rgba(0, 0, 0, .7) 2.3px 3px, #0000 3px 4.1px, #000 4.1px 5.3px, #0000 5.3px 7px, rgba(0, 0, 0, .85) 7px 7.8px, #0000 7.8px 8.9px);
+  --hilos-v: repeating-linear-gradient(0deg, #000 0 1px, #0000 1px 2.3px, rgba(0, 0, 0, .7) 2.3px 3px, #0000 3px 4.1px, #000 4.1px 5.3px, #0000 5.3px 7px, rgba(0, 0, 0, .85) 7px 7.8px, #0000 7.8px 8.9px);
   position: relative;
-  padding: clamp(34px, 9%, 56px);
+  padding: calc(var(--f) + clamp(30px, 8%, 50px));
   background: #f7f3ea url(../img/servilleta.jpg) 0 0 / 256px;
   color: #26241f;
   -webkit-mask:
-    radial-gradient(var(--r), #0000 97%, #000) round calc(-1.5 * var(--r)) calc(-1.5 * var(--r)) / calc(3 * var(--r)) calc(3 * var(--r)),
-    linear-gradient(#000 0 0) no-repeat 50% / calc(100% - 3 * var(--r)) calc(100% - 3 * var(--r));
+    linear-gradient(#000 0 0) center / calc(100% - 2 * var(--f)) calc(100% - 2 * var(--f)) no-repeat,
+    var(--hilos) top / calc(100% - 2 * var(--f) - 6px) var(--f) no-repeat,
+    var(--hilos) bottom / calc(100% - 2 * var(--f) - 6px) var(--f) no-repeat,
+    var(--hilos-v) left / var(--f) calc(100% - 2 * var(--f) - 6px) no-repeat,
+    var(--hilos-v) right / var(--f) calc(100% - 2 * var(--f) - 6px) no-repeat;
           mask:
-    radial-gradient(var(--r), #0000 97%, #000) round calc(-1.5 * var(--r)) calc(-1.5 * var(--r)) / calc(3 * var(--r)) calc(3 * var(--r)),
-    linear-gradient(#000 0 0) no-repeat 50% / calc(100% - 3 * var(--r)) calc(100% - 3 * var(--r));
+    linear-gradient(#000 0 0) center / calc(100% - 2 * var(--f)) calc(100% - 2 * var(--f)) no-repeat,
+    var(--hilos) top / calc(100% - 2 * var(--f) - 6px) var(--f) no-repeat,
+    var(--hilos) bottom / calc(100% - 2 * var(--f) - 6px) var(--f) no-repeat,
+    var(--hilos-v) left / var(--f) calc(100% - 2 * var(--f) - 6px) no-repeat,
+    var(--hilos-v) right / var(--f) calc(100% - 2 * var(--f) - 6px) no-repeat;
 }
-.napkin__paper::before {
+/* Vainica: doble pespunte paralelo al borde */
+.napkin__paper::before,
+.napkin__paper::after {
   content: "";
   position: absolute;
-  inset: 20px;
-  outline: 1.5px dashed rgba(79, 93, 63, .45); /* taste-skill-ignore: costura del dobladillo */
   pointer-events: none;
+  outline: 1.5px dashed rgba(38, 36, 31, .3); /* taste-skill-ignore: costura de vainica */
 }
+.napkin__paper::before { inset: calc(var(--f) + 12px); }
+.napkin__paper::after { inset: calc(var(--f) + 17px); outline-color: rgba(38, 36, 31, .16); }
 .napkin__photo {
   position: relative;
   overflow: hidden;
@@ -534,8 +545,9 @@ textarea.field { min-height: 110px; resize: vertical; }
   .nav { top: 10px; padding-left: 18px; }
   .hero { padding-top: 96px; }
   .hero__media { width: 82%; }
-  .napkin__paper { --r: 7px; padding: 30px; }
-  .napkin__paper::before { inset: 15px; }
+  .napkin__paper { --f: 9px; padding: 36px; }
+  .napkin__paper::before { inset: 18px; }
+  .napkin__paper::after { inset: 22px; }
   .gift__paper { padding: 40px 30px; }
   .places__grid { grid-template-columns: 1fr; }
   .countdown .core { gap: 8px; padding: 22px 14px; }
