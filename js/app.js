@@ -102,19 +102,43 @@
   const send = document.getElementById('send');
   const sendText = document.getElementById('send-text');
 
+  const PARADAS = [
+    ['no', 'No, iré por mi cuenta'],
+    ['castanar', 'Desde Castañar de Ibor'],
+    ['navalmoral', 'Desde Navalmoral de la Mata'],
+    ['belvis', 'Desde Belvís de Monroy'],
+    ['valdecanas', 'Desde Valdecañas']
+  ];
+  let guestId = 0;
+
   function addRow(focus) {
+    const n = ++guestId;
+    const first = !names.children.length;
     const row = document.createElement('div');
-    row.className = 'name-row';
+    row.className = 'guest';
     row.innerHTML =
-      '<input class="field" type="text" name="nombre" placeholder="Nombre y apellidos" aria-labelledby="t-nombres" maxlength="120">' +
-      '<button type="button" class="remove" aria-label="Quitar esta persona">×</button>';
+      '<div class="guest__name">' +
+        '<input class="field" type="text" name="nombre" placeholder="Nombre y apellidos" aria-label="Nombre y apellidos" maxlength="120"' + (first ? ' autocomplete="name"' : '') + '>' +
+        (first ? '' : '<button type="button" class="remove" aria-label="Quitar esta persona">×</button>') +
+      '</div>' +
+      '<div class="guest__opts">' +
+        '<label class="mini" for="bus-' + n + '"><span>Autobús</span>' +
+          '<select class="field" id="bus-' + n + '" name="autobus"><option value="">Elige una opción</option>' +
+          PARADAS.map(p => '<option value="' + p[0] + '">' + p[1] + '</option>').join('') +
+          '</select></label>' +
+        '<label class="mini" for="pre-' + n + '"><span>Preboda</span>' +
+          '<select class="field" id="pre-' + n + '" name="preboda"><option value="">Elige una opción</option>' +
+          '<option value="si">Sí, iré</option><option value="no">No iré</option></select></label>' +
+      '</div>';
     names.appendChild(row);
-    row.querySelector('.remove').addEventListener('click', () => {
+    const remove = row.querySelector('.remove');
+    if (remove) remove.addEventListener('click', () => {
       row.remove();
       names.querySelector('input').focus();
     });
     if (focus) row.querySelector('input').focus();
   }
+  addRow(false);
 
   document.getElementById('add').addEventListener('click', () => {
     if (names.children.length < 15) addRow(true);
@@ -122,8 +146,9 @@
 
   form.addEventListener('change', e => {
     if (e.target.name !== 'asistira') return;
-    document.getElementById('t-nombres').textContent =
-      e.target.value === 'no' ? 'Tu nombre (y el de quien tampoco venga)' : 'Nombre de cada asistente';
+    const no = e.target.value === 'no';
+    form.classList.toggle('is-no', no);
+    document.getElementById('t-nombres').textContent = no ? 'Tu nombre (y el de quien tampoco venga)' : 'Cada persona que viene';
   });
 
   form.addEventListener('submit', async e => {
@@ -132,11 +157,28 @@
     msg.classList.remove('is-error');
 
     const choice = form.querySelector('input[name="asistira"]:checked');
-    const list = [...form.querySelectorAll('input[name="nombre"]')].map(i => i.value.trim()).filter(Boolean);
+    const si = choice && choice.value === 'si';
+    const guests = [...names.querySelectorAll('.guest')]
+      .map(g => ({ g, nombre: g.querySelector('[name="nombre"]').value.trim() }))
+      .filter(x => x.nombre);
     const comentario = form.comentario.value.trim();
 
     if (!choice) return fail('Dinos si vendrás o no.', form.querySelector('input[name="asistira"]'));
-    if (!list.length) return fail('Escribe al menos un nombre.', form.querySelector('input[name="nombre"]'));
+    if (!guests.length) return fail('Escribe al menos un nombre.', names.querySelector('input'));
+    if (si) {
+      for (const x of guests) {
+        const bus = x.g.querySelector('[name="autobus"]');
+        const pre = x.g.querySelector('[name="preboda"]');
+        if (!bus.value) return fail('Dinos si ' + x.nombre + ' irá en autobús.', bus);
+        if (!pre.value) return fail('Dinos si ' + x.nombre + ' vendrá a la preboda.', pre);
+      }
+    }
+    const list = guests.map(x => x.nombre);
+    const asistentes = guests.map(x => ({
+      nombre: x.nombre,
+      autobus: si ? x.g.querySelector('[name="autobus"]').value : null,
+      preboda: si ? x.g.querySelector('[name="preboda"]').value === 'si' : null
+    }));
 
     send.disabled = true;
     sendText.textContent = 'Enviando…';
@@ -144,7 +186,7 @@
       const res = await fetch(cfg.supabaseUrl + '/rest/v1/confirmaciones', {
         method: 'POST',
         headers: { apikey: cfg.supabaseKey, 'Content-Type': 'application/json', Prefer: 'return=minimal' },
-        body: JSON.stringify({ asistira: choice.value === 'si', nombres: list, comentario: comentario || null })
+        body: JSON.stringify({ asistira: si, nombres: list, asistentes, comentario: comentario || null })
       });
       if (!res.ok) throw new Error(res.status);
       document.getElementById('thanks-text').textContent = choice.value === 'si'
@@ -163,7 +205,7 @@
   document.getElementById('again').addEventListener('click', () => {
     form.reset();
     [...names.children].slice(1).forEach(r => r.remove());
-    form.classList.remove('is-done');
+    form.classList.remove('is-done', 'is-no');
     form.querySelector('input[name="asistira"]').focus();
   });
 

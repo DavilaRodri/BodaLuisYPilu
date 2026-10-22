@@ -13,7 +13,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/estilo.css?v=6">
+  <link rel="stylesheet" href="css/estilo.css?v=8">
   <script>
     (function () {
       var t = null;
@@ -36,6 +36,7 @@
     <div class="nav__links">
       <a href="#lugares">Lugares</a>
       <a href="#hoteles">Hoteles</a>
+      <a href="#autobuses">Autobuses</a>
       <a href="#confirmar">Asistencia</a>
       <a href="#regalo">Regalo</a>
     </div>
@@ -191,6 +192,34 @@
       </div>
     </section>
 
+    <section class="buses" id="autobuses" aria-labelledby="t-autobuses">
+      <div class="wrap">
+        <div class="shell rise">
+          <div class="core buses__grid">
+            <div>
+              <h2 id="t-autobuses">Autobuses</h2>
+              <p>Habrá autobuses de ida y vuelta. Os llevarán a la iglesia, después a la finca y, al terminar, de vuelta a cada parada. Los horarios y el punto exacto de salida los pondremos aquí.</p>
+              <p class="buses__note">Al confirmar, marca quién irá en autobús y desde dónde para que reservemos las plazas.</p>
+            </div>
+            <ol class="route">
+              <li class="route__stops">
+                <p class="route__label">Salidas</p>
+                <ul>
+                  <li>Castañar de Ibor</li>
+                  <li>Navalmoral de la Mata</li>
+                  <li>Belvís de Monroy</li>
+                  <li>Valdecañas</li>
+                </ul>
+              </li>
+              <li><p class="route__label">Primero</p><p>Iglesia de Santiago Apóstol</p></li>
+              <li><p class="route__label">Después</p><p>Finca Valmojado</p></li>
+              <li><p class="route__label">Al terminar</p><p>Vuelta a cada parada</p></li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <section class="rsvp" id="confirmar" aria-labelledby="t-confirmar">
       <div class="wrap rsvp__grid">
         <div class="rsvp__intro">
@@ -213,12 +242,9 @@
               </fieldset>
 
               <fieldset>
-                <legend id="t-nombres">Nombre de cada asistente</legend>
-                <div class="names" id="names">
-                  <div class="name-row">
-                    <input class="field" type="text" name="nombre" autocomplete="name" placeholder="Nombre y apellidos" aria-labelledby="t-nombres" maxlength="120">
-                  </div>
-                </div>
+                <legend id="t-nombres">Cada persona que viene</legend>
+                <p class="hint hint--top" id="t-nombres-hint">Escribe su nombre y elige, para cada una, si irá en autobús y si vendrá a la preboda.</p>
+                <div class="names" id="names"></div>
                 <button type="button" class="add" id="add"><span class="add__plus" aria-hidden="true">+</span>Añadir otra persona</button>
               </fieldset>
 
@@ -298,7 +324,7 @@
     </div>
   </footer>
 
-  <script src="js/config.js?v=6"></script>
-  <script src="js/app.js?v=6"></script>
+  <script src="js/config.js?v=8"></script>
+  <script src="js/app.js?v=8"></script>
 </body>
 </html>

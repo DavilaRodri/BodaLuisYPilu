@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/estilo.css?v=6">
+  <link rel="stylesheet" href="css/estilo.css?v=8">
   <script>(function(){var t=null;try{t=localStorage.getItem('tema')}catch(e){}if(!t)t=matchMedia('(prefers-color-scheme: light)').matches?'light':'dark';document.documentElement.dataset.theme=t})();</script>
   <style>
     [hidden] { display: none !important; }
@@ -17,14 +17,17 @@
     .btn { padding: 6px 26px; }
     .wrap h1 { font-size: var(--fs-h2); }
     .totals { display: flex; flex-wrap: wrap; gap: 24px 56px; margin: 40px 0; list-style: none; padding: 0; }
-    .totals strong { display: block; font-weight: 400; font-size: var(--fs-h2); line-height: 1; color: var(--accent); font-variant-numeric: lining-nums; }
+    .totals--bus { margin-top: -16px; }
+    .totals--bus strong { font-size: var(--fs-h3); }
+    .tag { display: inline-block; margin-left: 6px; padding: 1px 9px; border-radius: 999px; background: var(--shell); font-size: var(--fs-small); color: var(--muted); }
+    .totals strong { display: block; font-weight: 400; font-size: var(--fs-h2); line-height: 1; color: #f7f2e7; font-variant-numeric: lining-nums; }
     .tools { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 24px; }
-    .sheet { background: var(--card); overflow-x: auto; }
+    .sheet { background: var(--card); overflow-x: auto; color: var(--ink); text-shadow: none; }
     .sheet { border-radius: 22px; }
     table { width: 100%; border-collapse: collapse; font-size: var(--fs-body); }
     th, td { text-align: left; padding: 14px 16px; border-bottom: 1px solid var(--line); /* taste-skill-ignore: tabla */ vertical-align: top; }
     th { font-weight: 500; }
-    td.si { color: var(--accent); }
+    td.si { color: var(--accent); font-weight: 400; }
     td.no { color: var(--error); }
     td ul { margin: 0; padding-left: 1.1em; }
     .state { padding: 24px 0; }
@@ -47,7 +50,9 @@
       <li><strong id="n-personas">0</strong>personas vienen</li>
       <li><strong id="n-si">0</strong>confirmaciones de sí</li>
       <li><strong id="n-no">0</strong>no podrán ir</li>
+      <li><strong id="n-preboda">0</strong>a la preboda</li>
     </ul>
+    <ul class="totals totals--bus" id="buses" hidden></ul>
 
     <div class="tools" id="tools" hidden>
       <button class="btn" type="button" id="csv">Descargar para Excel</button>
@@ -57,13 +62,13 @@
     <p class="state" id="state" role="status">Cargando…</p>
     <div class="sheet" id="sheet" hidden>
       <table>
-        <thead><tr><th>Fecha</th><th>¿Viene?</th><th>Personas</th><th>Comentario</th></tr></thead>
+        <thead><tr><th>Fecha</th><th>¿Viene?</th><th>Personas · autobús · preboda</th><th>Comentario</th></tr></thead>
         <tbody id="rows"></tbody>
       </table>
     </div>
   </main>
 
-  <script src="js/config.js?v=6"></script>
+  <script src="js/config.js?v=8"></script>
   <script>
   (function () {
     const cfg = window.BODA;
@@ -99,28 +104,43 @@
     function esc(s) { return String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
     function fecha(s) { return new Date(s).toLocaleString('es-ES', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }); }
 
+    const PARADAS = { no: 'Sin autobús', castanar: 'Castañar de Ibor', navalmoral: 'Navalmoral de la Mata', belvis: 'Belvís de Monroy', valdecanas: 'Valdecañas' };
+    // Cada persona con su autobús y preboda; las confirmaciones antiguas solo tienen nombres
+    function gente(r) {
+      return (r.asistentes && r.asistentes.length) ? r.asistentes : r.nombres.map(n => ({ nombre: n, autobus: null, preboda: null }));
+    }
+
     function render() {
       $('login').hidden = true;
       const si = data.filter(r => r.asistira);
-      $('n-personas').textContent = si.reduce((n, r) => n + r.nombres.length, 0);
+      const vienen = si.flatMap(gente);
+      $('n-personas').textContent = vienen.length;
       $('n-si').textContent = si.length;
       $('n-no').textContent = data.length - si.length;
-      $('totals').hidden = $('tools').hidden = false;
+      $('n-preboda').textContent = vienen.filter(p => p.preboda).length;
+      $('buses').innerHTML = Object.keys(PARADAS).filter(k => k !== 'no').map(k =>
+        '<li><strong>' + vienen.filter(p => p.autobus === k).length + '</strong>en autobús desde ' + PARADAS[k] + '</li>').join('');
+      $('totals').hidden = $('tools').hidden = $('buses').hidden = false;
       if (!data.length) { $('state').textContent = 'Todavía no ha confirmado nadie.'; $('sheet').hidden = true; return; }
       $('state').textContent = '';
       $('sheet').hidden = false;
       $('rows').innerHTML = data.map(r =>
         '<tr><td>' + esc(fecha(r.creado)) + '</td>' +
         '<td class="' + (r.asistira ? 'si">Sí' : 'no">No') + '</td>' +
-        '<td><ul>' + r.nombres.map(n => '<li>' + esc(n) + '</li>').join('') + '</ul></td>' +
+        '<td><ul>' + gente(r).map(p => '<li>' + esc(p.nombre) +
+          (r.asistira && p.autobus ? '<span class="tag">' + esc(PARADAS[p.autobus] || p.autobus) + '</span>' : '') +
+          (r.asistira && p.preboda !== null ? '<span class="tag">' + (p.preboda ? 'Preboda' : 'Sin preboda') + '</span>' : '') +
+          '</li>').join('') + '</ul></td>' +
         '<td>' + esc(r.comentario) + '</td></tr>').join('');
     }
 
     $('csv').addEventListener('click', () => {
       const q = v => '"' + String(v ?? '').replace(/"/g, '""') + '"';
-      const lines = [['Fecha', 'Viene', 'Nombre', 'Comentario'].map(q).join(';')];
-      data.forEach(r => r.nombres.forEach(n =>
-        lines.push([new Date(r.creado).toLocaleString('es-ES'), r.asistira ? 'Sí' : 'No', n, r.comentario].map(q).join(';'))));
+      const lines = [['Fecha', 'Viene', 'Nombre', 'Autobús', 'Preboda', 'Comentario'].map(q).join(';')];
+      data.forEach(r => gente(r).forEach(p =>
+        lines.push([new Date(r.creado).toLocaleString('es-ES'), r.asistira ? 'Sí' : 'No', p.nombre,
+          r.asistira && p.autobus ? (PARADAS[p.autobus] || p.autobus) : '',
+          r.asistira && p.preboda !== null ? (p.preboda ? 'Sí' : 'No') : '', r.comentario].map(q).join(';'))));
       const blob = new Blob(['﻿' + lines.join('\r\n')], { type: 'text/csv;charset=utf-8' });
       const a = document.createElement('a');
       a.href = URL.createObjectURL(blob);
