@@ -63,7 +63,7 @@
 
 /* ---------- Tela ---------- */
 /* La página es un mantel de lino natural; las fotos van sobre servilletas blancas */
-body { background: #dad1c0 url(../img/mantel-claro.jpg) 0 0 / 384px; color: var(--ink); }
+body { background: #f5f1e9 url(../img/mantel-claro.jpg) 0 0 / 384px; color: var(--ink); }
 :root[data-theme="dark"] body { background: #25281f url(../img/mantel-oscuro.jpg) 0 0 / 384px; }
 
 /* Botón de tema */
@@ -396,7 +396,7 @@ h1, h2, h3 { font-family: var(--sans); font-weight: 300; letter-spacing: -0.015e
 .rsvp__intro > p { margin-top: 16px; max-width: 40ch; }
 .rsvp__photo { margin-top: 0; }
 .rsvp__photo .napkin__photo { aspect-ratio: 4 / 5; }
-.rsvp__photo img { object-position: 50% 35%; }
+.rsvp__photo img { object-position: 45% 40%; }
 
 
 .form .core { padding: clamp(24px, 3.5vw, 40px); }
