@@ -13,7 +13,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/estilo.css?v=10">
+  <link rel="stylesheet" href="css/estilo.css?v=11">
   <script>
     (function () {
       var t = null;
@@ -65,7 +65,7 @@
         </figure>
 
         <div class="hero__actions rise" style="--i:4">
-          <a class="btn btn--paper" href="#confirmar">Confirmar asistencia<span class="btn__icon"><svg aria-hidden="true"><use href="#flecha"/></svg></span></a>
+          <a class="btn" href="#confirmar">Confirmar asistencia<span class="btn__icon"><svg aria-hidden="true"><use href="#flecha"/></svg></span></a>
           <a class="link" href="#lugares">Ver los lugares</a>
         </div>
       </div>
@@ -122,27 +122,24 @@
 
     <section class="story" id="dia" aria-labelledby="t-dia">
       <div class="wrap story__grid">
-        <div class="story__text">
-          <h2 id="t-dia" class="rise">El día de la boda</h2>
-          <p class="rise" style="--i:1">Nos daremos el sí frente al retablo de la iglesia de Peraleda de la Mata y seguiremos la fiesta entre las encinas de Valmojado hasta que se haga de noche.</p>
-        </div>
-        <figure class="story__img napkin rise" style="--i:2">
+        <h2 id="t-dia" class="rise">El día de la boda</h2>
+        <figure class="story__img napkin rise" style="--i:1">
           <div class="napkin__paper"><div class="napkin__photo"><img src="img/altar.jpg" width="1536" height="1024" alt="Acuarela del retablo dorado y los bancos de madera del interior de la iglesia" loading="lazy"></div></div>
         </figure>
+        <p class="rise" style="--i:2">Nos daremos el sí frente al retablo de la iglesia de Peraleda de la Mata y seguiremos la fiesta entre las encinas de Valmojado hasta que se haga de noche.</p>
       </div>
     </section>
 
     <section class="hotels" id="hoteles" aria-labelledby="t-hoteles">
       <div class="wrap">
-        <div class="head">
+        <div class="head head--photo">
           <h2 id="t-hoteles" class="rise">Dónde dormir</h2>
-          <p class="rise" style="--i:1">Estos hoteles están cerca de la finca y tendrán precio especial para los invitados. Al reservar, di que vienes a la boda de Pilar y Luis y usa el código de cada hotel.</p>
-        </div>
-
-        <div class="hotels__grid">
-        <figure class="hotels__img napkin rise">
+        <figure class="hotels__img napkin rise" style="--i:1">
           <div class="napkin__paper"><div class="napkin__photo"><img src="img/atardecer.jpg" width="1086" height="1448" alt="Acuarela del atardecer en la finca, con encinas y el camino empedrado" loading="lazy"></div></div>
         </figure>
+          <p class="rise" style="--i:2">Estos hoteles están cerca de la finca y tendrán precio especial para los invitados. Al reservar, di que vienes a la boda de Pilar y Luis y usa el código de cada hotel.</p>
+        </div>
+
         <ul class="hotels__list">
           <li class="hotel rise">
             <div>
@@ -193,7 +190,6 @@
             <a class="btn btn--light" href="https://www.google.com/maps/search/?api=1&amp;query=Hotel+Valdepalacios+Torrico" target="_blank" rel="noopener">Mapa<span class="btn__icon"><svg aria-hidden="true"><use href="#flecha"/></svg></span></a>
           </li>
         </ul>
-        </div>
       </div>
     </section>
 
@@ -226,12 +222,15 @@
     </section>
 
     <section class="rsvp" id="confirmar" aria-labelledby="t-confirmar">
-      <div class="wrap rsvp__grid">
-        <div class="rsvp__intro">
+      <div class="wrap">
+        <div class="head">
           <h2 id="t-confirmar" class="rise">Confirma tu asistencia</h2>
           <p class="rise" style="--i:1">Dinos si podrás acompañarnos y escribe el nombre de cada persona que viene, niños incluidos. Si no puedes venir, avísanos igualmente.</p>
+        </div>
+      <div class="rsvp__grid">
+        <div class="rsvp__intro">
           <figure class="rsvp__photo napkin rise" style="--i:2">
-            <div class="napkin__paper"><div class="napkin__photo"><img src="img/pareja.jpg" width="1600" height="1200" alt="Pilar y Luis sonriendo frente al mar" loading="lazy"></div></div>
+            <div class="napkin__paper"><div class="napkin__photo"><img src="img/pareja-2.jpg" width="1200" height="1600" alt="Pilar y Luis sonriendo en una terraza al atardecer, con el campo y las montañas detrás" loading="lazy"></div></div>
           </figure>
         </div>
 
@@ -269,6 +268,7 @@
             </div>
           </div>
         </form>
+      </div>
       </div>
     </section>
 
@@ -322,14 +322,14 @@
       <div class="wrap foot__inner">
         <p class="foot__names">Os esperamos</p>
         <p class="foot__line">Pilar y Luis · 4 de septiembre de 2027</p>
-        <a class="btn btn--paper" href="#confirmar">Confirmar asistencia<span class="btn__icon"><svg aria-hidden="true"><use href="#flecha"/></svg></span></a>
+        <a class="btn" href="#confirmar">Confirmar asistencia<span class="btn__icon"><svg aria-hidden="true"><use href="#flecha"/></svg></span></a>
         <p class="foot__small">Peraleda de la Mata · Valdehúncar · Cáceres</p>
         <p class="foot__credit">Hecho por <a class="link" href="https://rodrigodavila.com" target="_blank" rel="noopener">RD</a> con <span class="heart" aria-label="cariño">❤</span></p>
       </div>
     </div>
   </footer>
 
-  <script src="js/config.js?v=10"></script>
-  <script src="js/app.js?v=10"></script>
+  <script src="js/config.js?v=11"></script>
+  <script src="js/app.js?v=11"></script>
 </body>
 </html>
