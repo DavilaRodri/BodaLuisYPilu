@@ -4,7 +4,6 @@
   --bg: #f3eee5;
   --shell: #ddd4c4;
   --card: #fbf8f2;
-  --napkin: #e6dccb;
   --ink: #26241f;
   --muted: #6b665c;
   --line: #ddd2bf;
@@ -15,7 +14,6 @@
 
   --sans: "Jost", system-ui, sans-serif;
   --serif: var(--sans);
-  --script: "Great Vibes", cursive;
 
   --fs-small: 0.875rem;
   --fs-body: 1.0625rem;
@@ -44,7 +42,6 @@
   --bg: #1a1a16;
   --shell: #2c2c25;
   --card: #21221d;
-  --napkin: #302f27;
   --ink: #ecebe5;
   --muted: #a9a79d;
   --line: #34372f;
@@ -64,25 +61,10 @@
 :root[data-theme="dark"] .place__img img { filter: brightness(.9); }
 
 /* ---------- Tela ---------- */
-/* Lino fino de fondo y lino grueso para marcos y servilletas */
-body { isolation: isolate; }
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
-  background: url(../img/lino.png) 0 0 / 384px;
-  mix-blend-mode: soft-light;
-  opacity: .35;
-}
-:root[data-theme="dark"] body::before { mix-blend-mode: overlay; opacity: .3; }
-.linen {
-  background-image: url(../img/lino-grueso.png);
-  background-size: 256px;
-  background-blend-mode: soft-light;
-}
-:root[data-theme="dark"] .linen { background-blend-mode: overlay; }
+/* Fondo de lino en toda la página; verde de lona en portada y pie */
+body { background: var(--bg) url(../img/lino-claro.jpg) 0 0 / 320px; }
+:root[data-theme="dark"] body { background-image: url(../img/lino-oscuro.jpg); }
+.canvas { background: #545a3a url(../img/tela-verde.jpg) 0 0 / 360px; color: #f7f2e7; }
 
 /* Botón de tema */
 .theme {
@@ -117,7 +99,6 @@ body {
   margin: 0;
   font-weight: 300;
   transition: background-color .5s var(--ease), color .5s var(--ease);
-  background: var(--bg);
   color: var(--ink);
   font-family: var(--sans);
   font-size: var(--fs-body);
@@ -204,7 +185,7 @@ h1, h2, h3 { font-family: var(--sans); font-weight: 300; letter-spacing: -0.015e
   box-shadow: 0 0 0 1px rgba(38, 36, 31, .06), 0 10px 30px -12px rgba(38, 36, 31, .18); /* taste-skill-ignore: anillo de campo de formulario o barra fija */
   white-space: nowrap;
 }
-.nav__mark { font-family: var(--script); font-size: 1.6rem; line-height: 1; text-decoration: none; margin-right: 14px; }
+.nav__mark { font-size: 1.05rem; font-weight: 400; letter-spacing: .12em; line-height: 1; text-decoration: none; margin-right: 14px; }
 .nav__links { display: flex; gap: 2px; }
 .nav__links a {
   padding: 8px 14px;
@@ -230,32 +211,34 @@ h1, h2, h3 { font-family: var(--sans); font-weight: 300; letter-spacing: -0.015e
 :root[data-theme="dark"] .shell { background-blend-mode: overlay; }
 
 /* ---------- Servilleta ---------- */
-/* Marco ancho de lino con dobladillo cosido; la foto va centrada dentro */
+/* Servilleta de lino blanco con borde festoneado y dobladillo cosido; la foto va centrada */
 .napkin {
-  position: relative;
   margin: 0;
-  padding: clamp(30px, 11%, 76px);
-  border-radius: 6px;
-  background-color: var(--napkin);
-  background-image: url(../img/lino-grueso.png);
-  background-size: 256px;
-  background-blend-mode: soft-light;
-  box-shadow: inset 0 0 0 16px rgba(38, 36, 31, .045); /* taste-skill-ignore: dobladillo de la servilleta */
+  filter: drop-shadow(0 14px 22px rgba(20, 22, 14, .28)) drop-shadow(0 2px 3px rgba(20, 22, 14, .2)); /* taste-skill-ignore: la servilleta es un objeto sobre la tela */
 }
-:root[data-theme="dark"] .napkin { background-blend-mode: overlay; box-shadow: inset 0 0 0 16px rgba(0, 0, 0, .12); /* taste-skill-ignore: dobladillo de la servilleta */ }
-.napkin::before {
+.napkin__paper {
+  --r: 9px;
+  position: relative;
+  padding: clamp(34px, 9%, 56px);
+  background: #f7f3ea url(../img/servilleta.jpg) 0 0 / 256px;
+  color: #26241f;
+  -webkit-mask:
+    radial-gradient(var(--r), #0000 97%, #000) round calc(-1.5 * var(--r)) calc(-1.5 * var(--r)) / calc(3 * var(--r)) calc(3 * var(--r)),
+    linear-gradient(#000 0 0) no-repeat 50% / calc(100% - 3 * var(--r)) calc(100% - 3 * var(--r));
+          mask:
+    radial-gradient(var(--r), #0000 97%, #000) round calc(-1.5 * var(--r)) calc(-1.5 * var(--r)) / calc(3 * var(--r)) calc(3 * var(--r)),
+    linear-gradient(#000 0 0) no-repeat 50% / calc(100% - 3 * var(--r)) calc(100% - 3 * var(--r));
+}
+.napkin__paper::before {
   content: "";
   position: absolute;
-  inset: 16px;
-  border-radius: 2px;
-  outline: 1.5px dashed rgba(38, 36, 31, .22); /* taste-skill-ignore: costura del dobladillo */
+  inset: 20px;
+  outline: 1.5px dashed rgba(79, 93, 63, .45); /* taste-skill-ignore: costura del dobladillo */
   pointer-events: none;
 }
-:root[data-theme="dark"] .napkin::before { outline-color: rgba(236, 235, 229, .18); }
 .napkin__photo {
   position: relative;
   overflow: hidden;
-  border-radius: 3px;
 }
 .napkin__photo img { width: 100%; height: 100%; object-fit: cover; }
 .core {
@@ -265,35 +248,28 @@ h1, h2, h3 { font-family: var(--sans); font-weight: 300; letter-spacing: -0.015e
 }
 
 /* ---------- Portada ---------- */
-.hero { padding: 120px 0 var(--section); }
-.hero__grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: clamp(32px, 5vw, 72px);
-  align-items: center;
-}
+.hero { padding: 108px 0 clamp(56px, 7vw, 88px); margin-bottom: var(--section); background: #545a3a url(../img/tela-verde.jpg) 0 0 / 360px; color: #f7f2e7; }
+.hero__inner { display: flex; flex-direction: column; align-items: center; text-align: center; }
 .hero h1 {
-  font-family: var(--script);
-  font-weight: 400;
-  font-size: var(--fs-h1);
-  letter-spacing: 0;
-  line-height: 1.15;
+  font-weight: 300;
+  font-size: clamp(2.4rem, .9rem + 7vw, 5.5rem);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  line-height: 1.05;
   white-space: nowrap;
 }
-.hero h1 .amp { color: var(--accent); }
+.hero h1 .amp { color: #d9cfa8; }
 .hero__date {
-  margin-top: 18px;
-  font-size: clamp(1.125rem, .7rem + 2.6vw, 1.875rem);
+  margin-top: 14px;
+  font-size: clamp(1.125rem, .7rem + 2.4vw, 1.75rem);
   font-weight: 300;
   line-height: 1.3;
   white-space: nowrap;
 }
-.hero__place { margin-top: 6px; color: var(--muted); }
-.hero__actions { margin-top: 32px; display: flex; flex-wrap: wrap; align-items: center; gap: 14px 24px; }
-.hero__actions .link { font-size: var(--fs-small); }
+.hero__place { margin-top: 4px; opacity: .78; }
 
-.hero__media { width: 100%; max-width: 520px; justify-self: end; }
-.hero__media .napkin__photo { aspect-ratio: 4 / 5; }
+.hero__media { width: min(100%, 440px); margin-top: clamp(28px, 4vw, 40px); }
+.hero__media .napkin__photo { aspect-ratio: 1 / 1; }
 .hero__media img {
   position: absolute;
   inset: 0;
@@ -304,6 +280,12 @@ h1, h2, h3 { font-family: var(--sans); font-weight: 300; letter-spacing: -0.015e
 .hero__media img:first-child { object-position: 30% 50%; }
 .hero__media img.is-on.drift { animation: drift 7s var(--ease) both; }
 @keyframes drift { from { transform: scale(1.05); } to { transform: scale(1); } }
+
+.hero__actions { margin-top: clamp(32px, 4vw, 44px); display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 14px 24px; }
+.hero__actions .link { font-size: var(--fs-small); color: #f7f2e7; text-decoration-color: rgba(247, 242, 231, .4); }
+.btn--paper { background: #f7f3ea; color: #26241f; }
+.btn--paper .btn__icon { background: #e4dccb; }
+.btn--paper:hover { background: #ffffff; }
 
 /* ---------- Cuenta atrás ---------- */
 .countdown { padding-bottom: var(--section); }
@@ -341,7 +323,7 @@ h1, h2, h3 { font-family: var(--sans); font-weight: 300; letter-spacing: -0.015e
 .place__body { display: flex; flex-direction: column; align-items: flex-start; gap: 4px; flex: 1; padding: 26px 28px 24px; }
 .place__body .btn { margin-top: auto; }
 .place address { margin-bottom: 22px; }
-.place__kind { font-family: var(--script); font-size: 1.9rem; line-height: 1.2; color: var(--accent); }
+.place__kind { font-size: var(--fs-body); font-weight: 400; color: var(--accent); }
 .place h3 { font-size: var(--fs-h3); }
 .place address { font-style: normal; color: var(--muted); }
 /* ---------- El día ---------- */
@@ -384,7 +366,7 @@ h1, h2, h3 { font-family: var(--sans); font-weight: 300; letter-spacing: -0.015e
 .rsvp__intro { position: sticky; top: 110px; }
 .rsvp__intro h2 { font-size: var(--fs-h2); }
 .rsvp__intro > p { margin-top: 16px; max-width: 40ch; }
-.rsvp__photo { margin-top: 32px; padding: clamp(26px, 9%, 48px); }
+.rsvp__photo { margin-top: 32px; }
 .rsvp__photo .napkin__photo { aspect-ratio: 1 / 1; }
 .rsvp__photo img { width: 100%; height: 100%; object-fit: cover; object-position: 26% 50%; }
 
@@ -485,45 +467,38 @@ textarea.field { min-height: 110px; resize: vertical; }
 .contact__grid > div > p { margin-top: 12px; font-size: var(--fs-lead); }
 .people { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 .person { padding: 24px 26px 26px; border-radius: var(--r-inner); background: var(--card); }
-.person__name { font-family: var(--script); font-size: 2.6rem; line-height: 1.1; color: var(--accent); }
-.person__tel { display: block; margin-top: 4px; font-size: var(--fs-lead); text-decoration: none; font-variant-numeric: tabular-nums; }
+.person__name { font-size: 1.375rem; font-weight: 400; line-height: 1.25; }
+.person__tel { display: block; margin-top: 6px; font-size: var(--fs-lead); color: var(--accent); text-decoration: none; font-variant-numeric: tabular-nums; }
 .person__actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
 .person__actions .btn { min-height: 44px; padding: 4px 20px; font-size: var(--fs-small); background: var(--shell); }
 .person__actions .btn:hover { background: var(--accent); color: var(--accent-ink); }
 
 /* ---------- Regalo ---------- */
 .gift { padding-bottom: var(--section); }
-.gift__card {
+.gift__paper {
   display: grid;
   grid-template-columns: 7fr 5fr;
   gap: clamp(28px, 4vw, 56px);
   align-items: center;
-  padding: clamp(28px, 5vw, 64px);
-  border-radius: var(--r-outer);
-  background-color: var(--accent);
-  background-image: url(../img/lino-grueso.png);
-  background-size: 256px;
-  background-blend-mode: soft-light;
-  color: var(--accent-ink);
+  padding: clamp(44px, 6vw, 76px);
 }
-.gift h2 { font-family: var(--script); font-weight: 400; letter-spacing: 0; font-size: clamp(2.75rem, 2rem + 3vw, 4.25rem); line-height: 1.1; }
+.gift h2 { font-size: var(--fs-h2); color: #26241f; }
 .gift__text p { margin-top: 14px; max-width: 46ch; font-size: var(--fs-lead); line-height: 1.5; }
-.gift__account { padding: 26px 28px; border-radius: var(--r-inner); background: rgba(255, 255, 255, .1); }
-:root[data-theme="dark"] .gift__account { background: rgba(0, 0, 0, .1); }
+.gift__account { padding: 26px 28px; border-radius: var(--r-inner); background: rgba(79, 93, 63, .1); }
 .gift__label { font-size: var(--fs-small); opacity: .8; }
 .gift__iban { margin-top: 6px; font-size: var(--fs-lead); font-weight: 400; font-variant-numeric: tabular-nums; word-spacing: .15em; }
 .gift__holder { margin-top: 4px; font-size: var(--fs-small); opacity: .85; }
-.gift__account .btn { margin-top: 18px; }
+.gift__account .btn { margin-top: 18px; background: #4f5d3f; color: #fff; }
 
 /* ---------- Pie ---------- */
-.foot { padding-bottom: 28px; }
-.foot__napkin { display: grid; justify-items: center; text-align: center; padding: clamp(48px, 7vw, 80px) 24px; }
-.foot__names { font-family: var(--script); font-size: clamp(3rem, 2.2rem + 3vw, 4.5rem); line-height: 1.1; }
-.foot__line { margin: 6px 0 26px; color: var(--muted); }
-.foot__small { margin-top: 18px; font-size: var(--fs-small); color: var(--muted); text-align: center; }
-.foot__credit { margin-top: 6px; font-size: var(--fs-small); color: var(--muted); text-align: center; }
-.foot__credit .link { color: var(--ink); }
-.foot__credit .heart { color: #c0392b; }
+.foot__band { background: #545a3a url(../img/tela-verde.jpg) 0 0 / 360px; color: #f7f2e7; }
+.foot__inner { display: grid; justify-items: center; text-align: center; padding: clamp(64px, 8vw, 104px) 0 28px; }
+.foot__names { font-size: var(--fs-h2); font-weight: 300; line-height: 1.1; }
+.foot__line { margin: 4px 0 28px; opacity: .8; }
+.foot__small { margin-top: clamp(48px, 6vw, 72px); font-size: var(--fs-small); opacity: .75; }
+.foot__credit { margin-top: 4px; font-size: var(--fs-small); opacity: .75; }
+.foot__credit .link { color: inherit; text-decoration-color: rgba(247, 242, 231, .4); }
+.foot__credit .heart { color: #e0695b; }
 
 /* ---------- Entradas ---------- */
 .rise {
@@ -544,8 +519,7 @@ textarea.field { min-height: 110px; resize: vertical; }
 
 /* ---------- Tableta ---------- */
 @media (max-width: 960px) {
-  .hero__grid, .story__grid, .rsvp__grid, .contact__grid, .gift__card { grid-template-columns: 1fr; }
-  .hero__media { justify-self: center; max-width: 560px; }
+  .story__grid, .rsvp__grid, .contact__grid, .gift__paper { grid-template-columns: 1fr; }
   .countdown .core { grid-template-columns: repeat(4, 1fr); }
   .countdown__label { grid-column: 1 / -1; text-align: center; margin-bottom: 6px; }
   .countdown__label span { display: none; }
@@ -559,13 +533,10 @@ textarea.field { min-height: 110px; resize: vertical; }
 @media (max-width: 680px) {
   .nav { top: 10px; padding-left: 18px; }
   .hero { padding-top: 96px; }
-  .hero__text { text-align: center; }
-  .hero h1 { font-size: clamp(3.25rem, 15vw, 4.5rem); }
-  .hero__actions { justify-content: center; }
-  .napkin { padding: 34px; }
-  .napkin::before { inset: 12px; }
-  .napkin { box-shadow: inset 0 0 0 12px rgba(38, 36, 31, .045); /* taste-skill-ignore: dobladillo de la servilleta */ }
-  .hero__media { padding: 44px 48px; }
+  .hero__media { width: 82%; }
+  .napkin__paper { --r: 7px; padding: 30px; }
+  .napkin__paper::before { inset: 15px; }
+  .gift__paper { padding: 40px 30px; }
   .places__grid { grid-template-columns: 1fr; }
   .countdown .core { gap: 8px; padding: 22px 14px; }
   .choice { grid-template-columns: 1fr; }

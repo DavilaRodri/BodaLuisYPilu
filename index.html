@@ -12,8 +12,8 @@
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='16' fill='%234f5d3f'/%3E%3Ctext x='16' y='21' font-family='Georgia' font-size='13' fill='%23fff' text-anchor='middle'%3EP%26amp;L%3C/text%3E%3C/svg%3E">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/estilo.css?v=3">
+  <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/estilo.css?v=5">
   <script>
     (function () {
       var t = null;
@@ -48,24 +48,25 @@
 
   <main id="inicio">
     <header class="hero">
-      <div class="wrap hero__grid">
-        <div class="hero__text">
-          <h1 class="rise">Pilar <span class="amp">&amp;</span> Luis</h1>
-          <p class="hero__date rise" style="--i:1"><time datetime="2027-09-04">Sábado, 4 de septiembre de 2027</time></p>
-          <p class="hero__place rise" style="--i:2">Peraleda de la Mata y Valdehúncar, Cáceres</p>
-          <div class="hero__actions rise" style="--i:3">
-            <a class="btn" href="#confirmar">Confirmar asistencia<span class="btn__icon"><svg aria-hidden="true"><use href="#flecha"/></svg></span></a>
-            <a class="link" href="#lugares">Ver los lugares</a>
-          </div>
-        </div>
+      <div class="wrap hero__inner">
+        <h1 class="rise">Pilar <span class="amp">&amp;</span> Luis</h1>
+        <p class="hero__date rise" style="--i:1"><time datetime="2027-09-04">Sábado, 4 de septiembre de 2027</time></p>
+        <p class="hero__place rise" style="--i:2">Peraleda de la Mata y Valdehúncar, Cáceres</p>
 
-        <figure class="hero__media napkin rise" style="--i:1">
-          <div class="napkin__photo" data-fade>
-            <img class="is-on" src="img/pareja.jpg" width="1600" height="1200" alt="Pilar y Luis abrazados frente al mar al atardecer" fetchpriority="high">
-            <img src="img/iglesia.jpg" width="1536" height="1024" alt="Acuarela de la iglesia de Santiago Apóstol de Peraleda de la Mata" loading="lazy">
-            <img src="img/finca.jpg" width="1536" height="1024" alt="Acuarela de la Finca Valmojado entre encinas" loading="lazy">
+        <figure class="hero__media napkin rise" style="--i:3">
+          <div class="napkin__paper">
+            <div class="napkin__photo" data-fade>
+              <img class="is-on" src="img/pareja.jpg" width="1600" height="1200" alt="Pilar y Luis abrazados frente al mar al atardecer" fetchpriority="high">
+              <img src="img/iglesia.jpg" width="1536" height="1024" alt="Acuarela de la iglesia de Santiago Apóstol de Peraleda de la Mata" loading="lazy">
+              <img src="img/finca.jpg" width="1536" height="1024" alt="Acuarela de la Finca Valmojado entre encinas" loading="lazy">
+            </div>
           </div>
         </figure>
+
+        <div class="hero__actions rise" style="--i:4">
+          <a class="btn btn--paper" href="#confirmar">Confirmar asistencia<span class="btn__icon"><svg aria-hidden="true"><use href="#flecha"/></svg></span></a>
+          <a class="link" href="#lugares">Ver los lugares</a>
+        </div>
       </div>
     </header>
 
@@ -121,7 +122,7 @@
     <section class="story" id="dia" aria-labelledby="t-dia">
       <div class="wrap story__grid">
         <figure class="story__img napkin rise">
-          <div class="napkin__photo"><img src="img/altar.jpg" width="1536" height="1024" alt="Acuarela del retablo dorado y los bancos de madera del interior de la iglesia" loading="lazy"></div>
+          <div class="napkin__paper"><div class="napkin__photo"><img src="img/altar.jpg" width="1536" height="1024" alt="Acuarela del retablo dorado y los bancos de madera del interior de la iglesia" loading="lazy"></div></div>
         </figure>
         <div class="story__text">
           <h2 id="t-dia" class="rise">El día de la boda</h2>
@@ -196,7 +197,7 @@
           <h2 id="t-confirmar" class="rise">Confirma tu asistencia</h2>
           <p class="rise" style="--i:1">Dinos si podrás acompañarnos y escribe el nombre de cada persona que viene, niños incluidos. Si no puedes venir, avísanos igualmente.</p>
           <figure class="rsvp__photo napkin rise" style="--i:2">
-            <div class="napkin__photo"><img src="img/pareja.jpg" width="1600" height="1200" alt="Pilar y Luis sonriendo frente al mar" loading="lazy"></div>
+            <div class="napkin__paper"><div class="napkin__photo"><img src="img/pareja.jpg" width="1600" height="1200" alt="Pilar y Luis sonriendo frente al mar" loading="lazy"></div></div>
           </figure>
         </div>
 
@@ -248,7 +249,7 @@
         </div>
         <ul class="people">
           <li class="person rise">
-            <p class="person__name">Pilar</p>
+            <p class="person__name">Pilar Rivero de Aguilar</p>
             <a class="person__tel" href="tel:+34608224334">608 22 43 34</a>
             <div class="person__actions">
               <a class="btn btn--light" href="tel:+34608224334">Llamar</a>
@@ -256,7 +257,7 @@
             </div>
           </li>
           <li class="person rise" style="--i:1">
-            <p class="person__name">Luis</p>
+            <p class="person__name">Luis Dávila</p>
             <a class="person__tel" href="tel:+34650495429">650 49 54 29</a>
             <div class="person__actions">
               <a class="btn btn--light" href="tel:+34650495429">Llamar</a>
@@ -269,7 +270,7 @@
 
     <section class="gift" id="regalo" aria-labelledby="t-regalo">
       <div class="wrap">
-        <div class="gift__card rise">
+        <div class="gift__card napkin rise"><div class="napkin__paper gift__paper">
           <div class="gift__text">
             <h2 id="t-regalo">Un detalle para el viaje</h2>
             <p>Lo más importante para nosotros es que estéis ese día. Si además queréis tener un detalle, nos ayudaría muchísimo a disfrutar del viaje de novios. ¡Gracias de corazón!</p>
@@ -278,26 +279,26 @@
             <p class="gift__label">Número de cuenta</p>
             <p class="gift__iban" id="iban">Lo pondremos aquí muy pronto</p>
             <p class="gift__holder" id="titular" hidden></p>
-            <button class="btn btn--light" type="button" id="copiar" hidden>Copiar número<span class="btn__icon"><svg aria-hidden="true"><use href="#flecha"/></svg></span></button>
+            <button class="btn" type="button" id="copiar" hidden>Copiar número<span class="btn__icon"><svg aria-hidden="true"><use href="#flecha"/></svg></span></button>
           </div>
-        </div>
+        </div></div>
       </div>
     </section>
   </main>
 
   <footer class="foot">
-    <div class="wrap">
-      <div class="napkin foot__napkin">
+    <div class="foot__band">
+      <div class="wrap foot__inner">
         <p class="foot__names">Os esperamos</p>
         <p class="foot__line">Pilar y Luis · 4 de septiembre de 2027</p>
-        <a class="btn" href="#confirmar">Confirmar asistencia<span class="btn__icon"><svg aria-hidden="true"><use href="#flecha"/></svg></span></a>
+        <a class="btn btn--paper" href="#confirmar">Confirmar asistencia<span class="btn__icon"><svg aria-hidden="true"><use href="#flecha"/></svg></span></a>
+        <p class="foot__small">Peraleda de la Mata · Valdehúncar · Cáceres</p>
+        <p class="foot__credit">Hecho por <a class="link" href="https://rodrigodavila.com" target="_blank" rel="noopener">RD</a> con <span class="heart" aria-label="cariño">❤</span></p>
       </div>
-      <p class="foot__small">Peraleda de la Mata · Valdehúncar · Cáceres</p>
-      <p class="foot__credit">Hecho por <a class="link" href="https://rodrigodavila.com" target="_blank" rel="noopener">RD</a> con <span class="heart" aria-label="cariño">❤</span></p>
     </div>
   </footer>
 
-  <script src="js/config.js?v=3"></script>
-  <script src="js/app.js?v=3"></script>
+  <script src="js/config.js?v=5"></script>
+  <script src="js/app.js?v=5"></script>
 </body>
 </html>
