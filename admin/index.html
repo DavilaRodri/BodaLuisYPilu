@@ -1,0 +1,354 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Invitados · Pilar & Luis</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f5f1e9; --card: #fffdf9; --ink: #26241f; --muted: #6b665c; --line: #e4dccd;
+      --olive: #6f7c4a; --olive-dark: #4f5d3f; --soft: #e1e4d2; --red: #9b2c1f; --no: #f3e4df;
+    }
+    * { box-sizing: border-box; }
+    html { -webkit-text-size-adjust: 100%; }
+    body { margin: 0; background: var(--bg); color: var(--ink); font: 400 16px/1.5 "Jost", system-ui, sans-serif; }
+    [hidden] { display: none !important; }
+    button, input { font: inherit; color: inherit; }
+    button { cursor: pointer; }
+    .wrap { width: min(100% - 32px, 1080px); margin-inline: auto; }
+
+    /* Entrar */
+    .login { min-height: 100dvh; display: grid; place-items: center; padding: 24px 16px; }
+    .login form { width: min(100%, 380px); padding: 36px 28px; background: var(--card); border-radius: 20px; box-shadow: 0 12px 32px -18px rgba(40, 34, 20, .35); }
+    .mono { font-size: .8125rem; letter-spacing: .3em; color: var(--muted); }
+    .login h1 { margin: 6px 0 24px; font-size: 1.75rem; font-weight: 300; }
+    label { display: block; margin: 14px 0 6px; font-size: .9375rem; }
+    input[type=text], input[type=password], input[type=search] {
+      width: 100%; min-height: 50px; padding: 10px 16px; border: 1px solid var(--line); border-radius: 12px; background: #fff; font-size: 1.0625rem;
+    }
+    input:focus-visible, button:focus-visible { outline: 2px solid var(--olive); outline-offset: 2px; }
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 46px; padding: 8px 20px; border: 0; border-radius: 999px; background: var(--olive-dark); color: #fff; font-weight: 400; text-decoration: none; transition: background .2s, transform .1s; }
+    .btn:hover { background: #3b4630; }
+    .btn:active { transform: scale(.98); }
+    .btn--soft { background: var(--soft); color: var(--ink); }
+    .btn--soft:hover { background: #d3d8c0; }
+    .btn--ghost { background: transparent; color: var(--muted); }
+    .btn--ghost:hover { background: var(--soft); color: var(--ink); }
+    .login .btn { width: 100%; margin-top: 22px; }
+    .error { min-height: 1.5em; margin: 12px 0 0; color: var(--red); font-size: .9375rem; }
+
+    /* Cabecera */
+    .top { position: sticky; top: 0; z-index: 5; background: rgba(245, 241, 233, .92); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
+    .top .wrap { display: flex; align-items: center; gap: 10px; min-height: 68px; }
+    .top h1 { margin: 0 auto 0 0; font-size: 1.25rem; font-weight: 400; }
+    .top h1 span { color: var(--muted); font-weight: 300; }
+
+    main { padding: 28px 0 80px; }
+    .tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; }
+    .tile { padding: 18px 20px; border-radius: 16px; background: var(--card); text-align: left; border: 2px solid transparent; transition: border-color .2s; }
+    button.tile:hover { border-color: var(--soft); }
+    .tile.is-on { border-color: var(--olive); }
+    .tile strong { display: block; font-size: 2.25rem; font-weight: 300; line-height: 1.1; font-variant-numeric: tabular-nums; }
+    .tile span { color: var(--muted); font-size: .9375rem; }
+    .tile--main { background: var(--olive-dark); color: #fff; }
+    .tile--main span { color: rgba(255, 255, 255, .8); }
+
+    .tools { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin: 28px 0 16px; }
+    .tools input { flex: 1 1 260px; }
+    .hint { color: var(--muted); font-size: .9375rem; margin: 0 0 12px; }
+    .hint b { color: var(--ink); font-weight: 500; }
+
+    /* Respuestas */
+    .list { display: grid; gap: 12px; }
+    .resp { background: var(--card); border-radius: 16px; overflow: hidden; }
+    .resp__head { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 14px; padding: 14px 20px; border-bottom: 1px solid var(--line); font-size: .9375rem; color: var(--muted); }
+    .badge { display: inline-block; padding: 2px 12px; border-radius: 999px; background: var(--soft); color: var(--olive-dark); font-size: .875rem; }
+    .badge--no { background: var(--no); color: var(--red); }
+    .resp__del { margin-left: auto; min-height: 36px; padding: 4px 14px; font-size: .875rem; }
+    .resp__del:hover { background: var(--no); color: var(--red); }
+    table { width: 100%; border-collapse: collapse; }
+    th { padding: 10px 20px 4px; text-align: left; font-weight: 400; font-size: .8125rem; color: var(--muted); }
+    td { padding: 10px 20px; border-top: 1px solid #f0ebe1; vertical-align: top; }
+    td:first-child { font-weight: 500; }
+    .muted { color: var(--muted); }
+    .comment { padding: 12px 20px 16px; border-top: 1px solid #f0ebe1; background: #fbf8f1; font-size: .9375rem; }
+    .comment b { font-weight: 500; }
+    .empty { padding: 48px 20px; text-align: center; color: var(--muted); background: var(--card); border-radius: 16px; }
+
+    /* Cambiar contraseña */
+    dialog { width: min(100% - 32px, 400px); padding: 28px; border: 0; border-radius: 20px; background: var(--card); color: var(--ink); }
+    dialog::backdrop { background: rgba(38, 36, 31, .4); }
+    dialog h2 { margin: 0 0 6px; font-weight: 400; font-size: 1.375rem; }
+    .row { display: flex; gap: 10px; justify-content: flex-end; margin-top: 22px; }
+
+    @media (max-width: 640px) {
+      .top .wrap { flex-wrap: wrap; gap: 6px; padding: 10px 0; }
+      .top h1 { flex: 1 0 100%; }
+      .top .btn { min-height: 40px; padding: 6px 14px; font-size: .9375rem; }
+      .top #excel { margin-right: auto; }
+      .resp__head { flex-wrap: nowrap; padding: 12px 16px 12px 20px; }
+      .resp__head > span:nth-child(2) { min-width: 0; }
+      .tile strong { font-size: 1.875rem; }
+      thead { display: none; }
+      tr { display: grid; grid-template-columns: 1fr auto; gap: 2px 12px; padding: 12px 20px; border-top: 1px solid #f0ebe1; }
+      td { padding: 0; border: 0; }
+      td:first-child { grid-column: 1 / -1; }
+      td[data-l]::before { content: attr(data-l) ": "; color: var(--muted); }
+    }
+  </style>
+</head>
+<body>
+  <section class="login" id="login" hidden>
+    <form id="loginForm">
+      <p class="mono">P&amp;L</p>
+      <h1>Lista de invitados</h1>
+      <label for="u">Usuario</label>
+      <input id="u" type="text" autocomplete="username" autocapitalize="none" spellcheck="false" required>
+      <label for="p">Contraseña</label>
+      <input id="p" type="password" autocomplete="current-password" required>
+      <button class="btn" type="submit" id="entrar">Entrar</button>
+      <p class="error" id="loginError" role="alert"></p>
+    </form>
+  </section>
+
+  <div id="app" hidden>
+    <header class="top">
+      <div class="wrap">
+        <h1>Invitados <span>· Pilar &amp; Luis</span></h1>
+        <button class="btn" id="excel" type="button">Descargar Excel</button>
+        <button class="btn btn--ghost" id="menuPass" type="button" title="Cambiar contraseña">Contraseña</button>
+        <button class="btn btn--ghost" id="salir" type="button">Salir</button>
+      </div>
+    </header>
+
+    <main class="wrap">
+      <div class="tiles" id="tiles"></div>
+
+      <div class="tools">
+        <input type="search" id="buscar" placeholder="Buscar un nombre…" aria-label="Buscar un nombre">
+        <button class="btn btn--soft" id="recargar" type="button">Actualizar</button>
+      </div>
+      <p class="hint" id="hint"></p>
+      <div class="list" id="list"></div>
+    </main>
+  </div>
+
+  <dialog id="passDlg">
+    <form id="passForm" method="dialog">
+      <h2>Cambiar contraseña</h2>
+      <p class="muted">Mínimo 8 caracteres. Os servirá a los dos.</p>
+      <label for="np">Nueva contraseña</label>
+      <input id="np" type="password" autocomplete="new-password" minlength="8" required>
+      <p class="error" id="passMsg" role="status"></p>
+      <div class="row">
+        <button class="btn btn--ghost" type="button" id="passCancel">Cancelar</button>
+        <button class="btn" type="submit">Guardar</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script src="../js/config.js?v=18"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js" defer></script>
+  <script>
+  (function () {
+    const cfg = window.BODA;
+    const API = cfg.supabaseUrl, KEY = cfg.supabaseKey;
+    const DOMINIO = '@bodapilaryluis.com';
+    const PARADAS = { navalmoral: 'Navalmoral de la Mata', castanar: 'Castañar de Ibor', belvis: 'Belvís de Monroy', valdecanas: 'Valdecañas', no: 'No va en autobús' };
+    const $ = id => document.getElementById(id);
+    let sesion = null, datos = [], filtro = 'todos';
+
+    // ---------- Sesión ----------
+    function guardar(s) {
+      sesion = s ? { access_token: s.access_token, refresh_token: s.refresh_token, expires_at: s.expires_at || (Date.now() / 1000 + s.expires_in) } : null;
+      try { s ? localStorage.setItem('boda-admin', JSON.stringify(sesion)) : localStorage.removeItem('boda-admin'); } catch (e) {}
+    }
+    async function auth(path, body) {
+      const r = await fetch(API + '/auth/v1/' + path, { method: 'POST', headers: { apikey: KEY, 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+      const j = await r.json().catch(() => ({}));
+      if (!r.ok) throw Object.assign(new Error(j.error_description || j.msg || 'error'), { status: r.status });
+      return j;
+    }
+    async function token() {
+      if (!sesion) throw new Error('sin sesión');
+      if (sesion.expires_at - 60 < Date.now() / 1000) guardar(await auth('token?grant_type=refresh_token', { refresh_token: sesion.refresh_token }));
+      return sesion.access_token;
+    }
+    async function api(path, opts = {}) {
+      const r = await fetch(API + '/rest/v1/' + path, { ...opts, headers: { apikey: KEY, Authorization: 'Bearer ' + await token(), ...(opts.headers || {}) } });
+      if (r.status === 401) { salir(); throw new Error('sesión caducada'); }
+      if (!r.ok) throw new Error('error ' + r.status);
+      return r.status === 204 ? null : r.json();
+    }
+
+    $('loginForm').addEventListener('submit', async e => {
+      e.preventDefault();
+      const u = $('u').value.trim().toLowerCase();
+      const email = u.includes('@') ? u : u + DOMINIO;
+      $('entrar').disabled = true; $('loginError').textContent = '';
+      try {
+        guardar(await auth('token?grant_type=password', { email, password: $('p').value }));
+        $('p').value = '';
+        abrir();
+      } catch (err) {
+        $('loginError').textContent = err.status === 400 ? 'Usuario o contraseña incorrectos.' : 'No se ha podido entrar. Revisa la conexión.';
+      } finally { $('entrar').disabled = false; }
+    });
+
+    function salir() {
+      if (sesion) fetch(API + '/auth/v1/logout', { method: 'POST', headers: { apikey: KEY, Authorization: 'Bearer ' + sesion.access_token } }).catch(() => {});
+      guardar(null); datos = [];
+      $('app').hidden = true; $('login').hidden = false; $('u').focus();
+    }
+    $('salir').addEventListener('click', salir);
+
+    // ---------- Datos ----------
+    function personas(r) {
+      if (Array.isArray(r.asistentes) && r.asistentes.length) return r.asistentes;
+      return (r.nombres || []).map(n => ({ nombre: n, autobus: null, preboda: null }));
+    }
+    async function cargar() {
+      $('recargar').disabled = true;
+      try {
+        datos = await api('confirmaciones?select=*&order=creado.desc');
+        pintar();
+      } catch (e) {
+        $('list').innerHTML = '<p class="empty">No se han podido cargar las respuestas. Pulsa «Actualizar».</p>';
+      } finally { $('recargar').disabled = false; }
+    }
+    $('recargar').addEventListener('click', cargar);
+
+    function totales() {
+      const t = { si: 0, no: 0, navalmoral: 0, castanar: 0, otros: 0, preboda: 0, resp: datos.length };
+      datos.forEach(r => personas(r).forEach(p => {
+        if (!r.asistira) { t.no++; return; }
+        t.si++;
+        if (p.autobus === 'navalmoral' || p.autobus === 'castanar') t[p.autobus]++;
+        else if (p.autobus && p.autobus !== 'no') t.otros++;
+        if (p.preboda) t.preboda++;
+      }));
+      return t;
+    }
+    const FILTROS = {
+      todos: { t: 'Todas las respuestas', f: () => true },
+      si: { t: 'Personas que vienen', f: (p, r) => r.asistira },
+      no: { t: 'Personas que no pueden venir', f: (p, r) => !r.asistira },
+      navalmoral: { t: 'Autobús desde Navalmoral de la Mata', f: (p, r) => r.asistira && p.autobus === 'navalmoral' },
+      castanar: { t: 'Autobús desde Castañar de Ibor', f: (p, r) => r.asistira && p.autobus === 'castanar' },
+      preboda: { t: 'Vienen a la preboda', f: (p, r) => r.asistira && p.preboda === true }
+    };
+
+    const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+    const fecha = s => new Date(s).toLocaleDateString('es-ES', { day: 'numeric', month: 'short', year: 'numeric' });
+    const sinTilde = s => s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
+
+    function pintar() {
+      const t = totales();
+      const tile = (k, n, txt, main) => `<button type="button" class="tile${main ? ' tile--main' : ''}${filtro === k ? ' is-on' : ''}" data-f="${k}"><strong>${n}</strong><span>${txt}</span></button>`;
+      $('tiles').innerHTML =
+        tile('si', t.si, t.si === 1 ? 'persona viene' : 'personas vienen', true) +
+        tile('no', t.no, 'no pueden venir') +
+        tile('navalmoral', t.navalmoral, 'bus Navalmoral') +
+        tile('castanar', t.castanar, 'bus Castañar') +
+        tile('preboda', t.preboda, 'a la preboda') +
+        tile('todos', t.resp, t.resp === 1 ? 'respuesta' : 'respuestas');
+
+      const q = sinTilde($('buscar').value.trim());
+      const F = FILTROS[filtro];
+      let n = 0;
+      const html = datos.map(r => {
+        const ps = personas(r).filter(p => F.f(p, r) && (!q || sinTilde(p.nombre || '').includes(q)));
+        if (!ps.length && !(filtro === 'todos' && !q)) return '';
+        n += ps.length;
+        const filas = ps.map(p => `<tr><td>${esc(p.nombre)}</td>` +
+          (r.asistira
+            ? `<td data-l="Autobús">${p.autobus ? esc(PARADAS[p.autobus] || p.autobus) : '<span class="muted">—</span>'}</td><td data-l="Preboda">${p.preboda === true ? 'Sí' : p.preboda === false ? 'No' : '<span class="muted">—</span>'}</td>`
+            : `<td></td><td></td>`) + `</tr>`).join('');
+        const todos = personas(r).map(p => p.nombre).join(', ');
+        return `<article class="resp">
+          <div class="resp__head">
+            <span class="badge${r.asistira ? '' : ' badge--no'}">${r.asistira ? 'Vienen' : 'No pueden venir'}</span>
+            <span>${fecha(r.creado)} · ${personas(r).length} ${personas(r).length === 1 ? 'persona' : 'personas'}</span>
+            <button class="btn btn--ghost resp__del" type="button" data-del="${r.id}" data-names="${esc(todos)}">Borrar</button>
+          </div>
+          <table><thead><tr><th>Nombre</th><th>${r.asistira ? 'Autobús' : ''}</th><th>${r.asistira ? 'Preboda' : ''}</th></tr></thead><tbody>${filas}</tbody></table>
+          ${r.comentario ? `<p class="comment"><b>Nos dicen:</b> ${esc(r.comentario)}</p>` : ''}
+        </article>`;
+      }).join('');
+      $('list').innerHTML = html || `<p class="empty">${datos.length ? 'No hay nadie con este filtro.' : 'Todavía no ha respondido nadie.'}</p>`;
+      $('hint').innerHTML = `<b>${F.t}</b> · ${n} ${n === 1 ? 'persona' : 'personas'}${filtro !== 'todos' ? ' · <a href="#" id="verTodo">ver todo</a>' : ''}`;
+      const vt = $('verTodo'); if (vt) vt.addEventListener('click', e => { e.preventDefault(); filtro = 'todos'; pintar(); });
+    }
+    $('tiles').addEventListener('click', e => {
+      const b = e.target.closest('[data-f]'); if (!b) return;
+      filtro = filtro === b.dataset.f ? 'todos' : b.dataset.f; pintar();
+    });
+    $('buscar').addEventListener('input', pintar);
+
+    $('list').addEventListener('click', async e => {
+      const b = e.target.closest('[data-del]'); if (!b) return;
+      if (!confirm(`¿Borrar la respuesta de ${b.dataset.names}?\n\nSolo hazlo si está repetida o es una prueba. No se puede deshacer.`)) return;
+      b.disabled = true;
+      try { await api('confirmaciones?id=eq.' + b.dataset.del, { method: 'DELETE' }); datos = datos.filter(r => String(r.id) !== b.dataset.del); pintar(); }
+      catch (err) { alert('No se ha podido borrar. Inténtalo otra vez.'); b.disabled = false; }
+    });
+
+    // ---------- Excel ----------
+    $('excel').addEventListener('click', () => {
+      if (!window.XLSX) { alert('Un momento, todavía se está preparando. Pulsa otra vez en unos segundos.'); return; }
+      const filas = [];
+      datos.slice().reverse().forEach(r => personas(r).forEach(p => filas.push({
+        'Nombre': p.nombre,
+        '¿Viene?': r.asistira ? 'Sí' : 'No',
+        'Autobús': r.asistira ? (PARADAS[p.autobus] || '') : '',
+        'Preboda': r.asistira ? (p.preboda === true ? 'Sí' : p.preboda === false ? 'No' : '') : '',
+        'Comentario': r.comentario || '',
+        'Fecha de respuesta': new Date(r.creado).toLocaleDateString('es-ES')
+      })));
+      const t = totales();
+      const resumen = [
+        ['Personas que vienen', t.si], ['No pueden venir', t.no],
+        ['Autobús desde Navalmoral de la Mata', t.navalmoral], ['Autobús desde Castañar de Ibor', t.castanar],
+        ['Vienen a la preboda', t.preboda], ['Respuestas recibidas', t.resp]
+      ];
+      const libro = XLSX.utils.book_new();
+      const h1 = XLSX.utils.json_to_sheet(filas);
+      h1['!cols'] = [{ wch: 30 }, { wch: 8 }, { wch: 24 }, { wch: 9 }, { wch: 50 }, { wch: 18 }];
+      XLSX.utils.book_append_sheet(libro, h1, 'Invitados');
+      const bus = [['Navalmoral de la Mata', 'Castañar de Ibor']];
+      const nv = [], cs = [];
+      datos.forEach(r => r.asistira && personas(r).forEach(p => { if (p.autobus === 'navalmoral') nv.push(p.nombre); if (p.autobus === 'castanar') cs.push(p.nombre); }));
+      for (let i = 0; i < Math.max(nv.length, cs.length); i++) bus.push([nv[i] || '', cs[i] || '']);
+      const h2 = XLSX.utils.aoa_to_sheet(bus); h2['!cols'] = [{ wch: 30 }, { wch: 30 }];
+      XLSX.utils.book_append_sheet(libro, h2, 'Autobuses');
+      const h3 = XLSX.utils.aoa_to_sheet(resumen); h3['!cols'] = [{ wch: 36 }, { wch: 8 }];
+      XLSX.utils.book_append_sheet(libro, h3, 'Resumen');
+      XLSX.writeFile(libro, 'invitados-boda-pilar-y-luis.xlsx');
+    });
+
+    // ---------- Contraseña ----------
+    $('menuPass').addEventListener('click', () => { $('passMsg').textContent = ''; $('np').value = ''; $('passDlg').showModal(); });
+    $('passCancel').addEventListener('click', () => $('passDlg').close());
+    $('passForm').addEventListener('submit', async e => {
+      e.preventDefault();
+      const pw = $('np').value;
+      if (pw.length < 8) { $('passMsg').textContent = 'Tiene que tener al menos 8 caracteres.'; return; }
+      try {
+        const r = await fetch(API + '/auth/v1/user', { method: 'PUT', headers: { apikey: KEY, Authorization: 'Bearer ' + await token(), 'Content-Type': 'application/json' }, body: JSON.stringify({ password: pw }) });
+        if (!r.ok) throw new Error();
+        $('passMsg').textContent = 'Contraseña cambiada.';
+        setTimeout(() => $('passDlg').close(), 1200);
+      } catch (err) { $('passMsg').textContent = 'No se ha podido cambiar. Prueba otra.'; }
+    });
+
+    function abrir() { $('login').hidden = true; $('app').hidden = false; cargar(); }
+    try { sesion = JSON.parse(localStorage.getItem('boda-admin')); } catch (e) {}
+    if (sesion) abrir(); else { $('login').hidden = false; }
+  })();
+  </script>
+</body>
+</html>

@@ -106,8 +106,6 @@
     ['no', 'No, iré por mi cuenta'],
     ['castanar', 'Desde Castañar de Ibor'],
     ['navalmoral', 'Desde Navalmoral de la Mata'],
-    ['belvis', 'Desde Belvís de Monroy'],
-    ['valdecanas', 'Desde Valdecañas']
   ];
   let guestId = 0;
 

@@ -3,7 +3,7 @@
 Web de la boda de Pilar y Luis (4 de septiembre de 2027). Página estática servida con GitHub Pages.
 
 - `index.html`: la invitación, los lugares y el formulario de confirmación.
-- `lista.html`: lista privada de confirmaciones. Se abre con `lista.html#CLAVE`; la clave la tienen los novios.
+- `admin/`: lista de invitados para los novios, con usuario y contraseña (Supabase Auth). Solo la cuenta de los novios puede leer y borrar respuestas. `lista.html` redirige aquí.
 - `js/config.js`: URL y clave publicable de Supabase. La clave publicable solo permite añadir confirmaciones.
 
 Las confirmaciones se guardan en la tabla `confirmaciones` del proyecto de Supabase `BodaLuisYPilar`.
