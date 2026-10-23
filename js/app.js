@@ -62,7 +62,7 @@
 
   // Fundido entre la foto y las acuarelas
   const frame = document.querySelector('[data-fade]');
-  if (frame && !reduce) {
+  if (frame) {  // el fundido se ve siempre; con «reducir movimiento» solo se quita el zoom
     const imgs = [...frame.querySelectorAll('img')];
     imgs.forEach(img => { img.loading = 'eager'; });
     let i = 0;

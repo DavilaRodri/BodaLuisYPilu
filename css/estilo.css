@@ -215,8 +215,17 @@ h1, h2, h3 { font-family: var(--sans); font-weight: 300; letter-spacing: -0.015e
   --hilos-v: repeating-linear-gradient(0deg, #000 0 1px, #0000 1px 2.3px, rgba(0, 0, 0, .7) 2.3px 3px, #0000 3px 4.1px, #000 4.1px 5.3px, #0000 5.3px 7px, rgba(0, 0, 0, .85) 7px 7.8px, #0000 7.8px 8.9px);
   position: relative;
   padding: calc(var(--f) + clamp(30px, 8%, 50px));
-  background: #f7f3ea url(../img/servilleta.jpg) 0 0 / 256px;
   color: #26241f;
+}
+/* El lino con flecos va en una capa propia: Safari no aplica bien la máscara
+   a un bloque que contiene fotos animadas (la portada) */
+.napkin__paper::before, .core::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: #f7f3ea url(../img/servilleta.jpg) 0 0 / 256px;
   -webkit-mask:
     linear-gradient(#000 0 0) center / calc(100% - 2 * var(--f)) calc(100% - 2 * var(--f)) no-repeat,
     var(--hilos) top / calc(100% - 2 * var(--f) - 6px) var(--f) no-repeat,
@@ -231,15 +240,15 @@ h1, h2, h3 { font-family: var(--sans); font-weight: 300; letter-spacing: -0.015e
     var(--hilos-v) right / var(--f) calc(100% - 2 * var(--f) - 6px) no-repeat;
 }
 /* Vainica: doble pespunte paralelo al borde */
-.napkin__paper::before, .core::before,
 .napkin__paper::after, .core::after {
   content: "";
   position: absolute;
+  inset: calc(var(--f) + 11px);
   pointer-events: none;
-  outline: 1.5px dashed rgba(38, 36, 31, .3); /* taste-skill-ignore: costura de vainica */
+  border: 1.5px dashed rgba(38, 36, 31, .3); /* taste-skill-ignore: costura de vainica */
+  outline: 1.5px dashed rgba(38, 36, 31, .16);
+  outline-offset: -7px;
 }
-.napkin__paper::before, .core::before { inset: calc(var(--f) + 12px); }
-.napkin__paper::after, .core::after { inset: calc(var(--f) + 17px); outline-color: rgba(38, 36, 31, .16); }
 .napkin__photo {
   position: relative;
   overflow: hidden;
@@ -619,7 +628,6 @@ textarea.field { min-height: 110px; resize: vertical; }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .rise { opacity: 1; transform: none; transition: none; }
-  .hero__media img { transition: none; }
   .hero__media img.is-on.drift { animation: none; }
 }
 
@@ -649,15 +657,13 @@ textarea.field { min-height: 110px; resize: vertical; }
   .hero__media .napkin__photo { min-height: 0; }
   .napkin__paper, .core { --f: 9px; }
   .napkin__paper { padding: 36px; }
-  .napkin__paper::before { inset: 18px; }
-  .napkin__paper::after { inset: 22px; }
+  .napkin__paper::after { inset: 17px; }
   .gift__paper { padding: 40px 30px; }
   .guest__opts { grid-template-columns: 1fr; }
   .places__grid { grid-template-columns: 1fr; }
   .countdown .core { gap: 8px; }
   .core { padding: calc(var(--f) + 26px) calc(var(--f) + 22px); }
-  .core::before, .core::after { inset: 14px; }
-  .core::after { inset: 18px; }
+  .core::after { inset: 13px; }
   .hotels__paper { padding: 34px 30px; }
   .hotel:nth-last-child(2) { border-bottom: 1px solid rgba(38, 36, 31, .14); }
   .choice { grid-template-columns: 1fr; }
