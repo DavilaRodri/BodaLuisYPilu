@@ -7,36 +7,24 @@ jobs:
     permissions: { contents: write }
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/checkout@v4
-        with: { ref: main, path: site }
       - run: |
+          sleep 30
           npm i playwright@1.47.0 >/dev/null
           npx playwright install --with-deps webkit >/dev/null 2>&1
-          (cd site && python3 -m http.server 8000 >/dev/null 2>&1 &)
-          sleep 2
           cat > w.mjs <<'JS'
           import { webkit, devices } from 'playwright';
-          const V = {
-            a: '',
-            b: '.hero__media img.is-on.drift{animation:none!important}',
-            c: '.hero__media.napkin{filter:none!important}',
-            d: '.hero__media .napkin__photo{isolation:isolate;transform:translateZ(0)}',
-            e: '.hero__media.rise{opacity:1!important;transform:none!important;transition:none!important}',
-            f: '.hero__media .napkin__photo{max-height:none!important;min-height:0!important}',
-            g: '.hero__media img{transition:none!important}.hero__media img.is-on.drift{animation:none!important}.hero__media.rise{transform:none!important;transition:none!important}'
-          };
           const b = await webkit.launch();
-          for (const k in V) {
-            const ctx = await b.newContext({ ...devices['iPhone 13'] });
-            const p = await ctx.newPage();
-            await p.goto('http://localhost:8000/', { waitUntil: 'networkidle' });
-            if (V[k]) await p.addStyleTag({ content: V[k] });
-            await p.waitForTimeout(3000);
-            await p.screenshot({ path: `t-${k}.png`, clip: { x: 0, y: 180, width: 390, height: 480 } });
-            await ctx.close();
-          }
+          const ctx = await b.newContext({ ...devices['iPhone 13'] });
+          const p = await ctx.newPage();
+          await p.goto('https://bodapilaryluis.com/?x=' + Date.now(), { waitUntil: 'networkidle' });
+          await p.waitForTimeout(2500);
+          await p.screenshot({ path: 'live-iphone.png' });
+          await p.evaluate(() => scrollTo(0, 420)); await p.waitForTimeout(6500);
+          await p.screenshot({ path: 'live-iphone-2.png' });
+          await p.click('.nav__toggle'); await p.waitForTimeout(1200);
+          await p.screenshot({ path: 'live-iphone-menu.png' });
           await b.close();
           JS
           node w.mjs
           git config user.name bot; git config user.email bot@users.noreply.github.com
-          git add t-*.png && git commit -m pruebas && git push origin HEAD:capturas
+          git add live-*.png && git commit -m capturas && git push origin HEAD:capturas
