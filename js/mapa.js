@@ -67,16 +67,38 @@
   const botones = [...document.querySelectorAll('.stops button')];
   const pasos = [...document.querySelectorAll('.legs li')];
   const nombres = [...document.querySelectorAll('.legs [data-from]')];
+  const fin = document.getElementById('busend');
+  const otraVez = document.getElementById('busagain');
+
+  // El autobús da un pequeño bote mientras circula
+  const bob = el('g', { class: 'm-bus__bob' });
+  busBody.parentNode.insertBefore(bob, busBody);
+  bob.appendChild(busBody);
+
+  // Cartelito que aparece sobre el autobús en cada parada
+  const tag = el('g', { class: 'm-tag' }, svg);
+  const tagRect = el('rect', { rx: 9, height: 18, y: -38 }, tag);
+  const tagText = el('text', { y: -26, 'text-anchor': 'middle' }, tag);
+  function cartel(texto, pt) {
+    if (!texto) { tag.classList.remove('is-on'); return; }
+    tagText.textContent = texto;
+    const w = tagText.getComputedTextLength() + 20;
+    tagRect.setAttribute('width', w); tagRect.setAttribute('x', -w / 2);
+    tag.setAttribute('transform', `translate(${pt.x} ${pt.y})`);
+    tag.classList.add('is-on');
+  }
 
   // Un trazo invisible por tramo para medir y mover el autobús
   const medidores = [0, 1, 2].map(() => el('path', { fill: 'none', stroke: 'none' }, svg));
 
   let actual = null, raf = 0, token = 0;
+  const espera = ms => new Promise(r => setTimeout(r, ms));
 
-  function marcar(paso) {
+  function marcar(paso, p) {
     pasos.forEach((li, i) => {
       li.classList.toggle('is-done', i < paso);
       li.classList.toggle('is-now', i === paso);
+      li.style.setProperty('--p', i === paso ? (p || 0) : 0);
     });
     [nodos[actual], nIglesia, nFinca].forEach((n, i) => n.classList.toggle('is-here', i === paso || (paso === 3 && i === 0)));
   }
@@ -84,8 +106,37 @@
     bus.setAttribute('transform', `translate(${pt.x.toFixed(1)} ${(pt.y - 4).toFixed(1)})`);
     if (prev && Math.abs(pt.x - prev.x) > 0.05) busBody.setAttribute('transform', pt.x < prev.x ? 'scale(-1 1)' : '');
   }
+  function terminar(p) {
+    marcar(4);
+    fin.textContent = '✓ Recorrido completado: de vuelta en ' + p.name;
+    fin.classList.add('is-on');
+    otraVez.disabled = false;
+  }
 
-  function elegir(id, animar) {
+  function tramo(i, largo, total, hecho, mio) {
+    return new Promise(resolve => {
+      const dur = Math.max(1500, largo * 12);
+      const t0 = performance.now();
+      let prev = medidores[i].getPointAtLength(0);
+      bus.classList.add('is-moving');
+      const frame = now => {
+        if (mio !== token) return resolve(false);
+        const k = Math.min(1, (now - t0) / dur);
+        const e = k < 0.5 ? 2 * k * k : 1 - Math.pow(-2 * k + 2, 2) / 2;
+        const pt = medidores[i].getPointAtLength(largo * e);
+        ponerBus(pt, prev);
+        prev = pt;
+        trail.style.strokeDashoffset = total - (hecho + largo * e);
+        pasos[i + 1].style.setProperty('--p', e.toFixed(3));
+        if (k < 1) { raf = requestAnimationFrame(frame); return; }
+        bus.classList.remove('is-moving');
+        resolve(true);
+      };
+      raf = requestAnimationFrame(frame);
+    });
+  }
+
+  async function elegir(id, animar) {
     actual = id;
     const p = PARADAS[id];
     botones.forEach(b => b.setAttribute('aria-pressed', String(b.dataset.stop === id)));
@@ -98,47 +149,43 @@
     const total = largos.reduce((a, b) => a + b, 0);
     trail.style.strokeDasharray = `${total} ${total}`;
     cancelAnimationFrame(raf);
+    bus.classList.remove('is-moving');
+    cartel(null);
+    fin.classList.remove('is-on');
     const mio = ++token;
 
     if (!animar || reduce) {
       trail.style.strokeDashoffset = 0;
       ponerBus(medidores[2].getPointAtLength(largos[2]));
-      marcar(3);
+      if (animar) terminar(p); else { marcar(-1); fin.textContent = ''; }
       return;
     }
 
+    otraVez.disabled = true;
     trail.style.strokeDashoffset = total;
     ponerBus(p);
     marcar(0);
-    let tramo = 0, hecho = 0;
-    const PAUSA = 650;
-
-    const correr = () => {
+    cartel('Salida', p);
+    await espera(1100);
+    const paradas = [[IGLESIA, 'Ceremonia'], [FINCA, '¡A la fiesta!'], [p, 'De vuelta']];
+    let hecho = 0;
+    for (let i = 0; i < 3; i++) {
       if (mio !== token) return;
-      const largo = largos[tramo];
-      const dur = Math.max(1100, largo * 9);
-      const t0 = performance.now();
-      let prev = medidores[tramo].getPointAtLength(0);
-      const frame = now => {
-        if (mio !== token) return;
-        const k = Math.min(1, (now - t0) / dur);
-        const e = k < 0.5 ? 2 * k * k : 1 - Math.pow(-2 * k + 2, 2) / 2;
-        const pt = medidores[tramo].getPointAtLength(largo * e);
-        ponerBus(pt, prev);
-        prev = pt;
-        trail.style.strokeDashoffset = total - (hecho + largo * e);
-        if (k < 1) { raf = requestAnimationFrame(frame); return; }
-        hecho += largo;
-        tramo++;
-        marcar(tramo);
-        if (tramo < 3) setTimeout(correr, PAUSA);
-      };
-      raf = requestAnimationFrame(frame);
-    };
-    setTimeout(correr, PAUSA);
+      cartel(null);
+      marcar(i + 1, 0);
+      pasos[i].classList.add('is-done');
+      if (!await tramo(i, largos[i], total, hecho, mio)) return;
+      hecho += largos[i];
+      cartel(paradas[i][1], paradas[i][0]);
+      await espera(i < 2 ? 1200 : 900);
+    }
+    if (mio !== token) return;
+    cartel(null);
+    terminar(p);
   }
 
   botones.forEach(b => b.addEventListener('click', () => elegir(b.dataset.stop, true)));
+  otraVez.addEventListener('click', () => elegir(actual, true));
 
   // Primera vez: arranca solo cuando el mapa entra en pantalla
   elegir('navalmoral', false);

@@ -369,12 +369,13 @@ h1, h2, h3 { font-family: var(--sans); font-weight: 300; letter-spacing: -0.015e
 
 /* ---------- Autobuses ---------- */
 .buses { padding-bottom: var(--section); }
-.buses__grid { display: grid; grid-template-columns: 5fr 6fr; grid-template-areas: "text map" "plan map"; gap: 24px clamp(28px, 4vw, 56px); align-items: start; }
+.buses__grid { display: grid; grid-template-columns: 5fr 6fr; grid-template-areas: "text map" "plan map" "prog map"; grid-template-rows: auto auto 1fr; gap: 24px clamp(28px, 4vw, 56px); align-items: start; }
 .buses__grid > div:first-child { grid-area: text; }
 .buses__grid > div > p { margin-top: 14px; max-width: 46ch; }
 .buses__grid > div > .buses__note { color: var(--accent); }
 .route__label { font-size: var(--fs-small); color: var(--muted); }
 .busplan { grid-area: plan; }
+.busprog { grid-area: prog; }
 .stops { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 12px; }
 .stops button {
   display: grid; gap: 2px; min-height: 76px; padding: 14px 18px; text-align: left;
@@ -387,7 +388,7 @@ h1, h2, h3 { font-family: var(--sans); font-weight: 300; letter-spacing: -0.015e
 .stops button:active { transform: scale(.98); }
 .stops button[aria-pressed="true"] { background: var(--olive); border-color: var(--olive); color: #fff; }
 .stops button[aria-pressed="true"] span { color: rgba(255, 255, 255, .8); }
-.legs { list-style: none; margin: 22px 0 0; padding: 0; display: grid; gap: 4px; counter-reset: leg; }
+.legs { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; counter-reset: leg; }
 .legs li { position: relative; padding: 8px 0 8px 40px; font-size: 1.0625rem; color: var(--muted); transition: color .4s var(--ease); }
 .legs li::before {
   counter-increment: leg; content: counter(leg);
@@ -401,6 +402,24 @@ h1, h2, h3 { font-family: var(--sans); font-weight: 300; letter-spacing: -0.015e
 .legs li.is-done, .legs li.is-now { color: var(--ink); }
 .legs li.is-done::before { border-color: var(--olive); color: var(--olive); }
 .legs li.is-now::before { background: var(--olive); border-color: var(--olive); color: #fff; }
+.legs li.is-done::before { content: "✓"; background: var(--soft); font-weight: 500; font-size: .9375rem; }
+.legs li i { position: absolute; left: 40px; right: 0; bottom: 2px; height: 2px; border-radius: 2px; background: var(--olive); transform: scaleX(var(--p, 0)); transform-origin: left; opacity: 0; transition: opacity .3s; }
+.legs li.is-now i { opacity: 1; }
+.busend { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px; margin-top: 18px; min-height: 44px; }
+.busend__msg { margin: 0; color: var(--olive-dark); font-size: 1.0625rem; opacity: 0; transform: translateY(6px); transition: opacity .5s var(--ease), transform .5s var(--ease); }
+.busend__msg.is-on { opacity: 1; transform: none; }
+.busend__again { display: inline-flex; align-items: center; gap: 8px; min-height: 40px; padding: 4px 16px 4px 12px; border: 1px solid rgba(38, 36, 31, .2); border-radius: 999px; background: transparent; color: var(--ink); font: inherit; font-size: .9375rem; cursor: pointer; transition: border-color .2s, background .2s; }
+.busend__again:hover { border-color: var(--olive); background: rgba(111, 124, 74, .08); }
+.busend__again svg { width: 14px; height: 14px; fill: var(--olive); }
+.busend__again[disabled] { opacity: .45; cursor: default; }
+.m-bus.is-moving .m-bus__bob { animation: bache .32s ease-in-out infinite alternate; }
+@keyframes bache { to { transform: translateY(-1.4px); } }
+.m-tag { opacity: 0; transition: opacity .35s var(--ease); pointer-events: none; }
+.m-tag.is-on { opacity: 1; }
+.m-tag rect { fill: var(--olive-dark); }
+.m-tag text { fill: #fff; font-size: 10px; letter-spacing: .04em; }
+.m-done circle { fill: var(--olive); }
+.m-done path { fill: none; stroke: #fff; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 .busmap { grid-area: map; margin: 0; align-self: center; }
 .busmap svg { display: block; width: 100%; height: auto; overflow: hidden; }
 .m-river { fill: none; stroke: #b7c7cb; stroke-width: 5; stroke-linecap: round; }
@@ -607,7 +626,7 @@ textarea.field { min-height: 110px; resize: vertical; }
 /* ---------- Tableta ---------- */
 @media (max-width: 960px) {
   .rsvp__grid, .contact__grid, .gift__paper, .buses__grid{ grid-template-columns: 1fr; }
-  .buses__grid { grid-template-areas: "text" "map" "plan"; }
+  .buses__grid { grid-template-areas: "text" "plan" "map" "prog"; grid-template-rows: none; gap: 20px; }
   .busmap { margin-inline: -12px; }
   .m-place text { font-size: 13px; }
   .m-place .m-sub { font-size: 8.5px; }

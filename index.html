@@ -13,7 +13,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/estilo.css?v=18">
+  <link rel="stylesheet" href="css/estilo.css?v=19">
   <script>
     (function () {
       document.documentElement.dataset.theme = 'light';
@@ -231,12 +231,18 @@
                 <button type="button" data-stop="navalmoral" aria-pressed="true"><span>Salida 1</span>Navalmoral de la Mata</button>
                 <button type="button" data-stop="castanar"><span>Salida 2</span>Castañar de Ibor</button>
               </div>
+            </div>
+            <div class="busprog">
               <ol class="legs" aria-live="polite">
-                <li><span>Salida</span> <b data-from>Navalmoral de la Mata</b></li>
-                <li><span>Primero</span> Iglesia de Santiago Apóstol</li>
-                <li><span>Después</span> Finca Valmojado</li>
-                <li><span>Al terminar</span> vuelta a <b data-from>Navalmoral de la Mata</b></li>
+                <li><span>Salida</span> <b data-from>Navalmoral de la Mata</b><i></i></li>
+                <li><span>Primero</span> Iglesia de Santiago Apóstol<i></i></li>
+                <li><span>Después</span> Finca Valmojado<i></i></li>
+                <li><span>Al terminar</span> vuelta a <b data-from>Navalmoral de la Mata</b><i></i></li>
               </ol>
+              <div class="busend">
+                <p class="busend__msg" id="busend" aria-live="polite"></p>
+                <button type="button" class="busend__again" id="busagain"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2.5v11l9-5.5z"/></svg>Ver el recorrido</button>
+              </div>
             </div>
           </div>
         </div>
@@ -355,8 +361,8 @@
     </div>
   </footer>
 
-  <script src="js/config.js?v=18"></script>
-  <script src="js/app.js?v=18"></script>
-  <script src="js/mapa.js?v=18"></script>
+  <script src="js/config.js?v=19"></script>
+  <script src="js/app.js?v=19"></script>
+  <script src="js/mapa.js?v=19"></script>
 </body>
 </html>
