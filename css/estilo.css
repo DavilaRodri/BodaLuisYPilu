@@ -199,6 +199,28 @@ h1, h2, h3 { font-family: var(--sans); font-weight: 300; letter-spacing: -0.015e
 .nav__links a:hover { color: var(--ink); background: var(--shell); }
 .nav .btn { min-height: 42px; padding: 4px 4px 4px 18px; font-size: var(--fs-small); gap: 10px; }
 .nav .btn__icon { width: 34px; height: 34px; }
+.nav__toggle { display: none; }
+
+/* ---------- Menú móvil: una servilleta que cae bajo la barra ---------- */
+.menu { position: fixed; inset: 0; z-index: 9; }
+.menu__veil { position: absolute; inset: 0; background: rgba(38, 36, 31, .28); opacity: 0; transition: opacity .4s var(--ease); }
+.menu__sheet {
+  position: absolute; top: 68px; left: 10px; right: 10px;
+  opacity: 0; transform: translateY(-14px) scale(.98); transform-origin: 50% 0;
+  transition: opacity .45s var(--ease), transform .55s var(--ease);
+}
+.menu__sheet .napkin__paper { padding: 34px 30px 26px; }
+.menu.is-open .menu__veil { opacity: 1; }
+.menu.is-open .menu__sheet { opacity: 1; transform: none; }
+.menu__mono { margin: 0 0 8px; text-align: center; font-size: .6875rem; letter-spacing: .28em; text-transform: uppercase; color: var(--muted); }
+.menu__list { list-style: none; margin: 0; padding: 0; }
+.menu__list li { opacity: 0; transform: translateY(8px); transition: opacity .4s var(--ease), transform .5s var(--ease); transition-delay: calc(var(--n) * 45ms + 120ms); }
+.menu.is-open .menu__list li { opacity: 1; transform: none; }
+.menu__list li + li { border-top: 1px dashed rgba(38, 36, 31, .18); }
+.menu__list a { display: grid; grid-template-columns: 34px 1fr; align-items: baseline; padding: 13px 4px; color: var(--ink); text-decoration: none; font-size: 1.3125rem; font-weight: 300; line-height: 1.2; }
+.menu__list a:active { color: var(--olive); }
+.menu__list em { font-style: normal; font-size: .75rem; letter-spacing: .1em; color: var(--olive); }
+.menu__list small { grid-column: 2; margin-top: 2px; font-size: .8125rem; color: var(--muted); }
 
 /* ---------- Marco doble ---------- */
 /* Los bloques también son servilletas: .shell hace de sombra y .core de lino */
@@ -289,8 +311,6 @@ h1, h2, h3 { font-family: var(--sans); font-weight: 300; letter-spacing: -0.015e
 .hero__media img.is-on { opacity: 1; }
 .hero__media img:first-child { object-position: 30% 50%; }
 .hero__media img:not(:first-child) { object-position: 50% 30%; }
-.hero__media img.is-on.drift { animation: drift 7s var(--ease) both; }
-@keyframes drift { from { transform: scale(1.05); } to { transform: scale(1); } }
 
 .hero__actions { margin-top: clamp(32px, 4vw, 44px); display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 14px 24px; }
 .hero__actions .link { font-size: var(--fs-small); }
@@ -628,7 +648,6 @@ textarea.field { min-height: 110px; resize: vertical; }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .rise { opacity: 1; transform: none; transition: none; }
-  .hero__media img.is-on.drift { animation: none; }
 }
 
 /* ---------- Tableta ---------- */
@@ -646,6 +665,13 @@ textarea.field { min-height: 110px; resize: vertical; }
   .rsvp__intro { position: static; }
   .rsvp__photo { width: min(88%, 400px); margin-inline: auto; }
   .nav__links { display: none; }
+  .nav__toggle {
+    display: grid; place-content: center; gap: 5px; width: 42px; height: 42px; margin-right: 2px;
+    border: 0; border-radius: 50%; background: var(--shell); cursor: pointer;
+  }
+  .nav__toggle span { display: block; width: 16px; height: 1.5px; border-radius: 1px; background: var(--ink); transition: transform .4s var(--ease); }
+  .nav__toggle[aria-expanded="true"] span:first-child { transform: translateY(3.25px) rotate(45deg); }
+  .nav__toggle[aria-expanded="true"] span:last-child { transform: translateY(-3.25px) rotate(-45deg); }
   .hotels__list { grid-template-columns: 1fr; }
 }
 

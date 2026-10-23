@@ -60,18 +60,33 @@
     rising.forEach(el => el.classList.add('is-in'));
   }
 
-  // Fundido entre la foto y las acuarelas
+  // Menú desplegable en móvil
+  const toggle = document.querySelector('.nav__toggle');
+  const menu = document.getElementById('menu');
+  if (toggle && menu) {
+    menu.querySelectorAll('.menu__list li').forEach((li, n) => li.style.setProperty('--n', n));
+    const abrir = si => {
+      toggle.setAttribute('aria-expanded', String(si));
+      toggle.setAttribute('aria-label', si ? 'Cerrar menú' : 'Abrir menú');
+      if (si) { menu.hidden = false; requestAnimationFrame(() => requestAnimationFrame(() => menu.classList.add('is-open'))); }
+      else { menu.classList.remove('is-open'); setTimeout(() => { if (!menu.classList.contains('is-open')) menu.hidden = true; }, 450); }
+    };
+    toggle.addEventListener('click', () => abrir(toggle.getAttribute('aria-expanded') !== 'true'));
+    menu.addEventListener('click', e => { if (e.target.closest('a, [data-cerrar]')) abrir(false); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape' && !menu.hidden) { abrir(false); toggle.focus(); } });
+  }
+
+  // Fundido entre las fotos de la pareja
   const frame = document.querySelector('[data-fade]');
   if (frame) {  // el fundido se ve siempre; con «reducir movimiento» solo se quita el zoom
     const imgs = [...frame.querySelectorAll('img')];
     imgs.forEach(img => { img.loading = 'eager'; });
     let i = 0;
-    imgs[0].classList.add('drift');
     setInterval(() => {
       if (document.hidden) return;
-      imgs[i].classList.remove('is-on', 'drift');
+      imgs[i].classList.remove('is-on');
       i = (i + 1) % imgs.length;
-      imgs[i].classList.add('is-on', 'drift');
+      imgs[i].classList.add('is-on');
     }, 5500);
   }
 

@@ -14,7 +14,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/estilo.css?v=21">
+  <link rel="stylesheet" href="css/estilo.css?v=22">
   <script>
     (function () {
       document.documentElement.dataset.theme = 'light';
@@ -38,8 +38,26 @@
       <a href="#confirmar">Asistencia</a>
       <a href="#regalo">Regalo</a>
     </div>
+    <button class="nav__toggle" type="button" aria-expanded="false" aria-controls="menu" aria-label="Abrir menú"><span></span><span></span></button>
     <a class="btn" href="#confirmar">Confirmar<span class="btn__icon"><svg aria-hidden="true"><use href="#flecha"/></svg></span></a>
   </nav>
+  <div class="menu" id="menu" hidden>
+    <div class="menu__veil" data-cerrar></div>
+    <div class="menu__sheet napkin">
+      <div class="napkin__paper">
+        <p class="menu__mono">Pilar &amp; Luis · 4 · IX · 2027</p>
+        <ol class="menu__list">
+          <li><a href="#lugares"><em>01</em>Dónde celebramos<small>Iglesia y finca</small></a></li>
+          <li><a href="#dia"><em>02</em>El día de la boda<small>Del retablo a las encinas</small></a></li>
+          <li><a href="#hoteles"><em>03</em>Dónde dormir<small>Seis hoteles cerca</small></a></li>
+          <li><a href="#autobuses"><em>04</em>Autobuses<small>Navalmoral y Castañar</small></a></li>
+          <li><a href="#confirmar"><em>05</em>Confirma tu asistencia<small>Cada persona que viene</small></a></li>
+          <li><a href="#contacto"><em>06</em>¿Alguna duda?<small>Pilar y Luis</small></a></li>
+          <li><a href="#regalo"><em>07</em>Un detalle para el viaje<small>Regalo</small></a></li>
+        </ol>
+      </div>
+    </div>
+  </div>
 
   <main id="inicio">
     <header class="hero">
@@ -60,7 +78,6 @@
 
         <div class="hero__actions rise" style="--i:4">
           <a class="btn" href="#confirmar">Confirmar asistencia<span class="btn__icon"><svg aria-hidden="true"><use href="#flecha"/></svg></span></a>
-          <a class="link" href="#lugares">Ver los lugares</a>
         </div>
       </div>
     </header>
@@ -362,8 +379,8 @@
     </div>
   </footer>
 
-  <script src="js/config.js?v=21"></script>
-  <script src="js/app.js?v=21"></script>
-  <script src="js/mapa.js?v=21"></script>
+  <script src="js/config.js?v=22"></script>
+  <script src="js/app.js?v=22"></script>
+  <script src="js/mapa.js?v=22"></script>
 </body>
 </html>
