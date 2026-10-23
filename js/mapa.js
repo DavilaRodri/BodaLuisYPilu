@@ -154,7 +154,8 @@
     fin.classList.remove('is-on');
     const mio = ++token;
 
-    if (!animar || reduce) {
+    // Al pulsar se anima siempre; solo el arranque automático respeta «reducir movimiento»
+    if (!animar) {
       trail.style.strokeDashoffset = 0;
       ponerBus(medidores[2].getPointAtLength(largos[2]));
       if (animar) terminar(p); else { marcar(-1); fin.textContent = ''; }
