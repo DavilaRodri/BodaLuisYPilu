@@ -1,10 +1,11 @@
-# Supabase gratis pausa el proyecto tras 7 días sin actividad.
-# Esta tarea lo consulta dos veces por semana para mantenerlo despierto.
+# Supabase gratis pausa el proyecto si no ve actividad real en la base de datos.
+# Esta tarea llama cada día a una función que hace una consulta de verdad,
+# y si falla lo reintenta unos minutos antes de dar el aviso.
 name: Mantener Supabase activo
 
 on:
   schedule:
-    - cron: "17 9 * * 1,4"
+    - cron: "17 9 * * *"
   workflow_dispatch:
 
 jobs:
@@ -13,5 +14,10 @@ jobs:
     steps:
       - name: Consultar la base de datos
         run: |
-          curl -fsS "https://acpcbnidfunrivrdkwlf.supabase.co/rest/v1/confirmaciones?select=id&limit=1" \
-            -H "apikey: sb_publishable_XLnys24am80Ih8pZnnCrRw_IVWl0dsm"
+          for i in 1 2 3 4 5; do
+            if curl -fsS -X POST "https://acpcbnidfunrivrdkwlf.supabase.co/rest/v1/rpc/ping" \
+              -H "apikey: sb_publishable_XLnys24am80Ih8pZnnCrRw_IVWl0dsm" \
+              -H "Content-Type: application/json" -d '{}'; then exit 0; fi
+            sleep 60
+          done
+          exit 1
