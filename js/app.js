@@ -142,9 +142,9 @@
           '<select class="field" id="bus-' + n + '" name="autobus"><option value="">Elige una opción</option>' +
           PARADAS.map(p => '<option value="' + p[0] + '">' + p[1] + '</option>').join('') +
           '</select></label>' +
-        '<fieldset class="mini seg"><legend>Menú</legend><div class="seg__opts">' +
+        (cfg.menuInfantil === false ? '' : '<fieldset class="mini seg"><legend>Menú</legend><div class="seg__opts">' +
           EDADES.map((e, k) => '<label><input type="radio" name="edad-' + n + '" value="' + e[0] + '"' + (k ? '' : ' checked') + '><span>' + e[1] + '</span></label>').join('') +
-        '</div></fieldset>' +
+        '</div></fieldset>') +
         '<div class="diet">' +
           '<button type="button" class="diet__toggle" aria-expanded="false" aria-controls="diet-' + n + '"><span class="diet__plus" aria-hidden="true">+</span>Alergias o dieta especial<b class="diet__count" hidden></b></button>' +
           '<div class="diet__panel" id="diet-' + n + '" hidden>' +

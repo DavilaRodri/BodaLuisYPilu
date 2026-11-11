@@ -281,7 +281,7 @@
   $('sideList').addEventListener('touchmove', e => { if (gesto && gesto.activo) e.preventDefault(); }, { passive: false });
 
   canvas.addEventListener('pointerdown', e => {
-    if (e.button > 0) return;
+    if (e.button > 0 || e.target.closest('button, .plan__empty')) return;
     ptrs.set(e.pointerId, { x: e.clientX, y: e.clientY });
     if (ptrs.size === 2) {
       if (gesto && gesto.tipo === 'mesa' && gesto.activo) { gesto.m.x = gesto.mx; gesto.m.y = gesto.my; pintar(); }

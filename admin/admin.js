@@ -146,8 +146,8 @@
       tile(S.mesas.length, S.mesas.length === 1 ? 'mesa' : 'mesas', false, plazas ? plazas + ' plazas' : '') +
       tile(n(i => i.autobus === 'navalmoral'), 'bus Navalmoral') +
       tile(n(i => i.autobus === 'castanar'), 'bus Castañar') +
-      tile(n(i => i.edad === 'nino'), n(i => i.edad === 'nino') === 1 ? 'menú infantil' : 'menús infantiles') +
-      tile(n(i => i.edad === 'bebe'), n(i => i.edad === 'bebe') === 1 ? 'trona' : 'tronas') +
+      (S.boda.menu_infantil !== false ? tile(n(i => i.edad === 'nino'), n(i => i.edad === 'nino') === 1 ? 'menú infantil' : 'menús infantiles') +
+      tile(n(i => i.edad === 'bebe'), n(i => i.edad === 'bebe') === 1 ? 'trona' : 'tronas') : '') +
       tile(n(tieneDieta), 'con alergias o dieta');
 
     const max = Math.max(1, vienen.length);
@@ -255,6 +255,7 @@
     $('gNombre').value = v.nombre;
     seg($('gAsiste'), [['si', 'Sí'], ['no', 'No'], ['pendiente', 'Pendiente']], v.asiste);
     seg($('gEdad'), [['adulto', 'Adulto'], ['nino', 'Infantil'], ['bebe', 'Bebé (trona)']], v.edad);
+    $('gEdad').closest('.f').hidden = S.boda.menu_infantil === false && v.edad === 'adulto';
     $('gGrupo').innerHTML = '<option value="">Sin grupo</option>' + S.grupos.map(g => `<option value="${g.id}">${esc(g.nombre)}</option>`).join('');
     $('gGrupo').value = v.grupo_id || '';
     $('gBus').value = v.autobus || '';
