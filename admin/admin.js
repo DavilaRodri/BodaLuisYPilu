@@ -186,8 +186,10 @@
     pendiente: ['Pendientes', i => i.asiste === 'pendiente'],
     sinmesa: ['Sin mesa', i => i.asiste === 'si' && !i.mesa_id],
     alergias: ['Con alergias', i => i.asiste === 'si' && tieneDieta(i)],
-    singrupo: ['Sin grupo', i => !i.grupo_id]
+    singrupo: ['Sin grupo', i => !i.grupo_id],
+    sininv: ['Sin invitación', i => i.asiste !== 'no' && !i.invitacion_enviada]
   };
+  const dirDe = i => i.direccion || (S.conf[i.confirmacion_id] || {}).direccion || '';
   function alTags(i) {
     const t = (i.alergias || []).map(a => `<span class="${(ALI[a] || {}).tipo === 'dieta' ? 'k' : ''}">${esc((ALI[a] || {}).nombre || a)}</span>`);
     if (i.alergia_otra) t.push(`<span>${esc(i.alergia_otra)}</span>`);
@@ -209,9 +211,10 @@
       const sub = [i.autobus ? 'Bus ' + PARADAS[i.autobus] : '', i.origen === 'manual' ? 'añadido a mano' : ''].filter(Boolean).join(' · ');
       return `<div class="grow${i.asiste !== 'si' ? ' is-no' : ''}" data-id="${i.id}">
         <input type="checkbox" aria-label="Seleccionar a ${esc(i.nombre)}" ${marcados.has(i.id) ? 'checked' : ''}>
-        <div class="grow__name">${esc(i.nombre)}${sub ? `<span class="grow__sub">${esc(sub)}</span>` : ''}</div>
+        <div class="grow__name">${esc(i.nombre)}${sub ? `<span class="grow__sub">${esc(sub)}</span>` : ''}${i.email || dirDe(i) ? `<span class="grow__contact">${[i.email ? esc(i.email) : '', esc(dirDe(i))].filter(Boolean).join(' · ')}</span>` : ''}</div>
         ${g ? `<span class="gtag" style="color:${g.color}"><i></i><span style="color:var(--ink)">${esc(g.nombre)}</span></span>` : '<span class="gtag gtag--none">Sin grupo</span>'}
         <div class="al">${alTags(i)}</div>
+        <button type="button" class="thx inv${i.invitacion_enviada ? ' is-on' : ''}" data-inv aria-pressed="${!!i.invitacion_enviada}" title="${i.invitacion_enviada ? 'Invitación enviada' : 'Marcar invitación enviada'}"><svg><use href="#i-check"/></svg><span>${i.invitacion_enviada ? 'Invitación enviada' : 'Invitación'}</span></button>
         <span class="mtag">${i.asiste === 'no' ? 'No viene' : i.asiste === 'pendiente' ? 'Pendiente' : m ? `<b>Mesa ${esc(m.numero ?? '')}</b>` : 'Sin mesa'}</span>
       </div>`;
     }).join('') || `<p class="empty">${S.invitados.length ? 'Nadie con este filtro.' : 'Todavía no hay invitados. Llegarán con las confirmaciones de la web, o añádelos a mano.'}</p>`;
@@ -222,6 +225,7 @@
   $('filtros').addEventListener('click', e => { const b = e.target.closest('[data-f]'); if (b) { filtro = b.dataset.f; invitados(); } });
   $('glist').addEventListener('click', e => {
     const row = e.target.closest('.grow'); if (!row) return;
+    if (e.target.closest('[data-inv]')) { invitacion([row.dataset.id], null); return; }
     if (e.target.matches('input[type=checkbox]')) {
       e.target.checked ? marcados.add(row.dataset.id) : marcados.delete(row.dataset.id);
       bulk(); return;
@@ -234,6 +238,19 @@
     $('bulkN').textContent = marcados.size + (marcados.size === 1 ? ' seleccionado' : ' seleccionados');
     $('bulkGrupo').innerHTML = '<option value="">Poner en grupo…</option>' + S.grupos.map(g => `<option value="${g.id}">${esc(g.nombre)}</option>`).join('') + '<option value="-">Quitar grupo</option>';
   }
+  // Marca la invitación de estas personas y de quien confirmó con ellas (misma casa)
+  async function invitacion(ids, valor) {
+    const base = S.invitados.filter(i => ids.includes(i.id));
+    const v = valor ?? !base[0].invitacion_enviada;
+    const confs = new Set(base.map(i => i.confirmacion_id).filter(Boolean));
+    const todos = S.invitados.filter(i => ids.includes(i.id) || (i.confirmacion_id && confs.has(i.confirmacion_id)));
+    try {
+      await api('invitados?id=in.(' + todos.map(i => i.id).join(',') + ')', { method: 'PATCH', body: JSON.stringify({ invitacion_enviada: v }) });
+      todos.forEach(i => { i.invitacion_enviada = v; });
+      P.changed(); P.toast(v ? (todos.length > 1 ? 'Invitación marcada para ' + todos.length + ' personas' : 'Invitación marcada') : 'Desmarcada');
+    } catch (err) { P.toast('No se ha podido guardar', true); }
+  }
+  $('bulkInv').addEventListener('click', async () => { await invitacion([...marcados], true); marcados.clear(); invitados(); });
   $('bulkOff').addEventListener('click', () => { marcados.clear(); invitados(); });
   $('bulkGrupo').addEventListener('change', async e => {
     const v = e.target.value; if (!v) return;
@@ -270,12 +287,14 @@
     $('gBus').innerHTML = '<option value="">No</option>' + Object.keys(PARADAS).map(k => `<option value="${k}">${esc(PARADAS[k])}</option>`).join('');
     $('gBus').value = v.autobus || '';
     $('gEmail').value = v.email || '';
+    $('gDir').value = i ? dirDe(i) : '';
+    $('gInv').checked = !!v.invitacion_enviada;
     $('gAlergias').innerHTML = AL.map(a => `<button type="button" data-v="${a.id}" class="${(v.alergias || []).includes(a.id) ? 'is-on' : ''}">${a.nombre}</button>`).join('');
     $('gOtra').value = v.alergia_otra || '';
     $('gNotas').value = v.notas || '';
     const c = i && i.confirmacion_id && S.conf[i.confirmacion_id];
     const m = i && mesa(i.mesa_id);
-    $('gExtra').textContent = [c ? 'Confirmó en la web el ' + new Date(c.creado).toLocaleDateString('es-ES') + (c.comentario ? '. Nos dijo: «' + c.comentario + '»' : '') + '.' : '', c && c.direccion ? 'Dirección: ' + c.direccion + '.' : '', m ? 'Sentado en ' + mesaTxt(m) + '.' : ''].filter(Boolean).join(' ');
+    $('gExtra').textContent = [c ? 'Confirmó en la web el ' + new Date(c.creado).toLocaleDateString('es-ES') + (c.comentario ? '. Nos dijo: «' + c.comentario + '»' : '') + '.' : '',  m ? 'Sentado en ' + mesaTxt(m) + '.' : ''].filter(Boolean).join(' ');
     $('gDel').hidden = !i;
     $('gDlg').showModal();
     if (!i) $('gNombre').focus();
@@ -292,7 +311,9 @@
       alergias: [...$('gAlergias').querySelectorAll('.is-on')].map(b => b.dataset.v),
       alergia_otra: $('gOtra').value.trim() || null,
       notas: $('gNotas').value.trim() || null,
-      email: $('gEmail').value.trim().toLowerCase() || null
+      email: $('gEmail').value.trim().toLowerCase() || null,
+      direccion: $('gDir').value.trim() || null,
+      invitacion_enviada: $('gInv').checked
     };
     if (!fila.nombre) { $('gNombre').focus(); return; }
     $('gSave').disabled = true;
@@ -425,13 +446,14 @@
       'Alergias y dieta': al(i),
       'Autobús': PARADAS[i.autobus] || '',
       'Email': i.email || '',
-      'Dirección': (S.conf[i.confirmacion_id] || {}).direccion || '',
+      'Dirección': dirDe(i),
+      'Invitación enviada': i.invitacion_enviada ? 'Sí' : 'No',
       'Notas': i.notas || '',
       'Comentario en la web': (S.conf[i.confirmacion_id] || {}).comentario || ''
     }));
     const libro = XLSX.utils.book_new();
     const h1 = XLSX.utils.json_to_sheet(filas);
-    h1['!cols'] = [{ wch: 30 }, { wch: 10 }, { wch: 20 }, { wch: 22 }, { wch: 14 }, { wch: 30 }, { wch: 24 }, { wch: 28 }, { wch: 40 }, { wch: 30 }, { wch: 40 }];
+    h1['!cols'] = [{ wch: 30 }, { wch: 10 }, { wch: 20 }, { wch: 22 }, { wch: 14 }, { wch: 30 }, { wch: 24 }, { wch: 28 }, { wch: 40 }, { wch: 30 }, { wch: 40 }, { wch: 12 }];
     XLSX.utils.book_append_sheet(libro, h1, 'Invitados');
     const mesas = [['Mesa', 'Nombre', 'Invitado', 'Menú', 'Alergias y dieta']];
     S.mesas.slice().sort((a, b) => (a.numero || 0) - (b.numero || 0)).forEach(m => S.invitados.filter(i => i.mesa_id === m.id).forEach(i => mesas.push([m.numero ?? '', m.nombre || '', i.nombre, EDAD[i.edad], al(i)])));
@@ -455,7 +477,7 @@
     clearTimeout(tt); tt = setTimeout(() => t.classList.remove('is-on'), err ? 3800 : 2200);
     if (tab !== 'mesas') {
       // fuera del plano, el aviso flota sobre la vista actual
-      document.body.appendChild(t); t.style.position = 'fixed'; t.style.bottom = window.innerWidth <= 900 ? '96px' : '24px'; t.style.zIndex = 60;
+      document.body.appendChild(t); t.style.position = 'fixed'; t.style.bottom = window.innerWidth <= 900 ? ($('bulk').hidden ? '96px' : '190px') : ($('bulk').hidden ? '24px' : '92px'); t.style.zIndex = 60;
     } else {
       $('canvas').appendChild(t); t.style.position = ''; t.style.bottom = ''; t.style.zIndex = '';
     }

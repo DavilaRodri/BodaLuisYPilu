@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="admin.css?v=6">
+  <link rel="stylesheet" href="admin.css?v=7">
 </head>
 <body>
   <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -131,6 +131,7 @@
         <div class="bulk" id="bulk" hidden>
           <span id="bulkN"></span>
           <select id="bulkGrupo" class="sel" aria-label="Asignar grupo"></select>
+          <button class="btn btn--soft btn--sm" type="button" id="bulkInv"><svg><use href="#i-check"/></svg>Invitación enviada</button>
           <button class="btn btn--ghost btn--sm" type="button" id="bulkOff">Cancelar</button>
         </div>
       </div>
@@ -342,6 +343,8 @@
         <div class="f"><span>Alergias y dieta</span><div class="chips" id="gAlergias"></div></div>
         <label class="f"><span>Otra alergia</span><input type="text" id="gOtra" maxlength="200"></label>
         <label class="f"><span>Email</span><input type="email" id="gEmail" maxlength="160" inputmode="email"></label>
+        <label class="f"><span>Dirección postal</span><input type="text" id="gDir" maxlength="400" placeholder="Calle, número, código postal y pueblo"></label>
+        <label class="switch switch--row"><input type="checkbox" id="gInv"><span></span>Invitación enviada</label>
         <label class="f"><span>Notas</span><input type="text" id="gNotas" maxlength="300"></label>
         <p class="muted small" id="gExtra"></p>
       </div>
@@ -482,7 +485,7 @@
 
   <script src="../js/config.js?v=30"></script>
   <script src="../js/alergias.js?v=30"></script>
-  <script src="admin.js?v=5"></script>
+  <script src="admin.js?v=6"></script>
   <script src="cuentas.js?v=2"></script>
   <script src="mesas.js?v=3"></script>
   <script src="pdf.js?v=3" defer></script>
