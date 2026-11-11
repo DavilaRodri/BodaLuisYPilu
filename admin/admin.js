@@ -6,7 +6,7 @@
   const DOMINIO = '@bodapilaryluis.com';
   const $ = id => document.getElementById(id);
   const AL = window.ALERGIAS, ALI = window.ALERGIA;
-  const PARADAS = { navalmoral: 'Navalmoral de la Mata', castanar: 'Castañar de Ibor' };
+  const PARADAS = {}; // se rellena con las paradas de cada boda
   const EDAD = { adulto: 'Adulto', nino: 'Infantil', bebe: 'Bebé (trona)' };
   const COLORES = ['#b4746a', '#5f7a8c', '#c49a4a', '#6f7d4f', '#8a6f9e', '#4f8a83', '#a36a3f', '#7d8590', '#c0727f', '#3f6e9e'];
 
@@ -107,11 +107,13 @@
       api(`grupos?boda_id=eq.${b}&select=*&order=orden,creado`),
       api(`mesas?boda_id=eq.${b}&select=*&order=numero,creado`),
       api(`invitados?boda_id=eq.${b}&select=*&order=creado.desc`),
-      api(`confirmaciones?boda_id=eq.${b}&select=id,creado,asistira,comentario,nombres&order=creado.desc&limit=200`),
+      api(`confirmaciones?boda_id=eq.${b}&select=id,creado,asistira,comentario,nombres,email,direccion&order=creado.desc&limit=200`),
       opc(`regalos?boda_id=eq.${b}&select=*&order=creado.desc`),
       opc(`gastos?boda_id=eq.${b}&select=*&order=creado`),
       opc(`proveedores?boda_id=eq.${b}&select=*&order=nombre`)
     ]);
+    Object.keys(PARADAS).forEach(k => delete PARADAS[k]);
+    (S.boda.paradas || []).forEach(p => { PARADAS[p.id] = p.nombre; });
     Object.assign(S, { grupos, mesas, invitados, regalos, gastos, proveedores, conf: Object.fromEntries(conf.map(c => [c.id, c])) });
     S.confList = conf;
     cabecera();
@@ -152,8 +154,7 @@
       (pend ? tile(pend, 'pendientes') : '') +
       tile(sentados, 'con mesa', false, '/ ' + vienen.length) +
       tile(S.mesas.length, S.mesas.length === 1 ? 'mesa' : 'mesas', false, plazas ? plazas + ' plazas' : '') +
-      tile(n(i => i.autobus === 'navalmoral'), 'bus Navalmoral') +
-      tile(n(i => i.autobus === 'castanar'), 'bus Castañar') +
+      Object.keys(PARADAS).map(k => tile(n(i => i.autobus === k), 'bus ' + esc(PARADAS[k].replace(/ de (la )?[A-ZÁÉÍÓÚ].*$/, '')))).join('') +
       (S.boda.menu_infantil !== false ? tile(n(i => i.edad === 'nino'), n(i => i.edad === 'nino') === 1 ? 'menú infantil' : 'menús infantiles') +
       tile(n(i => i.edad === 'bebe'), n(i => i.edad === 'bebe') === 1 ? 'trona' : 'tronas') : '') +
       tile(n(tieneDieta), 'con alergias o dieta');
@@ -266,13 +267,15 @@
     $('gEdad').closest('.f').hidden = S.boda.menu_infantil === false && v.edad === 'adulto';
     $('gGrupo').innerHTML = '<option value="">Sin grupo</option>' + S.grupos.map(g => `<option value="${g.id}">${esc(g.nombre)}</option>`).join('');
     $('gGrupo').value = v.grupo_id || '';
+    $('gBus').innerHTML = '<option value="">No</option>' + Object.keys(PARADAS).map(k => `<option value="${k}">${esc(PARADAS[k])}</option>`).join('');
     $('gBus').value = v.autobus || '';
+    $('gEmail').value = v.email || '';
     $('gAlergias').innerHTML = AL.map(a => `<button type="button" data-v="${a.id}" class="${(v.alergias || []).includes(a.id) ? 'is-on' : ''}">${a.nombre}</button>`).join('');
     $('gOtra').value = v.alergia_otra || '';
     $('gNotas').value = v.notas || '';
     const c = i && i.confirmacion_id && S.conf[i.confirmacion_id];
     const m = i && mesa(i.mesa_id);
-    $('gExtra').textContent = [c ? 'Confirmó en la web el ' + new Date(c.creado).toLocaleDateString('es-ES') + (c.comentario ? '. Nos dijo: «' + c.comentario + '»' : '') : '', m ? 'Sentado en ' + mesaTxt(m) + '.' : ''].filter(Boolean).join(' ');
+    $('gExtra').textContent = [c ? 'Confirmó en la web el ' + new Date(c.creado).toLocaleDateString('es-ES') + (c.comentario ? '. Nos dijo: «' + c.comentario + '»' : '') + '.' : '', c && c.direccion ? 'Dirección: ' + c.direccion + '.' : '', m ? 'Sentado en ' + mesaTxt(m) + '.' : ''].filter(Boolean).join(' ');
     $('gDel').hidden = !i;
     $('gDlg').showModal();
     if (!i) $('gNombre').focus();
@@ -288,7 +291,8 @@
       autobus: $('gBus').value || null,
       alergias: [...$('gAlergias').querySelectorAll('.is-on')].map(b => b.dataset.v),
       alergia_otra: $('gOtra').value.trim() || null,
-      notas: $('gNotas').value.trim() || null
+      notas: $('gNotas').value.trim() || null,
+      email: $('gEmail').value.trim().toLowerCase() || null
     };
     if (!fila.nombre) { $('gNombre').focus(); return; }
     $('gSave').disabled = true;
@@ -420,22 +424,24 @@
       'Menú': EDAD[i.edad],
       'Alergias y dieta': al(i),
       'Autobús': PARADAS[i.autobus] || '',
+      'Email': i.email || '',
+      'Dirección': (S.conf[i.confirmacion_id] || {}).direccion || '',
       'Notas': i.notas || '',
       'Comentario en la web': (S.conf[i.confirmacion_id] || {}).comentario || ''
     }));
     const libro = XLSX.utils.book_new();
     const h1 = XLSX.utils.json_to_sheet(filas);
-    h1['!cols'] = [{ wch: 30 }, { wch: 10 }, { wch: 20 }, { wch: 22 }, { wch: 14 }, { wch: 30 }, { wch: 24 }, { wch: 30 }, { wch: 40 }];
+    h1['!cols'] = [{ wch: 30 }, { wch: 10 }, { wch: 20 }, { wch: 22 }, { wch: 14 }, { wch: 30 }, { wch: 24 }, { wch: 28 }, { wch: 40 }, { wch: 30 }, { wch: 40 }];
     XLSX.utils.book_append_sheet(libro, h1, 'Invitados');
     const mesas = [['Mesa', 'Nombre', 'Invitado', 'Menú', 'Alergias y dieta']];
     S.mesas.slice().sort((a, b) => (a.numero || 0) - (b.numero || 0)).forEach(m => S.invitados.filter(i => i.mesa_id === m.id).forEach(i => mesas.push([m.numero ?? '', m.nombre || '', i.nombre, EDAD[i.edad], al(i)])));
     const h2 = XLSX.utils.aoa_to_sheet(mesas); h2['!cols'] = [{ wch: 6 }, { wch: 20 }, { wch: 30 }, { wch: 14 }, { wch: 30 }];
     XLSX.utils.book_append_sheet(libro, h2, 'Mesas');
-    const bus = [['Navalmoral de la Mata', 'Castañar de Ibor']];
+    // Una fila por persona y parada, con su email, para mandar a cada autobús sus detalles
+    const bus = [['Parada', 'Nombre', 'Email']];
     const v = S.invitados.filter(i => i.asiste === 'si');
-    const nv = v.filter(i => i.autobus === 'navalmoral').map(i => i.nombre), cs = v.filter(i => i.autobus === 'castanar').map(i => i.nombre);
-    for (let k = 0; k < Math.max(nv.length, cs.length); k++) bus.push([nv[k] || '', cs[k] || '']);
-    const h3 = XLSX.utils.aoa_to_sheet(bus); h3['!cols'] = [{ wch: 30 }, { wch: 30 }];
+    Object.keys(PARADAS).forEach(k => v.filter(i => i.autobus === k).sort((x, y) => x.nombre.localeCompare(y.nombre, 'es')).forEach(i => bus.push([PARADAS[k], i.nombre, i.email || ''])));
+    const h3 = XLSX.utils.aoa_to_sheet(bus); h3['!cols'] = [{ wch: 26 }, { wch: 30 }, { wch: 30 }];
     XLSX.utils.book_append_sheet(libro, h3, 'Autobuses');
     if (P.excelExtra) P.excelExtra(XLSX, libro);
     XLSX.writeFile(libro, 'invitados-' + (S.boda.slug || 'boda') + '.xlsx');

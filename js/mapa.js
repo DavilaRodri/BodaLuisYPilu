@@ -9,7 +9,8 @@
 
   const PARADAS = {
     navalmoral: { x: 225, y: 93, name: 'Navalmoral de la Mata', lx: 0, ly: -14, anchor: 'middle' },
-    castanar: { x: 364, y: 352, name: 'Castañar de Ibor', lx: 0, ly: 20, anchor: 'middle' }
+    castanar: { x: 364, y: 352, name: 'Castañar de Ibor', lx: 0, ly: 20, anchor: 'middle' },
+    belvis: { x: 156, y: 176, name: 'Belvís de Monroy', lx: 0, ly: 20, anchor: 'middle' }
   };
   const IGLESIA = { x: 317, y: 135, name: 'Iglesia', sub: 'Peraleda de la Mata', lx: 12, ly: 0, anchor: 'start' };
   const FINCA = { x: 262, y: 168, name: 'Finca Valmojado', sub: 'Valdehúncar', lx: 0, ly: 22, anchor: 'middle' };

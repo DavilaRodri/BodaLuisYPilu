@@ -121,6 +121,7 @@
     ['no', 'No, iré por mi cuenta'],
     ['castanar', 'Desde Castañar de Ibor'],
     ['navalmoral', 'Desde Navalmoral de la Mata'],
+    ['belvis', 'Desde Belvís de Monroy'],
   ];
   const EDADES = [['adulto', 'Adulto'], ['nino', 'Infantil'], ['bebe', 'Bebé (trona)']];
   const chips = (tipo, n) => (window.ALERGIAS || []).filter(a => a.tipo === tipo).map(a =>
@@ -153,6 +154,7 @@
             '<input class="field diet__otra" type="text" name="alergia_otra" maxlength="200" placeholder="¿Otra? Escríbela aquí" aria-label="Otra alergia o dieta">' +
           '</div>' +
         '</div>' +
+        (first ? '' : '<label class="mini guest__mail" for="mail-' + n + '"><span>Su email <i>(opcional)</i></span><input class="field" type="email" id="mail-' + n + '" name="email_p" maxlength="160" inputmode="email" placeholder="Si es distinto del tuyo"></label>') +
       '</div>';
     names.appendChild(row);
     const tog = row.querySelector('.diet__toggle');
@@ -187,6 +189,7 @@
     const no = e.target.value === 'no';
     form.classList.toggle('is-no', no);
     document.getElementById('t-nombres').textContent = no ? 'Tu nombre (y el de quien tampoco venga)' : 'Cada persona que viene';
+    document.querySelector('#contacto-f legend').textContent = no ? 'Tu email (opcional)' : 'Para enviarte la invitación';
   });
 
   form.addEventListener('submit', async e => {
@@ -203,6 +206,16 @@
 
     if (!choice) return fail('Dinos si vendrás o no.', form.querySelector('input[name="asistira"]'));
     if (!guests.length) return fail('Escribe al menos un nombre.', names.querySelector('input'));
+    const email = form.email.value.trim().toLowerCase();
+    const direccion = form.direccion.value.trim();
+    const okMail = v => /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v);
+    if (si && !okMail(email)) return fail(email ? 'Revisa el email, parece que falta algo.' : 'Escribe tu email para mandarte los detalles.', form.email);
+    if (!si && email && !okMail(email)) return fail('Revisa el email, parece que falta algo.', form.email);
+    if (si && direccion.length < 8) return fail('Escribe tu dirección para mandarte la invitación.', form.direccion);
+    for (const x of guests) {
+      const m = x.g.querySelector('[name="email_p"]');
+      if (si && m && m.value.trim() && !okMail(m.value.trim())) return fail('Revisa el email de ' + x.nombre + '.', m);
+    }
     if (!form.consiente.checked) return fail('Marca la casilla de los datos para poder enviar.', form.consiente);
     if (si) {
       for (const x of guests) {
@@ -216,7 +229,8 @@
       autobus: si ? x.g.querySelector('[name="autobus"]').value : null,
       edad: si ? (x.g.querySelector('.seg input:checked') || {}).value || 'adulto' : null,
       alergias: si ? [...x.g.querySelectorAll('input[name="alergia"]:checked')].map(i => i.value) : [],
-      alergia_otra: si ? x.g.querySelector('[name="alergia_otra"]').value.trim() || null : null
+      alergia_otra: si ? x.g.querySelector('[name="alergia_otra"]').value.trim() || null : null,
+      email: si && x.g.querySelector('[name="email_p"]') ? x.g.querySelector('[name="email_p"]').value.trim().toLowerCase() || null : null
     }));
 
     send.disabled = true;
@@ -225,7 +239,7 @@
       const res = await fetch(cfg.supabaseUrl + '/rest/v1/confirmaciones', {
         method: 'POST',
         headers: { apikey: cfg.supabaseKey, 'Content-Type': 'application/json', Prefer: 'return=minimal' },
-        body: JSON.stringify({ boda_id: cfg.bodaId, asistira: si, nombres: list, asistentes, comentario: comentario || null, consiente: true })
+        body: JSON.stringify({ boda_id: cfg.bodaId, asistira: si, nombres: list, asistentes, comentario: comentario || null, consiente: true, email: email || null, direccion: si ? direccion : null })
       });
       if (!res.ok) throw new Error(res.status);
       document.getElementById('thanks-text').textContent = choice.value === 'si'
