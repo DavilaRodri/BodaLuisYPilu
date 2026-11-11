@@ -309,7 +309,7 @@ h1, h2, h3 { font-family: var(--sans); font-weight: 300; letter-spacing: -0.015e
   transition: opacity 1.6s ease;
 }
 .hero__media img.is-on { opacity: 1; }
-.hero__media img:first-child { object-position: 30% 50%; }
+.hero__media img:first-child { object-position: 19% 50%; }
 .hero__media img:not(:first-child) { object-position: 50% 30%; }
 
 .hero__actions { margin-top: clamp(32px, 4vw, 44px); display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 14px 24px; }
