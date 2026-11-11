@@ -14,7 +14,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/estilo.css?v=24">
+  <link rel="stylesheet" href="css/estilo.css?v=25">
   <script>
     (function () {
       document.documentElement.dataset.theme = 'light';
@@ -134,30 +134,36 @@
             <div class="llegar__text">
               <p class="place__kind">Para no perderse</p>
               <h3>Cómo llegar a la finca</h3>
-              <p>La entrada no se ve bien desde la carretera. Pulsa el botón y el móvil te llevará por <b>la entrada del camino</b> hasta la puerta de la casa, sin buscar nada más.</p>
+              <p>La entrada no se ve bien desde la carretera. Pulsa el botón y el móvil te llevará por <b>la entrada del camino</b> hasta la puerta de la casa, sin buscar nada más. Y abajo puedes ver el recorrido antes de salir.</p>
               <div class="llegar__go">
                 <a class="btn llegar__main" href="https://www.google.com/maps/dir/?api=1&amp;destination=39.8329167%2C-5.5457222&amp;waypoints=39.847683%2C-5.538921&amp;travelmode=driving&amp;dir_action=navigate" target="_blank" rel="noopener">Llévame a la finca<span class="btn__icon"><svg aria-hidden="true"><use href="#flecha"/></svg></span></a>
                 <p class="llegar__alt">También con <a class="link" href="https://waze.com/ul?ll=39.847683%2C-5.538921&amp;navigate=yes" target="_blank" rel="noopener">Waze</a> o <a class="link" href="https://maps.apple.com/?daddr=39.847683,-5.538921&amp;dirflg=d" target="_blank" rel="noopener">Mapas de Apple</a>, que te dejan en la entrada del camino.</p>
               </div>
               <ol class="llegar__pasos">
                 <li>
-                  <p class="llegar__t">Llegas a la entrada del camino</p>
-                  <p>El navegador te avisa justo en el desvío. Ahí se deja la carretera.</p>
+                  <p class="llegar__t">A-5, salida 182</p>
+                  <p>Hacia Valdehúncar / Navalmoral de la Mata Sur. Al final de la salida, a la izquierda.</p>
                 </li>
                 <li>
-                  <p class="llegar__t">Sigues el camino</p>
-                  <p>Unos 2 km entre encinas hasta la casa.</p>
+                  <p class="llegar__t">En la rotonda, segunda salida</p>
+                  <p>Coge la CC-408 hacia Valdehúncar y sigue unos 3 km entre encinas.</p>
                 </li>
                 <li>
-                  <p class="llegar__t">Ya estás en la Finca Valmojado</p>
-                  <p>Has llegado. ¡A disfrutar!</p>
+                  <p class="llegar__t">Pasado el kilómetro 3, a la derecha</p>
+                  <p>Donde la carretera gira a la izquierda sale un camino de tierra. Si vienes desde Valdehúncar, te queda a la izquierda.</p>
+                </li>
+                <li>
+                  <p class="llegar__t">1,9 km de camino hasta la casa</p>
+                  <p>Sigue el camino entre encinas y ya estás en la Finca Valmojado.</p>
                 </li>
               </ol>
             </div>
             <figure class="llegar__mapa" aria-hidden="true">
               <svg viewBox="0 0 320 380">
                 <path class="ll-road" d="M-10 64 C 80 58 150 70 230 60 S 330 52 340 56"/>
-                <text class="ll-water" x="20" y="48">Carretera</text>
+                <text class="ll-water" x="0" y="44">← A-5 · Navalmoral</text>
+                <text class="ll-water" x="320" y="44" text-anchor="end">Valdehúncar →</text>
+                <text class="ll-water" x="0" y="88">CC-408</text>
                 <g class="ll-trees">
                   <circle cx="96" cy="130" r="9"/><circle cx="110" cy="122" r="7"/><circle cx="252" cy="150" r="9"/><circle cx="266" cy="160" r="6"/>
                   <circle cx="90" cy="230" r="8"/><circle cx="104" cy="242" r="6"/><circle cx="246" cy="250" r="9"/><circle cx="232" cy="262" r="6"/>
@@ -165,7 +171,7 @@
                 </g>
                 <path class="ll-camino" d="M176 64 C 176 110 140 130 150 170 S 214 210 196 250 S 150 292 168 318"/>
                 <path class="ll-camino ll-camino--on" d="M176 64 C 176 110 140 130 150 170 S 214 210 196 250 S 150 292 168 318"/>
-                <text class="ll-dist" x="214" y="200">≈ 2 km</text>
+                <text class="ll-dist" x="214" y="200">1,9 km</text>
                 <g class="ll-pin" transform="translate(176 64)">
                   <circle r="13"/><text y="4.5" text-anchor="middle">1</text>
                 </g>
@@ -177,6 +183,29 @@
                 <text class="ll-label" x="168" y="352" text-anchor="middle">Finca Valmojado</text>
               </svg>
             </figure>
+            <div class="ruta" id="ruta">
+              <div class="ruta__head">
+                <p class="place__kind">Así es la llegada</p>
+                <h4>De la A-5 a la entrada del camino</h4>
+              </div>
+              <div class="ruta__screen">
+                <div class="ruta__frames" aria-hidden="true"><img src="img/llegada/01.jpg" width="640" height="400" alt="" loading="lazy" decoding="async" class="is-on"><img src="img/llegada/02.jpg" width="640" height="400" alt="" loading="lazy" decoding="async"><img src="img/llegada/03.jpg" width="640" height="400" alt="" loading="lazy" decoding="async"><img src="img/llegada/04.jpg" width="640" height="400" alt="" loading="lazy" decoding="async"><img src="img/llegada/05.jpg" width="640" height="400" alt="" loading="lazy" decoding="async"><img src="img/llegada/06.jpg" width="640" height="400" alt="" loading="lazy" decoding="async"><img src="img/llegada/07.jpg" width="640" height="400" alt="" loading="lazy" decoding="async"><img src="img/llegada/08.jpg" width="640" height="400" alt="" loading="lazy" decoding="async"><img src="img/llegada/09.jpg" width="640" height="400" alt="" loading="lazy" decoding="async"><img src="img/llegada/10.jpg" width="640" height="400" alt="" loading="lazy" decoding="async"><img src="img/llegada/11.jpg" width="640" height="400" alt="" loading="lazy" decoding="async"><img src="img/llegada/12.jpg" width="640" height="400" alt="" loading="lazy" decoding="async"><img src="img/llegada/13.jpg" width="640" height="400" alt="" loading="lazy" decoding="async"><img src="img/llegada/14.jpg" width="640" height="400" alt="" loading="lazy" decoding="async"><img src="img/llegada/15.jpg" width="640" height="400" alt="" loading="lazy" decoding="async"><img src="img/llegada/16.jpg" width="640" height="400" alt="" loading="lazy" decoding="async"><img src="img/llegada/17.jpg" width="640" height="400" alt="" loading="lazy" decoding="async"><img src="img/llegada/18.jpg" width="640" height="400" alt="" loading="lazy" decoding="async"><img src="img/llegada/19.jpg" width="640" height="400" alt="" loading="lazy" decoding="async"><img src="img/llegada/20.jpg" width="640" height="400" alt="" loading="lazy" decoding="async"><img src="img/llegada/21.jpg" width="640" height="400" alt="" loading="lazy" decoding="async"><img src="img/llegada/22.jpg" width="640" height="400" alt="" loading="lazy" decoding="async"><img src="img/llegada/23.jpg" width="640" height="400" alt="" loading="lazy" decoding="async"><img src="img/llegada/24.jpg" width="640" height="400" alt="" loading="lazy" decoding="async"></div>
+                <p class="ruta__cap" aria-live="polite"><span class="ruta__dist">Faltan 3,9 km</span><span class="ruta__txt">Por la A-5, salida 182</span></p>
+              </div>
+              <div class="ruta__ctrl">
+                <button class="ruta__play" type="button" aria-label="Pausar"><svg viewBox="0 0 24 24" aria-hidden="true"><path class="i-pause" d="M8 5h3v14H8zM13 5h3v14h-3z"/><path class="i-play" d="M8 5v14l11-7z"/></svg></button>
+                <input class="ruta__bar" type="range" min="0" max="23" value="0" step="1" aria-label="Avanzar por el recorrido">
+              </div>
+              <div class="ruta__chaps" role="group" aria-label="Ir a un punto del recorrido">
+                <button type="button" data-f="0">Salida 182</button>
+                <button type="button" data-f="3">A la izquierda</button>
+                <button type="button" data-f="5">Rotonda</button>
+                <button type="button" data-f="6">CC-408</button>
+                <button type="button" data-f="19">Km 3</button>
+                <button type="button" data-f="23">Entrada</button>
+              </div>
+              <p class="ruta__src">Imágenes: Google Street View</p>
+            </div>
           </div>
         </div>
       </div>
@@ -430,8 +459,9 @@
     </div>
   </footer>
 
-  <script src="js/config.js?v=24"></script>
-  <script src="js/app.js?v=24"></script>
-  <script src="js/mapa.js?v=24"></script>
+  <script src="js/config.js?v=25"></script>
+  <script src="js/app.js?v=25"></script>
+  <script src="js/mapa.js?v=25"></script>
+  <script src="js/ruta.js?v=25"></script>
 </body>
 </html>
