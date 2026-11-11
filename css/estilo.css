@@ -374,9 +374,9 @@ h1, h2, h3 { font-family: var(--sans); font-weight: 300; letter-spacing: -0.015e
 .llegar__pasos li + li::after { content: ""; position: absolute; left: 14.5px; top: -16px; height: 12px; border-left: 1px dashed rgba(38, 36, 31, .3); }
 .llegar__t { font-size: 1.125rem; font-weight: 400; }
 .llegar__pasos p:not(.llegar__t) { color: var(--muted); margin-top: 2px; }
-.llegar__btns { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
-.llegar__btns .btn { min-height: 44px; padding: 4px 4px 4px 18px; font-size: var(--fs-small); gap: 10px; }
-.llegar__btns .btn__icon { width: 36px; height: 36px; }
+.llegar__go { margin-top: 22px; }
+.llegar__main { background: #4f5d3f; color: #fff; }
+.llegar__alt { margin-top: 12px; font-size: var(--fs-small); color: var(--muted); }
 .llegar__mapa { margin: 0; }
 .llegar__mapa svg { display: block; width: 100%; max-width: 340px; margin-inline: auto; height: auto; overflow: visible; }
 .ll-road { fill: none; stroke: #cfc6b3; stroke-width: 10; stroke-linecap: round; }
@@ -647,18 +647,18 @@ textarea.field { min-height: 110px; resize: vertical; }
 .gift { padding-bottom: var(--section); }
 .gift__paper {
   display: grid;
-  grid-template-columns: 7fr 5fr;
-  gap: clamp(28px, 4vw, 56px);
-  align-items: center;
-  padding: clamp(44px, 6vw, 76px);
+  justify-items: center;
+  gap: clamp(26px, 3.5vw, 40px);
+  text-align: center;
+  padding: clamp(44px, 6vw, 76px) clamp(22px, 6vw, 76px);
 }
 .gift h2 { font-size: var(--fs-h2); color: #26241f; }
-.gift__text p { margin-top: 14px; max-width: 46ch; font-size: var(--fs-lead); line-height: 1.5; }
-.gift__account { padding: 26px 28px; border-radius: var(--r-inner); background: rgba(79, 93, 63, .1); }
+.gift__text p { margin: 14px auto 0; max-width: 46ch; font-size: var(--fs-lead); line-height: 1.5; }
+.gift__account { display: grid; justify-items: center; width: min(100%, 560px); padding: 26px clamp(14px, 4vw, 36px) 28px; border-radius: var(--r-inner); background: rgba(79, 93, 63, .1); }
 .gift__label { font-size: var(--fs-small); opacity: .8; }
-.gift__iban { margin-top: 6px; font-size: var(--fs-lead); font-weight: 400; font-variant-numeric: tabular-nums; word-spacing: .15em; }
+.gift__iban { margin-top: 8px; font-size: clamp(.95rem, 4.4vw, 1.625rem); font-weight: 400; font-variant-numeric: tabular-nums; letter-spacing: .03em; word-spacing: .12em; white-space: nowrap; }
 .gift__holder { margin-top: 4px; font-size: var(--fs-small); opacity: .85; }
-.gift__account .btn { margin-top: 18px; background: #4f5d3f; color: #fff; }
+.gift__account .btn { margin-top: 20px; background: #4f5d3f; color: #fff; }
 
 /* ---------- Pie ---------- */
 
@@ -718,14 +718,14 @@ textarea.field { min-height: 110px; resize: vertical; }
   .napkin__paper, .core { --f: 9px; }
   .napkin__paper { padding: 36px; }
   .napkin__paper::after { inset: 17px; }
-  .gift__paper { padding: 40px 30px; }
+  .gift__paper { padding: 40px 18px; }
   .guest__opts { grid-template-columns: 1fr; }
   .places__grid { grid-template-columns: 1fr; }
   .llegar__grid { grid-template-columns: 1fr; }
   .llegar__mapa { order: -1; }
   .llegar__mapa svg { max-width: 260px; }
   .llegar__pasos li { padding-left: 42px; }
-  .llegar__btns .btn { padding-left: 14px; gap: 8px; }
+  .llegar__main { width: 100%; justify-content: space-between; }
   .countdown .core { gap: 8px; }
   .core { padding: calc(var(--f) + 26px) calc(var(--f) + 22px); }
   .core::after { inset: 13px; }
