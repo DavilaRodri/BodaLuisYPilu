@@ -203,6 +203,7 @@
 
     if (!choice) return fail('Dinos si vendrás o no.', form.querySelector('input[name="asistira"]'));
     if (!guests.length) return fail('Escribe al menos un nombre.', names.querySelector('input'));
+    if (!form.consiente.checked) return fail('Marca la casilla de los datos para poder enviar.', form.consiente);
     if (si) {
       for (const x of guests) {
         const bus = x.g.querySelector('[name="autobus"]');
@@ -224,7 +225,7 @@
       const res = await fetch(cfg.supabaseUrl + '/rest/v1/confirmaciones', {
         method: 'POST',
         headers: { apikey: cfg.supabaseKey, 'Content-Type': 'application/json', Prefer: 'return=minimal' },
-        body: JSON.stringify({ boda_id: cfg.bodaId, asistira: si, nombres: list, asistentes, comentario: comentario || null })
+        body: JSON.stringify({ boda_id: cfg.bodaId, asistira: si, nombres: list, asistentes, comentario: comentario || null, consiente: true })
       });
       if (!res.ok) throw new Error(res.status);
       document.getElementById('thanks-text').textContent = choice.value === 'si'
@@ -239,6 +240,10 @@
       sendText.textContent = 'Enviar confirmación';
     }
   });
+
+  const priv = document.getElementById('priv');
+  document.getElementById('verPriv').addEventListener('click', () => priv.showModal());
+  priv.addEventListener('click', e => { if (e.target === priv || e.target.closest('[data-cerrar]')) priv.close(); });
 
   document.getElementById('again').addEventListener('click', () => {
     form.reset();

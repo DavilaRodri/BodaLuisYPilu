@@ -792,3 +792,16 @@ textarea.field { min-height: 110px; resize: vertical; }
 }
 
 .foot__inner { padding-top: 0; }
+
+/* Consentimiento y privacidad */
+.consent { display: flex; gap: 12px; align-items: flex-start; margin: 4px 0 14px; font-size: var(--fs-small); line-height: 1.5; color: var(--muted); cursor: pointer; }
+.consent input { flex: none; width: 20px; height: 20px; margin: 1px 0 0; accent-color: var(--accent); cursor: pointer; }
+.linkbtn { padding: 0; border: 0; background: none; font: inherit; color: var(--accent-dark); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+.priv { width: min(100% - 32px, 560px); max-height: min(88dvh, 820px); padding: 0; border: 0; border-radius: var(--r-outer); background: var(--card); color: var(--ink); box-shadow: 0 30px 80px -30px rgba(0, 0, 0, .45); }
+.priv::backdrop { background: rgba(38, 36, 31, .4); }
+.priv__in { padding: clamp(24px, 5vw, 40px); }
+.priv h2 { margin: 0 0 18px; font-size: var(--fs-h3); font-weight: 300; }
+.priv dl { display: grid; gap: 4px; margin: 0 0 24px; }
+.priv dt { margin-top: 12px; font-weight: 500; }
+.priv dd { margin: 0; color: var(--muted); line-height: 1.55; }
+.priv a { color: var(--accent-dark); }

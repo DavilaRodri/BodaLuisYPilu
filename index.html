@@ -14,7 +14,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/estilo.css?v=28">
+  <link rel="stylesheet" href="css/estilo.css?v=29">
   <script>
     (function () {
       document.documentElement.dataset.theme = 'light';
@@ -383,6 +383,8 @@
                 <textarea class="field" id="comentario" name="comentario" maxlength="1000" placeholder="Cualquier cosa que quieras contarnos"></textarea>
               </fieldset>
 
+              <label class="consent"><input type="checkbox" id="consiente" name="consiente"><span>He leído la <button type="button" class="linkbtn" id="verPriv">información sobre tus datos</button> y acepto que se guarden para organizar la boda.</span></label>
+
               <p class="form__msg" id="msg" role="status" aria-live="polite"></p>
               <button class="btn btn--block" type="submit" id="send"><span id="send-text">Enviar confirmación</span><span class="btn__icon"><svg aria-hidden="true"><use href="#flecha"/></svg></span></button>
             </div>
@@ -459,10 +461,31 @@
     </div>
   </footer>
 
-  <script src="js/config.js?v=28"></script>
-  <script src="js/alergias.js?v=28"></script>
-  <script src="js/app.js?v=28"></script>
-  <script src="js/mapa.js?v=28"></script>
-  <script src="js/ruta.js?v=28"></script>
+  <dialog class="priv" id="priv" aria-labelledby="t-priv">
+    <div class="priv__in">
+      <h2 id="t-priv">Tus datos</h2>
+      <dl>
+        <dt>Quién los guarda</dt>
+        <dd>Pilar y Luis, los novios, son los responsables. Rodrigo Dávila gestiona esta web y su base de datos por encargo de ellos.</dd>
+        <dt>Para qué</dt>
+        <dd>Para saber quién viene, organizar los autobuses y las mesas, y avisar al catering de las alergias y dietas.</dd>
+        <dt>Alergias y dietas</dt>
+        <dd>Son datos de salud. Solo los ven los novios y el catering, que recibe la lista de mesas con nombres y alergias. Se borran solos 3 meses después de la boda.</dd>
+        <dt>El resto</dt>
+        <dd>Nombre, respuesta, autobús y comentario. Se borran como mucho 3 años después de la boda.</dd>
+        <dt>Dónde</dt>
+        <dd>En servidores de Supabase en la Unión Europea (París). No se ceden a nadie más ni se usan para publicidad.</dd>
+        <dt>Tus derechos</dt>
+        <dd>Puedes pedir ver, corregir o borrar tus datos a los novios, en los teléfonos de <a href="#contacto" data-cerrar>Contacto</a>. También puedes reclamar ante la Agencia Española de Protección de Datos (aepd.es).</dd>
+      </dl>
+      <button type="button" class="btn btn--block" data-cerrar>Entendido</button>
+    </div>
+  </dialog>
+
+  <script src="js/config.js?v=29"></script>
+  <script src="js/alergias.js?v=29"></script>
+  <script src="js/app.js?v=29"></script>
+  <script src="js/mapa.js?v=29"></script>
+  <script src="js/ruta.js?v=29"></script>
 </body>
 </html>

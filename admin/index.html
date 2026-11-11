@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="admin.css?v=3">
+  <link rel="stylesheet" href="admin.css?v=4">
 </head>
 <body>
   <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -29,6 +29,11 @@
     <symbol id="i-names" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="12" cy="12" r="3.5"/><path d="M3 5h5M16 5h5M3 19h5M16 19h5"/></g></symbol>
     <symbol id="i-img" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="14" rx="2"/><path d="m4 17 5-5 4 4 2.5-2.5L20 18"/><circle cx="15.5" cy="9" r="1.5"/></g></symbol>
     <symbol id="i-search" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6"/><path d="m15 15 5 5"/></g></symbol>
+    <symbol id="i-gift" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><rect x="4" y="9" width="16" height="11" rx="1.5"/><path d="M3 9h18M12 9v11"/><path d="M12 9c-1.5-3.5-5.5-4-5.5-1.5S10 9 12 9zm0 0c1.5-3.5 5.5-4 5.5-1.5S14 9 12 9z"/></g></symbol>
+    <symbol id="i-wallet" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M4 7.5A2.5 2.5 0 0 1 6.5 5H18v3"/><rect x="4" y="8" width="16.5" height="11.5" rx="2"/><circle cx="16.3" cy="13.8" r="1.2" fill="currentColor" stroke="none"/></g></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-phone" viewBox="0 0 24 24"><path d="M6.5 4h3l1.5 4-2 1.2a10 10 0 0 0 5.8 5.8L16 13l4 1.5v3A2 2 0 0 1 18 19.5 14.5 14.5 0 0 1 4.5 6 2 2 0 0 1 6.5 4z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></symbol>
+    <symbol id="i-mail" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><rect x="3.5" y="5.5" width="17" height="13" rx="2"/><path d="m4 7 8 6 8-6"/></g></symbol>
     <symbol id="i-down" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
   </svg>
 
@@ -60,6 +65,8 @@
         <button type="button" data-tab="resumen" class="is-on"><svg><use href="#i-home"/></svg><span>Resumen</span></button>
         <button type="button" data-tab="invitados"><svg><use href="#i-users"/></svg><span>Invitados</span></button>
         <button type="button" data-tab="mesas"><svg><use href="#i-table"/></svg><span>Mesas</span></button>
+        <button type="button" data-tab="regalos"><svg><use href="#i-gift"/></svg><span>Regalos</span></button>
+        <button type="button" data-tab="gastos"><svg><use href="#i-wallet"/></svg><span>Gastos</span></button>
         <button type="button" data-tab="ajustes"><svg><use href="#i-gear"/></svg><span>Ajustes</span></button>
       </nav>
     </header>
@@ -193,10 +200,71 @@
       </aside>
     </main>
 
+    <!-- Regalos -->
+    <main class="view" id="v-regalos" hidden>
+      <div class="wrap">
+        <div class="head">
+          <h1>Regalos</h1>
+          <div class="head__actions">
+            <button class="btn" type="button" id="rNuevo"><svg><use href="#i-plus"/></svg>Añadir</button>
+          </div>
+        </div>
+        <div class="tiles" id="rTiles"></div>
+        <div class="filters">
+          <label class="search"><svg><use href="#i-search"/></svg><input type="search" id="rBuscar" placeholder="Buscar quién regala" aria-label="Buscar quién regala"></label>
+          <div class="pills" id="rFiltros" role="group" aria-label="Filtrar"></div>
+        </div>
+        <div class="glist" id="rList"></div>
+        <section class="card card--gap" id="rFaltan"></section>
+      </div>
+    </main>
+
+    <!-- Gastos -->
+    <main class="view" id="v-gastos" hidden>
+      <div class="wrap">
+        <div class="head">
+          <h1>Gastos</h1>
+          <div class="seg seg--head" id="gxModo"><button type="button" data-v="gastos" class="is-on">Gastos</button><button type="button" data-v="prov">Proveedores</button></div>
+          <div class="head__actions">
+            <button class="btn" type="button" id="xNuevo"><svg><use href="#i-plus"/></svg>Añadir</button>
+          </div>
+        </div>
+        <div id="xGastos">
+          <div class="tiles" id="xTiles"></div>
+          <div class="cols">
+            <section class="card"><h2>Quién paga</h2><div id="xQuien"></div></section>
+            <section class="card"><h2>Próximos pagos</h2><div id="xProx" class="feed"></div></section>
+          </div>
+          <div class="filters filters--gap">
+            <div class="pills" id="xFiltros" role="group" aria-label="Filtrar"></div>
+          </div>
+          <div id="xList"></div>
+        </div>
+        <div id="xProv" hidden>
+          <div class="pgrid" id="pList"></div>
+        </div>
+      </div>
+    </main>
+
     <!-- Ajustes -->
     <main class="view" id="v-ajustes" hidden>
       <div class="wrap wrap--narrow">
         <div class="head"><h1>Ajustes</h1></div>
+        <section class="card">
+          <h2>La pareja</h2>
+          <div class="frow">
+            <label class="f"><span>Nombre</span><input type="text" id="parA" maxlength="40"></label>
+            <label class="f"><span>Nombre</span><input type="text" id="parB" maxlength="40"></label>
+          </div>
+          <label class="switch switch--row sp-top"><input type="checkbox" id="optSeparadas"><span></span>Llevamos las cuentas por separado</label>
+          <p class="muted">Actívalo si cada uno paga su parte y recibe los regalos de sus invitados. Si no, todo cuenta a medias.</p>
+        </section>
+        <section class="card">
+          <h2>Quién puede pagar</h2>
+          <p class="muted">Además de vosotros dos y «A medias», añade a quien también vaya a pagar algo, por ejemplo «Padres de Pilar».</p>
+          <div class="chips chips--del sp-top" id="pagList"></div>
+          <form class="frow sp-top" id="pagForm"><label class="f"><span>Nuevo</span><input type="text" id="pagNuevo" maxlength="40" placeholder="Ej.: Padres de Luis"></label><button class="btn btn--soft btn--sm as-end" type="submit">Añadir</button></form>
+        </section>
         <section class="card">
           <h2>Plano del salón</h2>
           <p class="muted">Sube una foto o un dibujo del salón y colocad las mesas encima. Si no, se usa un lienzo en blanco.</p>
@@ -224,6 +292,14 @@
               <a class="link" id="qrLink" target="_blank" rel="noopener"></a>
               <button class="btn btn--soft btn--sm" type="button" id="qrDown">Descargar QR</button>
             </div>
+          </div>
+        </section>
+        <section class="card">
+          <h2>Protección de datos</h2>
+          <p class="muted">Los datos de los invitados se borran solos. Las alergias son datos de salud: cuanto antes se borren, mejor.</p>
+          <div class="frow sp-top">
+            <label class="f"><span>Borrar alergias y dietas</span><select class="sel" id="retAl"><option value="1">1 mes después de la boda</option><option value="3">3 meses después</option><option value="6">6 meses después</option><option value="12">1 año después</option></select></label>
+            <label class="f"><span>Borrar todo lo demás</span><select class="sel" id="retTodo"><option value="12">1 año después de la boda</option><option value="24">2 años después</option><option value="36">3 años después</option></select></label>
           </div>
         </section>
         <section class="card">
@@ -286,6 +362,94 @@
     </form>
   </dialog>
 
+  <!-- Regalo -->
+  <dialog id="rDlg" class="dlg">
+    <form id="rForm" method="dialog">
+      <div class="dlg__head"><h2 id="rTitle">Regalo</h2><button class="ibtn" type="button" data-close aria-label="Cerrar"><svg><use href="#i-x"/></svg></button></div>
+      <div class="dlg__body">
+        <label class="f"><span>De parte de</span><input type="text" id="rDe" maxlength="160" required placeholder="Ej.: Tía Carmen y Juan"></label>
+        <div class="f"><span>Invitados (opcional)</span>
+          <label class="search search--sm"><svg><use href="#i-search"/></svg><input type="search" id="rInvQ" placeholder="Buscar invitado para enlazarlo" aria-label="Buscar invitado"></label>
+          <div class="chips" id="rInvSel"></div>
+          <div class="pick" id="rInvRes"></div>
+        </div>
+        <div class="frow">
+          <label class="f"><span>Importe (€)</span><input type="number" id="rImporte" min="0" step="0.01" inputmode="decimal"></label>
+          <label class="f f--num"><span>Personas</span><input type="number" id="rPersonas" min="0" max="50" inputmode="numeric"></label>
+        </div>
+        <div class="f"><span>Invitados de</span><div class="seg" id="rLado"></div></div>
+        <div class="frow">
+          <label class="f"><span>Cómo</span><select class="sel" id="rForma"><option value="transferencia">Transferencia</option><option value="bizum">Bizum</option><option value="efectivo">Efectivo</option><option value="sobre">Sobre</option><option value="regalo">Regalo (objeto)</option><option value="otro">Otro</option></select></label>
+          <label class="f"><span>Recibido el</span><input type="date" id="rFecha"></label>
+        </div>
+        <label class="switch switch--row"><input type="checkbox" id="rGracias"><span></span>Ya les hemos dado las gracias</label>
+        <label class="f"><span>Notas</span><input type="text" id="rNotas" maxlength="300"></label>
+      </div>
+      <div class="dlg__foot">
+        <button class="btn btn--ghost btn--danger btn--sm" type="button" id="rDel">Borrar</button>
+        <span class="plan__sp"></span>
+        <button class="btn btn--ghost" type="button" data-close>Cancelar</button>
+        <button class="btn" type="submit" id="rSave">Guardar</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- Gasto -->
+  <dialog id="xDlg" class="dlg">
+    <form id="xForm" method="dialog">
+      <div class="dlg__head"><h2 id="xTitle">Gasto</h2><button class="ibtn" type="button" data-close aria-label="Cerrar"><svg><use href="#i-x"/></svg></button></div>
+      <div class="dlg__body">
+        <label class="f"><span>Concepto</span><input type="text" id="xConcepto" maxlength="160" required placeholder="Ej.: Señal del fotógrafo"></label>
+        <div class="frow">
+          <label class="f"><span>Categoría</span><select class="sel" id="xCat"></select></label>
+          <label class="f"><span>Proveedor</span><select class="sel" id="xProvSel"></select></label>
+        </div>
+        <div class="frow">
+          <label class="f"><span>Importe total (€)</span><input type="number" id="xImporte" min="0" step="0.01" inputmode="decimal" required></label>
+          <label class="f"><span>Pagado hasta ahora (€)</span><input type="number" id="xPagado" min="0" step="0.01" inputmode="decimal"></label>
+        </div>
+        <button class="btn btn--soft btn--sm as-start" type="button" id="xTodo"><svg><use href="#i-check"/></svg>Está todo pagado</button>
+        <div class="frow">
+          <label class="f"><span>Quién paga</span><select class="sel" id="xPaga"></select></label>
+          <label class="f"><span>Fecha límite de pago</span><input type="date" id="xVence"></label>
+        </div>
+        <label class="f"><span>Notas</span><input type="text" id="xNotas" maxlength="300"></label>
+      </div>
+      <div class="dlg__foot">
+        <button class="btn btn--ghost btn--danger btn--sm" type="button" id="xDel">Borrar</button>
+        <span class="plan__sp"></span>
+        <button class="btn btn--ghost" type="button" data-close>Cancelar</button>
+        <button class="btn" type="submit" id="xSave">Guardar</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- Proveedor -->
+  <dialog id="pDlg" class="dlg">
+    <form id="pForm" method="dialog">
+      <div class="dlg__head"><h2 id="pTitle">Proveedor</h2><button class="ibtn" type="button" data-close aria-label="Cerrar"><svg><use href="#i-x"/></svg></button></div>
+      <div class="dlg__body">
+        <div class="frow">
+          <label class="f"><span>Nombre</span><input type="text" id="pNombre" maxlength="120" required placeholder="Ej.: Finca Valmojado"></label>
+          <label class="f"><span>Categoría</span><select class="sel" id="pCat"></select></label>
+        </div>
+        <label class="f"><span>Persona de contacto</span><input type="text" id="pContacto" maxlength="120"></label>
+        <div class="frow">
+          <label class="f"><span>Teléfono</span><input type="tel" id="pTel" maxlength="40"></label>
+          <label class="f"><span>Email</span><input type="email" id="pEmail" maxlength="160"></label>
+        </div>
+        <label class="f"><span>Web o Instagram</span><input type="text" id="pWeb" maxlength="200"></label>
+        <label class="f"><span>Notas</span><textarea id="pNotas" maxlength="1000" rows="3"></textarea></label>
+      </div>
+      <div class="dlg__foot">
+        <button class="btn btn--ghost btn--danger btn--sm" type="button" id="pDel">Borrar</button>
+        <span class="plan__sp"></span>
+        <button class="btn btn--ghost" type="button" data-close>Cancelar</button>
+        <button class="btn" type="submit" id="pSave">Guardar</button>
+      </div>
+    </form>
+  </dialog>
+
   <!-- Contraseña -->
   <dialog id="passDlg" class="dlg dlg--sm">
     <form id="passForm" method="dialog">
@@ -301,9 +465,10 @@
 
   <div class="ghost" id="ghost" hidden></div>
 
-  <script src="../js/config.js?v=28"></script>
-  <script src="../js/alergias.js?v=28"></script>
-  <script src="admin.js?v=2"></script>
+  <script src="../js/config.js?v=29"></script>
+  <script src="../js/alergias.js?v=29"></script>
+  <script src="admin.js?v=3"></script>
+  <script src="cuentas.js?v=1"></script>
   <script src="mesas.js?v=3"></script>
   <script src="pdf.js?v=3" defer></script>
   <script src="vendor/qrcode.js" defer></script>

@@ -10,7 +10,7 @@
   const EDAD = { adulto: 'Adulto', nino: 'Infantil', bebe: 'Bebé (trona)' };
   const COLORES = ['#b4746a', '#5f7a8c', '#c49a4a', '#6f7d4f', '#8a6f9e', '#4f8a83', '#a36a3f', '#7d8590', '#c0727f', '#3f6e9e'];
 
-  const S = { boda: null, bodas: [], grupos: [], mesas: [], invitados: [], conf: {} };
+  const S = { boda: null, bodas: [], grupos: [], mesas: [], invitados: [], conf: {}, regalos: [], gastos: [], proveedores: [] };
   let sesion = null;
 
   // ---------- Utilidades ----------
@@ -56,6 +56,9 @@
     async insert(tabla, fila) { const r = await api(tabla, { method: 'POST', headers: rep, body: JSON.stringify(fila) }); return r[0]; },
     async del(tabla, id) { await api(tabla + '?id=eq.' + id, { method: 'DELETE' }); },
     token, url: API, key: KEY,
+    euros: n => (+n || 0).toLocaleString('es-ES', { style: 'currency', currency: 'EUR', maximumFractionDigits: (+n || 0) % 1 ? 2 : 0 }),
+    lados() { const b = S.boda || {}; return { a: b.pareja_a || 'Novia/o 1', b: b.pareja_b || 'Novia/o 2', ambos: 'Los dos' }; },
+    pagadores() { const l = P.lados(); return [l.a, l.b, 'A medias', ...((S.boda || {}).pagadores || [])]; },
     onChange: [],
     changed() { P.onChange.forEach(f => f()); }
   };
@@ -82,7 +85,8 @@
 
   // ---------- Carga ----------
   async function cargarBodas() {
-    S.bodas = await api('bodas?select=*&order=fecha');
+    // En la web de cada boda solo se abre esa boda, aunque entre el superadmin
+    S.bodas = await api('bodas?select=*&order=fecha' + (cfg.bodaId ? '&id=eq.' + cfg.bodaId : ''));
     if (!S.bodas.length) throw new Error('Esta cuenta no tiene ninguna boda.');
     let pref = null; try { pref = localStorage.getItem('boda-sel'); } catch (e) {}
     S.boda = S.bodas.find(b => b.id === pref) || S.bodas[0];
@@ -98,13 +102,17 @@
   });
   async function cargar() {
     const b = S.boda.id;
-    const [grupos, mesas, invitados, conf] = await Promise.all([
+    const opc = q => api(q).catch(() => []);
+    const [grupos, mesas, invitados, conf, regalos, gastos, proveedores] = await Promise.all([
       api(`grupos?boda_id=eq.${b}&select=*&order=orden,creado`),
       api(`mesas?boda_id=eq.${b}&select=*&order=numero,creado`),
       api(`invitados?boda_id=eq.${b}&select=*&order=creado.desc`),
-      api(`confirmaciones?boda_id=eq.${b}&select=id,creado,asistira,comentario,nombres&order=creado.desc&limit=200`)
+      api(`confirmaciones?boda_id=eq.${b}&select=id,creado,asistira,comentario,nombres&order=creado.desc&limit=200`),
+      opc(`regalos?boda_id=eq.${b}&select=*&order=creado.desc`),
+      opc(`gastos?boda_id=eq.${b}&select=*&order=creado`),
+      opc(`proveedores?boda_id=eq.${b}&select=*&order=nombre`)
     ]);
-    Object.assign(S, { grupos, mesas, invitados, conf: Object.fromEntries(conf.map(c => [c.id, c])) });
+    Object.assign(S, { grupos, mesas, invitados, regalos, gastos, proveedores, conf: Object.fromEntries(conf.map(c => [c.id, c])) });
     S.confList = conf;
     cabecera();
     P.changed();
@@ -429,6 +437,7 @@
     for (let k = 0; k < Math.max(nv.length, cs.length); k++) bus.push([nv[k] || '', cs[k] || '']);
     const h3 = XLSX.utils.aoa_to_sheet(bus); h3['!cols'] = [{ wch: 30 }, { wch: 30 }];
     XLSX.utils.book_append_sheet(libro, h3, 'Autobuses');
+    if (P.excelExtra) P.excelExtra(XLSX, libro);
     XLSX.writeFile(libro, 'invitados-' + (S.boda.slug || 'boda') + '.xlsx');
   });
 
