@@ -592,6 +592,28 @@ select.field {
   cursor: pointer;
 }
 .guest .remove { background: var(--card); }
+.seg { border: 0; margin: 0; padding: 0; min-width: 0; }
+.seg legend { padding: 0 0 4px 4px; font-size: var(--fs-small); color: var(--muted); }
+.seg__opts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; padding: 4px; border-radius: 14px; background: var(--card); }
+.seg__opts label { position: relative; cursor: pointer; }
+.seg__opts input { position: absolute; opacity: 0; pointer-events: none; }
+.mini .seg__opts span { display: grid; place-items: center; min-height: 44px; padding: 4px 6px; border-radius: 10px; font-size: .9375rem; color: var(--ink); text-align: center; line-height: 1.2; transition: background .2s, color .2s; }
+.seg__opts input:checked + span { background: #4f5d3f; color: #fff; }
+.seg__opts input:focus-visible + span { outline: 2px solid var(--accent); outline-offset: 2px; }
+.diet__toggle { display: flex; align-items: center; gap: 10px; width: 100%; min-height: 48px; padding: 6px 14px 6px 8px; border: 1px dashed rgba(79, 93, 63, .45); border-radius: 14px; background: transparent; color: var(--ink); font: inherit; font-size: .9375rem; text-align: left; cursor: pointer; }
+.diet__plus { display: grid; place-items: center; width: 30px; height: 30px; border-radius: 50%; background: rgba(79, 93, 63, .14); color: #4f5d3f; font-size: 1.125rem; transition: transform .25s var(--ease); }
+.diet__toggle[aria-expanded="true"] .diet__plus { transform: rotate(45deg); }
+.diet__count { margin-left: auto; min-width: 24px; height: 24px; padding: 0 7px; border-radius: 999px; background: #4f5d3f; color: #fff; font-size: .8125rem; font-weight: 400; display: grid; place-items: center; }
+.diet__panel { margin-top: 10px; padding: 14px; border-radius: 14px; background: var(--card); }
+.diet__h { margin: 0 0 8px 2px; font-size: var(--fs-small); color: var(--muted); }
+.diet__h + .chips { margin-bottom: 14px; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { position: relative; cursor: pointer; }
+.chip input { position: absolute; opacity: 0; pointer-events: none; }
+.chip span { display: inline-flex; align-items: center; min-height: 36px; padding: 4px 14px; border: 1px solid rgba(38, 36, 31, .16); border-radius: 999px; font-size: .875rem; transition: background .2s, color .2s, border-color .2s; }
+.chip input:checked + span { background: #4f5d3f; border-color: #4f5d3f; color: #fff; }
+.chip input:focus-visible + span { outline: 2px solid var(--accent); outline-offset: 2px; }
+.diet__otra { min-height: 46px; background: var(--shell); }
 .field {
   width: 100%;
   min-height: 54px;

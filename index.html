@@ -14,7 +14,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/estilo.css?v=26">
+  <link rel="stylesheet" href="css/estilo.css?v=27">
   <script>
     (function () {
       document.documentElement.dataset.theme = 'light';
@@ -373,14 +373,14 @@
 
               <fieldset>
                 <legend id="t-nombres">Cada persona que viene</legend>
-                <p class="hint hint--top" id="t-nombres-hint">Escribe su nombre y elige, para cada una, si irá en autobús.</p>
+                <p class="hint hint--top" id="t-nombres-hint">Escribe su nombre y elige, para cada una, si irá en autobús, su menú y si tiene alguna alergia.</p>
                 <div class="names" id="names"></div>
                 <button type="button" class="add" id="add"><span class="add__plus" aria-hidden="true">+</span>Añadir otra persona</button>
               </fieldset>
 
               <fieldset>
                 <label class="label" for="comentario">¿Algo que debamos saber? <span class="hint">(opcional)</span></label>
-                <textarea class="field" id="comentario" name="comentario" maxlength="1000" placeholder="Alergias, intolerancias o cualquier cosa que quieras contarnos"></textarea>
+                <textarea class="field" id="comentario" name="comentario" maxlength="1000" placeholder="Cualquier cosa que quieras contarnos"></textarea>
               </fieldset>
 
               <p class="form__msg" id="msg" role="status" aria-live="polite"></p>
@@ -459,9 +459,10 @@
     </div>
   </footer>
 
-  <script src="js/config.js?v=26"></script>
-  <script src="js/app.js?v=26"></script>
-  <script src="js/mapa.js?v=26"></script>
-  <script src="js/ruta.js?v=26"></script>
+  <script src="js/config.js?v=27"></script>
+  <script src="js/alergias.js?v=27"></script>
+  <script src="js/app.js?v=27"></script>
+  <script src="js/mapa.js?v=27"></script>
+  <script src="js/ruta.js?v=27"></script>
 </body>
 </html>

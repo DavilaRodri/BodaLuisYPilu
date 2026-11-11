@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="es" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <meta name="format-detection" content="telephone=no, date=no, address=no, email=no">
+  <title>¿Dónde me siento? · Pilar &amp; Luis</title>
+  <meta name="theme-color" content="#f5f1e9">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/estilo.css?v=27">
+  <style>
+    .sitio { min-height: 100dvh; display: grid; place-items: center; padding: 32px 16px; }
+    .sitio .napkin { width: min(100%, 520px); }
+    .sitio .napkin__paper { padding: clamp(36px, 8vw, 56px) clamp(24px, 6vw, 44px); text-align: center; }
+    .sitio .mark { font-size: .875rem; letter-spacing: .3em; color: var(--muted); }
+    .sitio h1 { margin-top: 10px; font-size: clamp(2rem, 1.6rem + 2vw, 2.75rem); font-weight: 300; line-height: 1.1; }
+    .sitio .lead { margin-top: 10px; color: var(--muted); }
+    .busca { margin-top: 26px; }
+    .busca input { width: 100%; min-height: 58px; padding: 12px 20px; border: 0; border-radius: 16px; background: var(--card, #fffdf9); font: inherit; font-size: 1.1875rem; text-align: center; box-shadow: inset 0 0 0 1px rgba(38,36,31,.12); }
+    .busca input:focus-visible { outline: 2px solid #4f5d3f; outline-offset: 2px; }
+    .res { display: grid; gap: 10px; margin-top: 18px; min-height: 80px; }
+    .res__item { display: grid; gap: 2px; padding: 16px 18px; border-radius: 16px; background: rgba(79,93,63,.1); animation: in .35s cubic-bezier(.22,.8,.24,1) both; }
+    .res__item b { font-weight: 400; font-size: 1.125rem; }
+    .res__mesa { font-size: 2.25rem; font-weight: 300; line-height: 1.1; color: #4f5d3f; }
+    .res__mesa small { display: block; font-size: 1.0625rem; color: var(--muted); }
+    .res p { color: var(--muted); }
+    @keyframes in { from { opacity: 0; transform: translateY(8px); } }
+  </style>
+</head>
+<body>
+  <main class="sitio">
+    <div class="napkin"><div class="napkin__paper">
+      <p class="mark">P&amp;L</p>
+      <h1>¿Dónde me siento?</h1>
+      <p class="lead">Escribe tu nombre y te decimos tu mesa.</p>
+      <form class="busca" id="f" autocomplete="off">
+        <input type="search" id="q" placeholder="Tu nombre" aria-label="Tu nombre" enterkeyhint="search">
+      </form>
+      <div class="res" id="res" aria-live="polite"></div>
+    </div></div>
+  </main>
+  <script src="../js/config.js?v=27"></script>
+  <script>
+  (function () {
+    const cfg = window.BODA, res = document.getElementById('res'), q = document.getElementById('q');
+    const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+    const rpc = (fn, body) => fetch(cfg.supabaseUrl + '/rest/v1/rpc/' + fn, { method: 'POST', headers: { apikey: cfg.supabaseKey, 'Content-Type': 'application/json' }, body: JSON.stringify(body) }).then(r => r.ok ? r.json() : Promise.reject(r.status));
+    rpc('boda_publica', { p_slug: cfg.boda }).then(b => {
+      if (!b[0] || !b[0].buscador_activo) { q.disabled = true; res.innerHTML = '<p>Las mesas se publicarán aquí el día de la boda.</p>'; }
+    }).catch(() => {});
+    let t = 0, n = 0;
+    function buscar() {
+      const v = q.value.trim(); const mio = ++n;
+      if (v.length < 3) { res.innerHTML = v ? '<p>Sigue escribiendo…</p>' : ''; return; }
+      rpc('donde_me_siento', { p_slug: cfg.boda, p_q: v }).then(r => {
+        if (mio !== n) return;
+        res.innerHTML = r.length ? r.map(x => `<div class="res__item"><b>${esc(x.nombre)}</b><span class="res__mesa">Mesa ${esc(x.mesa_numero ?? '')}${x.mesa_nombre ? `<small>${esc(x.mesa_nombre)}</small>` : ''}</span></div>`).join('')
+          : '<p>No te encontramos. Prueba solo con tu nombre o tu apellido, o pregunta a los novios.</p>';
+      }).catch(() => { if (mio === n) res.innerHTML = '<p>No hay conexión. Inténtalo de nuevo.</p>'; });
+    }
+    q.addEventListener('input', () => { clearTimeout(t); t = setTimeout(buscar, 250); });
+    document.getElementById('f').addEventListener('submit', e => { e.preventDefault(); buscar(); });
+  })();
+  </script>
+</body>
+</html>

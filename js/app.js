@@ -122,6 +122,9 @@
     ['castanar', 'Desde Castañar de Ibor'],
     ['navalmoral', 'Desde Navalmoral de la Mata'],
   ];
+  const EDADES = [['adulto', 'Adulto'], ['nino', 'Infantil'], ['bebe', 'Bebé (trona)']];
+  const chips = (tipo, n) => (window.ALERGIAS || []).filter(a => a.tipo === tipo).map(a =>
+    '<label class="chip"><input type="checkbox" name="alergia" value="' + a.id + '"><span>' + a.nombre + '</span></label>').join('');
   let guestId = 0;
 
   function addRow(focus) {
@@ -139,8 +142,33 @@
           '<select class="field" id="bus-' + n + '" name="autobus"><option value="">Elige una opción</option>' +
           PARADAS.map(p => '<option value="' + p[0] + '">' + p[1] + '</option>').join('') +
           '</select></label>' +
+        '<fieldset class="mini seg"><legend>Menú</legend><div class="seg__opts">' +
+          EDADES.map((e, k) => '<label><input type="radio" name="edad-' + n + '" value="' + e[0] + '"' + (k ? '' : ' checked') + '><span>' + e[1] + '</span></label>').join('') +
+        '</div></fieldset>' +
+        '<div class="diet">' +
+          '<button type="button" class="diet__toggle" aria-expanded="false" aria-controls="diet-' + n + '"><span class="diet__plus" aria-hidden="true">+</span>Alergias o dieta especial<b class="diet__count" hidden></b></button>' +
+          '<div class="diet__panel" id="diet-' + n + '" hidden>' +
+            '<p class="diet__h">Alergias e intolerancias</p><div class="chips">' + chips('alergia', n) + '</div>' +
+            '<p class="diet__h">Dieta</p><div class="chips">' + chips('dieta', n) + '</div>' +
+            '<input class="field diet__otra" type="text" name="alergia_otra" maxlength="200" placeholder="¿Otra? Escríbela aquí" aria-label="Otra alergia o dieta">' +
+          '</div>' +
+        '</div>' +
       '</div>';
     names.appendChild(row);
+    const tog = row.querySelector('.diet__toggle');
+    const panel = row.querySelector('.diet__panel');
+    const count = row.querySelector('.diet__count');
+    tog.addEventListener('click', () => {
+      const open = tog.getAttribute('aria-expanded') !== 'true';
+      tog.setAttribute('aria-expanded', String(open));
+      panel.hidden = !open;
+    });
+    const recount = () => {
+      const c = panel.querySelectorAll('input:checked').length + (panel.querySelector('.diet__otra').value.trim() ? 1 : 0);
+      count.hidden = !c; count.textContent = c;
+    };
+    panel.addEventListener('change', recount);
+    panel.addEventListener('input', recount);
     const remove = row.querySelector('.remove');
     if (remove) remove.addEventListener('click', () => {
       row.remove();
@@ -184,7 +212,10 @@
     const list = guests.map(x => x.nombre);
     const asistentes = guests.map(x => ({
       nombre: x.nombre,
-      autobus: si ? x.g.querySelector('[name="autobus"]').value : null
+      autobus: si ? x.g.querySelector('[name="autobus"]').value : null,
+      edad: si ? (x.g.querySelector('.seg input:checked') || {}).value || 'adulto' : null,
+      alergias: si ? [...x.g.querySelectorAll('input[name="alergia"]:checked')].map(i => i.value) : [],
+      alergia_otra: si ? x.g.querySelector('[name="alergia_otra"]').value.trim() || null : null
     }));
 
     send.disabled = true;
@@ -193,7 +224,7 @@
       const res = await fetch(cfg.supabaseUrl + '/rest/v1/confirmaciones', {
         method: 'POST',
         headers: { apikey: cfg.supabaseKey, 'Content-Type': 'application/json', Prefer: 'return=minimal' },
-        body: JSON.stringify({ asistira: si, nombres: list, asistentes, comentario: comentario || null })
+        body: JSON.stringify({ boda_id: cfg.bodaId, asistira: si, nombres: list, asistentes, comentario: comentario || null })
       });
       if (!res.ok) throw new Error(res.status);
       document.getElementById('thanks-text').textContent = choice.value === 'si'
