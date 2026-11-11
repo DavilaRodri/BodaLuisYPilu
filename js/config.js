@@ -7,7 +7,7 @@ window.BODA = {
   // Solo adultos: el formulario no pregunta el menú
   menuInfantil: false,
   supabaseKey: 'sb_publishable_XLnys24am80Ih8pZnnCrRw_IVWl0dsm',
-  fecha: '2027-09-04T12:00:00+02:00',
+  fecha: '2027-09-04T18:30:00+02:00',
   // Regalo: rellenar cuando los novios pasen la cuenta
   iban: 'ES06 0081 2719 2900 2701 7520',
   titular: ''

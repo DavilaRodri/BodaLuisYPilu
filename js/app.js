@@ -243,7 +243,7 @@
       });
       if (!res.ok) throw new Error(res.status);
       document.getElementById('thanks-text').textContent = choice.value === 'si'
-        ? (list.length === 1 ? 'Te esperamos el 4 de septiembre.' : 'Os esperamos a los ' + list.length + ' el 4 de septiembre.')
+        ? (list.length === 1 ? 'Te esperamos el 4 de septiembre a las 18:30.' : 'Os esperamos a los ' + list.length + ' el 4 de septiembre a las 18:30.')
         : 'Te echaremos de menos. Gracias por avisarnos.';
       form.classList.add('is-done');
       form.querySelector('.thanks').focus();
