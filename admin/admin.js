@@ -41,6 +41,7 @@
   }
   async function api(path, opts = {}) {
     const headers = { apikey: KEY, Authorization: 'Bearer ' + await token(), ...(opts.body ? { 'Content-Type': 'application/json' } : {}), ...(opts.headers || {}) };
+    if (opts.method && opts.method !== 'GET') ultimaEscritura = Date.now();
     const r = await fetch(API + '/rest/v1/' + path, { ...opts, headers });
     if (r.status === 401) { salir(); throw new Error('Sesión caducada'); }
     if (!r.ok) {
@@ -100,7 +101,8 @@
     try { localStorage.setItem('boda-sel', S.boda.id); } catch (err) {}
     await cargar();
   });
-  async function cargar() {
+  let ultimaEscritura = 0, foto = '';
+  async function cargar(silencio) {
     const b = S.boda.id;
     const opc = q => api(q).catch(() => []);
     const [grupos, mesas, invitados, conf, regalos, gastos, proveedores] = await Promise.all([
@@ -112,6 +114,14 @@
       opc(`gastos?boda_id=eq.${b}&select=*&order=creado`),
       opc(`proveedores?boda_id=eq.${b}&select=*&order=nombre`)
     ]);
+    if (silencio) {
+      // Solo repinta si algo ha cambiado en el servidor
+      const [boda] = await api('bodas?select=*&id=eq.' + b);
+      const nueva = JSON.stringify([boda, grupos, mesas, invitados, conf, regalos, gastos, proveedores]);
+      if (nueva === foto || !ocioso()) return;
+      foto = nueva;
+      if (boda) Object.assign(S.boda, boda);
+    } else foto = JSON.stringify([S.boda, grupos, mesas, invitados, conf, regalos, gastos, proveedores]);
     Object.keys(PARADAS).forEach(k => delete PARADAS[k]);
     (S.boda.paradas || []).forEach(p => { PARADAS[p.id] = p.nombre; });
     Object.assign(S, { grupos, mesas, invitados, regalos, gastos, proveedores, conf: Object.fromEntries(conf.map(c => [c.id, c])) });
@@ -532,6 +542,32 @@
     }
   }
   P.recargar = cargar;
+
+  // ---------- Auto-actualización ----------
+  // Cada 20 s (y al volver a la pestaña) trae los cambios de otros: nuevas
+  // confirmaciones, lo que toque la pareja desde otro móvil... Nunca mientras
+  // se está editando, arrastrando o con un diálogo abierto.
+  let pulsando = false;
+  addEventListener('pointerdown', () => { pulsando = true; }, true);
+  addEventListener('pointerup', () => { pulsando = false; }, true);
+  addEventListener('pointercancel', () => { pulsando = false; }, true);
+  function ocioso() {
+    if (document.hidden || pulsando || $('app').hidden || !S.boda) return false;
+    if (Date.now() - ultimaEscritura < 4000) return false;
+    if (document.querySelector('dialog[open]')) return false;
+    const a = document.activeElement;
+    if (a && a.closest('#app') && /^(INPUT|TEXTAREA|SELECT)$/.test(a.tagName) && a.type !== 'checkbox' && a.type !== 'search') return false;
+    return true;
+  }
+  let enCurso = false;
+  async function refrescar() {
+    if (enCurso || !ocioso()) return;
+    enCurso = true;
+    try { await cargar(true); } catch (e) {} finally { enCurso = false; }
+  }
+  setInterval(refrescar, 20000);
+  document.addEventListener('visibilitychange', () => { if (!document.hidden) refrescar(); });
+  addEventListener('focus', refrescar);
   try { sesion = JSON.parse(localStorage.getItem('boda-admin')); } catch (e) {}
   if (sesion) abrir(); else $('login').hidden = false;
 })();
