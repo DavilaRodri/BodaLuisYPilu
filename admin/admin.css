@@ -310,3 +310,4 @@ input:focus-visible, button:focus-visible, select:focus-visible { outline: 2px s
   .tile strong { font-size: 1.875rem; }
 }
 @media (prefers-reduced-motion: reduce) { .bar__fill, .dlg[open], .drawer { animation: none; } }
+.t.is-pres .t__top { fill: #f3f5ec; stroke: var(--olive); stroke-width: 6; }

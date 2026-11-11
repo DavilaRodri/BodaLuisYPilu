@@ -23,15 +23,15 @@
   function geo(m) {
     const cap = m.capacidad, sillas = [];
     if (m.forma === 'redonda' || m.forma === 'ovalada') {
-      const ring = Math.max(78, cap * 72 / (2 * Math.PI));
+      const ring = Math.max(96, cap * 72 / (2 * Math.PI));
       const sx = m.forma === 'ovalada' ? 1.45 : 1, sy = m.forma === 'ovalada' ? 0.72 : 1;
-      const rx = ring * sx, ry = ring * sy;
+      const rx = ring * sx, ry = Math.max(ring * sy, 100);
       // repartir por longitud de arco para que en la ovalada queden equidistantes
       const N = 360, pts = [], acc = [0];
       for (let i = 0; i <= N; i++) { const a = -Math.PI / 2 + i / N * 2 * Math.PI; pts.push([rx * Math.cos(a), ry * Math.sin(a)]); if (i) acc.push(acc[i - 1] + Math.hypot(pts[i][0] - pts[i - 1][0], pts[i][1] - pts[i - 1][1])); }
       const L = acc[N];
       for (let k = 0, j = 0; k < cap; k++) { const t = k / cap * L; while (acc[j + 1] < t) j++; sillas.push({ x: pts[j][0], y: pts[j][1] }); }
-      return { tipo: 'ellipse', rx: rx - 36, ry: ry - 36 * (sy < 1 ? 0.9 : 1), sillas, ext: Math.max(rx, ry) + SEAT };
+      return { tipo: 'ellipse', rx: rx - 36, ry: ry - 36, sillas, ext: Math.max(rx, ry) + SEAT };
     }
     if (m.forma === 'cuadrada') {
       const por = Math.ceil(cap / 4), lado = Math.max(110, por * 68), h = lado / 2, d = h + 32;
@@ -45,11 +45,11 @@
     }
     // alargada (presidencial: todos mirando al salón)
     if (m.presidencial) {
-      const w = Math.max(140, cap * 68), H = 90;
+      const w = Math.max(140, cap * 68), H = 116;
       for (let i = 0; i < cap; i++) sillas.push({ x: -w / 2 + (w / cap) * (i + 0.5), y: -H / 2 - 32 });
       return { tipo: 'rect', w, h: H, sillas, ext: w / 2 + SEAT };
     }
-    const arriba = Math.ceil(cap / 2), abajo = cap - arriba, w = Math.max(130, arriba * 68), H = 90;
+    const arriba = Math.ceil(cap / 2), abajo = cap - arriba, w = Math.max(130, arriba * 68), H = 116;
     for (let i = 0; i < arriba; i++) sillas.push({ x: -w / 2 + (w / arriba) * (i + 0.5), y: -H / 2 - 32 });
     for (let i = 0; i < abajo; i++) sillas.push({ x: w / 2 - (w / Math.max(abajo, 1)) * (i + 0.5) - (arriba > abajo ? w / arriba / 2 : 0), y: H / 2 + 32 });
     return { tipo: 'rect', w, h: H, sillas, ext: w / 2 + SEAT };
@@ -83,7 +83,7 @@
     // quien no tenga silla asignada ocupa la primera libre (solo para dibujar)
     ps.filter(i => i.asiento == null || i.asiento >= m.capacidad).forEach(i => { for (let k = 0; k < m.capacidad; k++) if (!porSilla[k]) { porSilla[k] = i; break; } });
     const full = ps.length >= m.capacidad;
-    const t = el('g', { class: 't' + (m.bloqueada ? ' is-locked' : '') + (full ? ' is-full' : '') + (sel === m.id ? ' is-sel' : ''), 'data-mesa': m.id, transform: `translate(${m.x} ${m.y})` }, gT);
+    const t = el('g', { class: 't' + (m.bloqueada ? ' is-locked' : '') + (full ? ' is-full' : '') + (sel === m.id ? ' is-sel' : '') + (m.presidencial ? ' is-pres' : ''), 'data-mesa': m.id, transform: `translate(${m.x} ${m.y})` }, gT);
     const top = g.tipo === 'ellipse'
       ? el('ellipse', { class: 't__top', rx: g.rx, ry: g.ry, transform: `rotate(${m.rot})` }, t)
       : el('rect', { class: 't__top', x: -g.w / 2, y: -g.h / 2, width: g.w, height: g.h, rx: 10, transform: `rotate(${m.rot})` }, t);
@@ -114,9 +114,9 @@
     });
     const lbl = el('g', { 'pointer-events': 'none' }, t);
     const hasName = !!m.nombre;
-    el('text', { class: 't__num', y: hasName ? -4 : 6 }, lbl).textContent = m.numero ?? '·';
-    if (hasName) el('text', { class: 't__name', y: 20 }, lbl).textContent = m.nombre.length > 14 ? m.nombre.slice(0, 13) + '…' : m.nombre;
-    el('text', { class: 't__cnt', y: hasName ? 42 : 30 }, lbl).textContent = ps.length + '/' + m.capacidad;
+    el('text', { class: 't__num', y: hasName ? -6 : 4 }, lbl).textContent = m.numero ?? '·';
+    if (hasName) el('text', { class: 't__name', y: 18 }, lbl).textContent = m.nombre.length > 14 ? m.nombre.slice(0, 13) + '…' : m.nombre;
+    el('text', { class: 't__cnt', y: hasName ? 40 : 28 }, lbl).textContent = ps.length + '/' + m.capacidad;
     const al = ps.filter(P.tieneDieta).length;
     if (al) {
       const b = el('g', { class: 't__al', transform: `translate(${g.tipo === 'ellipse' ? g.rx * 0.62 : g.w / 2 - 18} ${g.tipo === 'ellipse' ? -g.ry * 0.62 : -g.h / 2 + 18})` }, lbl);
@@ -404,7 +404,7 @@
     formas($('dForma'), m.forma);
     $('dCap').textContent = m.capacidad;
     $('dPres').checked = m.presidencial;
-    $('dPres').closest('.switch').hidden = m.forma !== 'rectangular';
+    $('dPres').closest('.switch').hidden = false;
     const L = $('dLock');
     L.classList.toggle('is-on', m.bloqueada);
     L.innerHTML = `<svg><use href="#i-${m.bloqueada ? 'lock' : 'unlock'}"/></svg><span>${m.bloqueada ? 'Mesa bloqueada · tocar para desbloquear' : 'Bloquear mesa'}</span>`;
@@ -426,7 +426,7 @@
   }
   $('dNum').addEventListener('change', e => { const m = P.mesa(sel); const v = parseInt(e.target.value, 10); guardarMesa(m, { numero: isNaN(v) ? null : v }); });
   $('dNombre').addEventListener('change', e => { const m = P.mesa(sel); guardarMesa(m, { nombre: e.target.value.trim() || null }); });
-  $('dForma').addEventListener('click', e => { const b = e.target.closest('[data-v]'); if (!b) return; const m = P.mesa(sel); guardarMesa(m, { forma: b.dataset.v, ...(b.dataset.v !== 'rectangular' ? { presidencial: false } : {}) }); });
+  $('dForma').addEventListener('click', e => { const b = e.target.closest('[data-v]'); if (!b) return; const m = P.mesa(sel); guardarMesa(m, { forma: b.dataset.v }); });
   $('dRot').addEventListener('click', () => { const m = P.mesa(sel); guardarMesa(m, { rot: ((m.rot || 0) + 45) % 360 }); });
   $('dPres').addEventListener('change', e => { const m = P.mesa(sel); guardarMesa(m, { presidencial: e.target.checked }); });
   async function capacidad(delta) {
