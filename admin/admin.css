@@ -137,7 +137,10 @@ input:focus-visible, button:focus-visible, select:focus-visible { outline: 2px s
 .mtag { justify-self: end; font-size: .875rem; color: var(--muted); white-space: nowrap; }
 .mtag b { font-weight: 400; color: var(--olive-dark); }
 .bulk { position: fixed; left: 50%; bottom: 24px; z-index: 30; display: flex; align-items: center; gap: 10px; padding: 8px 8px 8px 20px; border-radius: 999px; background: var(--ink); color: #fff; transform: translateX(-50%); box-shadow: 0 16px 40px -16px rgba(0, 0, 0, .5); }
-.bulk .sel { width: auto; min-height: 40px; color: var(--ink); }
+.bulk .sel { width: auto; min-height: 40px; padding-top: 6px; padding-bottom: 6px; line-height: 1.3; color: var(--ink); }
+.login .muted { font-size: .9375rem; }
+#mfaCode { font-size: 1.5rem; letter-spacing: .3em; text-align: center; }
+#mfaSalir { margin-top: 8px; }
 .bulk .btn--ghost { color: rgba(255, 255, 255, .8); }
 
 /* Formularios en diálogos */

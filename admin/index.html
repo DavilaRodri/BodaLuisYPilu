@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="admin.css?v=5">
+  <link rel="stylesheet" href="admin.css?v=6">
 </head>
 <body>
   <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -48,6 +48,20 @@
       <input id="p" type="password" autocomplete="current-password" required>
       <button class="btn btn--full" type="submit" id="entrar">Entrar</button>
       <p class="error" id="loginError" role="alert"></p>
+    </form>
+  </section>
+
+  <!-- Segundo paso (solo cuentas de superadmin) -->
+  <section class="login" id="mfa" hidden>
+    <form id="mfaForm" class="login__card">
+      <p class="mono">SUPERADMIN</p>
+      <h1>Código de verificación</h1>
+      <p class="muted">Abre tu app de autenticación y escribe el código de 6 cifras de «Bodas».</p>
+      <label for="mfaCode">Código</label>
+      <input id="mfaCode" type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="6" required>
+      <button class="btn btn--full" type="submit" id="mfaOk">Verificar</button>
+      <button class="btn btn--ghost btn--full" type="button" id="mfaSalir">Salir</button>
+      <p class="error" id="mfaError" role="alert"></p>
     </form>
   </section>
 
@@ -116,7 +130,7 @@
         <div class="glist" id="glist"></div>
         <div class="bulk" id="bulk" hidden>
           <span id="bulkN"></span>
-          <select id="bulkGrupo" aria-label="Asignar grupo"></select>
+          <select id="bulkGrupo" class="sel" aria-label="Asignar grupo"></select>
           <button class="btn btn--ghost btn--sm" type="button" id="bulkOff">Cancelar</button>
         </div>
       </div>
@@ -468,7 +482,7 @@
 
   <script src="../js/config.js?v=30"></script>
   <script src="../js/alergias.js?v=30"></script>
-  <script src="admin.js?v=4"></script>
+  <script src="admin.js?v=5"></script>
   <script src="cuentas.js?v=2"></script>
   <script src="mesas.js?v=3"></script>
   <script src="pdf.js?v=3" defer></script>

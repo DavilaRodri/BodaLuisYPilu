@@ -461,8 +461,44 @@
     }
   };
 
+  // ---------- Segundo paso para el superadmin ----------
+  const aal = () => { try { return JSON.parse(atob(sesion.access_token.split('.')[1].replace(/-/g, '+').replace(/_/g, '/'))).aal; } catch (e) { return null; } };
+  async function authApi(path, method, body) {
+    const r = await fetch(API + '/auth/v1/' + path, { method, headers: { apikey: KEY, Authorization: 'Bearer ' + await token(), 'Content-Type': 'application/json' }, body: body ? JSON.stringify(body) : undefined });
+    const j = await r.json().catch(() => ({}));
+    if (!r.ok) throw Object.assign(new Error(j.msg || j.message || ('Error ' + r.status)), { status: r.status });
+    return j;
+  }
+  let factor = null;
+  async function pideCodigo() {
+    if (aal() === 'aal2') return false;
+    const yo = await api('superadmins?select=user_id').catch(() => []);
+    if (!yo.length) return false; // cuenta de novios: no hace falta
+    const user = await authApi('user', 'GET');
+    const f = (user.factors || []).find(x => x.factor_type === 'totp' && x.status === 'verified');
+    $('login').hidden = true; $('app').hidden = true; $('mfa').hidden = false;
+    $('mfaError').textContent = f ? '' : 'Activa primero la verificación en dos pasos desde el superadmin.';
+    $('mfaOk').disabled = !f; factor = f && f.id;
+    $('mfaCode').value = ''; $('mfaCode').focus();
+    return true;
+  }
+  $('mfaForm').addEventListener('submit', async e => {
+    e.preventDefault();
+    const code = $('mfaCode').value.replace(/\D/g, '');
+    if (code.length !== 6 || !factor) { $('mfaError').textContent = 'Son 6 cifras.'; return; }
+    $('mfaOk').disabled = true; $('mfaError').textContent = '';
+    try {
+      const ch = await authApi('factors/' + factor + '/challenge', 'POST', {});
+      guardar(await authApi('factors/' + factor + '/verify', 'POST', { challenge_id: ch.id, code }));
+      $('mfa').hidden = true; abrir();
+    } catch (err) { $('mfaError').textContent = 'Código incorrecto o caducado. Prueba con el siguiente.'; $('mfaCode').select(); }
+    finally { $('mfaOk').disabled = false; }
+  });
+  $('mfaSalir').addEventListener('click', () => { $('mfa').hidden = true; salir(); });
+
   // ---------- Arranque ----------
   async function abrir() {
+    try { if (await pideCodigo()) return; } catch (err) { $('login').hidden = false; $('loginError').textContent = err.message; return; }
     $('login').hidden = true; $('app').hidden = false;
     try {
       await cargarBodas();
