@@ -209,7 +209,7 @@
     // ---------- Datos ----------
     function personas(r) {
       if (Array.isArray(r.asistentes) && r.asistentes.length) return r.asistentes;
-      return (r.nombres || []).map(n => ({ nombre: n, autobus: null, preboda: null }));
+      return (r.nombres || []).map(n => ({ nombre: n, autobus: null }));
     }
     async function cargar() {
       $('recargar').disabled = true;
@@ -223,13 +223,12 @@
     $('recargar').addEventListener('click', cargar);
 
     function totales() {
-      const t = { si: 0, no: 0, navalmoral: 0, castanar: 0, otros: 0, preboda: 0, resp: datos.length };
+      const t = { si: 0, no: 0, navalmoral: 0, castanar: 0, otros: 0, resp: datos.length };
       datos.forEach(r => personas(r).forEach(p => {
         if (!r.asistira) { t.no++; return; }
         t.si++;
         if (p.autobus === 'navalmoral' || p.autobus === 'castanar') t[p.autobus]++;
         else if (p.autobus && p.autobus !== 'no') t.otros++;
-        if (p.preboda) t.preboda++;
       }));
       return t;
     }
@@ -238,8 +237,7 @@
       si: { t: 'Personas que vienen', f: (p, r) => r.asistira },
       no: { t: 'Personas que no pueden venir', f: (p, r) => !r.asistira },
       navalmoral: { t: 'Autobús desde Navalmoral de la Mata', f: (p, r) => r.asistira && p.autobus === 'navalmoral' },
-      castanar: { t: 'Autobús desde Castañar de Ibor', f: (p, r) => r.asistira && p.autobus === 'castanar' },
-      preboda: { t: 'Vienen a la preboda', f: (p, r) => r.asistira && p.preboda === true }
+      castanar: { t: 'Autobús desde Castañar de Ibor', f: (p, r) => r.asistira && p.autobus === 'castanar' }
     };
 
     const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
@@ -254,7 +252,6 @@
         tile('no', t.no, 'no pueden venir') +
         tile('navalmoral', t.navalmoral, 'bus Navalmoral') +
         tile('castanar', t.castanar, 'bus Castañar') +
-        tile('preboda', t.preboda, 'a la preboda') +
         tile('todos', t.resp, t.resp === 1 ? 'respuesta' : 'respuestas');
 
       const q = sinTilde($('buscar').value.trim());
@@ -266,8 +263,8 @@
         n += ps.length;
         const filas = ps.map(p => `<tr><td>${esc(p.nombre)}</td>` +
           (r.asistira
-            ? `<td data-l="Autobús">${p.autobus ? esc(PARADAS[p.autobus] || p.autobus) : '<span class="muted">—</span>'}</td><td data-l="Preboda">${p.preboda === true ? 'Sí' : p.preboda === false ? 'No' : '<span class="muted">—</span>'}</td>`
-            : `<td></td><td></td>`) + `</tr>`).join('');
+            ? `<td data-l="Autobús">${p.autobus ? esc(PARADAS[p.autobus] || p.autobus) : '<span class="muted">—</span>'}</td>`
+            : `<td></td>`) + `</tr>`).join('');
         const todos = personas(r).map(p => p.nombre).join(', ');
         return `<article class="resp">
           <div class="resp__head">
@@ -275,7 +272,7 @@
             <span>${fecha(r.creado)} · ${personas(r).length} ${personas(r).length === 1 ? 'persona' : 'personas'}</span>
             <button class="btn btn--ghost resp__del" type="button" data-del="${r.id}" data-names="${esc(todos)}">Borrar</button>
           </div>
-          <table><thead><tr><th>Nombre</th><th>${r.asistira ? 'Autobús' : ''}</th><th>${r.asistira ? 'Preboda' : ''}</th></tr></thead><tbody>${filas}</tbody></table>
+          <table><thead><tr><th>Nombre</th><th>${r.asistira ? 'Autobús' : ''}</th></tr></thead><tbody>${filas}</tbody></table>
           ${r.comentario ? `<p class="comment"><b>Nos dicen:</b> ${esc(r.comentario)}</p>` : ''}
         </article>`;
       }).join('');
@@ -305,7 +302,6 @@
         'Nombre': p.nombre,
         '¿Viene?': r.asistira ? 'Sí' : 'No',
         'Autobús': r.asistira ? (PARADAS[p.autobus] || '') : '',
-        'Preboda': r.asistira ? (p.preboda === true ? 'Sí' : p.preboda === false ? 'No' : '') : '',
         'Comentario': r.comentario || '',
         'Fecha de respuesta': new Date(r.creado).toLocaleDateString('es-ES')
       })));
@@ -313,11 +309,11 @@
       const resumen = [
         ['Personas que vienen', t.si], ['No pueden venir', t.no],
         ['Autobús desde Navalmoral de la Mata', t.navalmoral], ['Autobús desde Castañar de Ibor', t.castanar],
-        ['Vienen a la preboda', t.preboda], ['Respuestas recibidas', t.resp]
+        ['Respuestas recibidas', t.resp]
       ];
       const libro = XLSX.utils.book_new();
       const h1 = XLSX.utils.json_to_sheet(filas);
-      h1['!cols'] = [{ wch: 30 }, { wch: 8 }, { wch: 24 }, { wch: 9 }, { wch: 50 }, { wch: 18 }];
+      h1['!cols'] = [{ wch: 30 }, { wch: 8 }, { wch: 24 }, { wch: 50 }, { wch: 18 }];
       XLSX.utils.book_append_sheet(libro, h1, 'Invitados');
       const bus = [['Navalmoral de la Mata', 'Castañar de Ibor']];
       const nv = [], cs = [];

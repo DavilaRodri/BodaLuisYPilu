@@ -139,9 +139,6 @@
           '<select class="field" id="bus-' + n + '" name="autobus"><option value="">Elige una opción</option>' +
           PARADAS.map(p => '<option value="' + p[0] + '">' + p[1] + '</option>').join('') +
           '</select></label>' +
-        '<label class="mini" for="pre-' + n + '"><span>Preboda</span>' +
-          '<select class="field" id="pre-' + n + '" name="preboda"><option value="">Elige una opción</option>' +
-          '<option value="si">Sí, iré</option><option value="no">No iré</option></select></label>' +
       '</div>';
     names.appendChild(row);
     const remove = row.querySelector('.remove');
@@ -181,16 +178,13 @@
     if (si) {
       for (const x of guests) {
         const bus = x.g.querySelector('[name="autobus"]');
-        const pre = x.g.querySelector('[name="preboda"]');
         if (!bus.value) return fail('Dinos si ' + x.nombre + ' irá en autobús.', bus);
-        if (!pre.value) return fail('Dinos si ' + x.nombre + ' vendrá a la preboda.', pre);
       }
     }
     const list = guests.map(x => x.nombre);
     const asistentes = guests.map(x => ({
       nombre: x.nombre,
-      autobus: si ? x.g.querySelector('[name="autobus"]').value : null,
-      preboda: si ? x.g.querySelector('[name="preboda"]').value === 'si' : null
+      autobus: si ? x.g.querySelector('[name="autobus"]').value : null
     }));
 
     send.disabled = true;

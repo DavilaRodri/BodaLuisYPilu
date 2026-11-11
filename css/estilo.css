@@ -358,6 +358,40 @@ h1, h2, h3 { font-family: var(--sans); font-weight: 300; letter-spacing: -0.015e
 .place__kind { font-size: var(--fs-body); font-weight: 400; color: var(--accent); }
 .place h3 { font-size: var(--fs-h3); }
 .place address { font-style: normal; color: var(--muted); }
+/* Cómo llegar a la finca */
+.llegar { margin-top: 24px; scroll-margin-top: 90px; }
+.llegar__grid { display: grid; grid-template-columns: 7fr 5fr; gap: clamp(24px, 4vw, 56px); align-items: center; }
+.llegar h3 { font-size: var(--fs-h3); margin-top: 4px; }
+.llegar__text > p:not(.place__kind) { margin-top: 12px; max-width: 52ch; }
+.llegar__text b { font-weight: 500; }
+.llegar__pasos { list-style: none; margin: 26px 0 0; padding: 0; display: grid; gap: 18px; counter-reset: paso; }
+.llegar__pasos li { position: relative; padding-left: 46px; }
+.llegar__pasos li::before {
+  counter-increment: paso; content: counter(paso);
+  position: absolute; left: 0; top: -2px; display: grid; place-items: center;
+  width: 30px; height: 30px; border-radius: 50%; background: var(--olive); color: #fff; font-size: .875rem;
+}
+.llegar__pasos li + li::after { content: ""; position: absolute; left: 14.5px; top: -16px; height: 12px; border-left: 1px dashed rgba(38, 36, 31, .3); }
+.llegar__t { font-size: 1.125rem; font-weight: 400; }
+.llegar__pasos p:not(.llegar__t) { color: var(--muted); margin-top: 2px; }
+.llegar__btns { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+.llegar__btns .btn { min-height: 44px; padding: 4px 4px 4px 18px; font-size: var(--fs-small); gap: 10px; }
+.llegar__btns .btn__icon { width: 36px; height: 36px; }
+.llegar__mapa { margin: 0; }
+.llegar__mapa svg { display: block; width: 100%; max-width: 340px; margin-inline: auto; height: auto; overflow: visible; }
+.ll-road { fill: none; stroke: #cfc6b3; stroke-width: 10; stroke-linecap: round; }
+.ll-water { font-size: 10px; letter-spacing: .18em; text-transform: uppercase; fill: var(--muted); }
+.ll-trees circle { fill: #9aa57a; opacity: .5; }
+.ll-camino { fill: none; stroke: rgba(38, 36, 31, .22); stroke-width: 2; stroke-dasharray: 5 6; stroke-linecap: round; }
+.ll-camino--on { stroke: var(--olive); stroke-width: 3; stroke-dasharray: 420; stroke-dashoffset: 420; transition: stroke-dashoffset 2.6s var(--ease) .4s; }
+.llegar.is-in .ll-camino--on { stroke-dashoffset: 0; }
+.ll-dist { font-size: 12px; fill: var(--olive-dark); letter-spacing: .06em; }
+.ll-pin circle { fill: var(--olive-dark); stroke: #fffdf9; stroke-width: 3; }
+.ll-pin text { fill: #fff; font-size: 13px; }
+.ll-label { font-size: 13px; fill: var(--ink); }
+.ll-casa path { fill: #fffdf9; stroke: var(--ink); stroke-width: 1.4; stroke-linejoin: round; }
+.ll-casa rect { fill: var(--olive); }
+
 /* ---------- El día ---------- */
 .story { padding-bottom: var(--section); }
 .story__grid { display: grid; justify-items: center; text-align: center; gap: clamp(24px, 3vw, 36px); }
@@ -518,7 +552,7 @@ h1, h2, h3 { font-family: var(--sans); font-weight: 300; letter-spacing: -0.015e
 .guest { padding: 12px; border-radius: 18px; background: var(--shell); }
 .guest__name { display: flex; gap: 10px; }
 .guest__name .field { background: var(--card); }
-.guest__opts { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
+.guest__opts { display: grid; grid-template-columns: 1fr; gap: 10px; margin-top: 10px; }
 .form.is-no .guest__opts { display: none; }
 .mini { display: grid; gap: 4px; }
 .mini span { padding-left: 4px; font-size: var(--fs-small); color: var(--muted); }
@@ -687,6 +721,11 @@ textarea.field { min-height: 110px; resize: vertical; }
   .gift__paper { padding: 40px 30px; }
   .guest__opts { grid-template-columns: 1fr; }
   .places__grid { grid-template-columns: 1fr; }
+  .llegar__grid { grid-template-columns: 1fr; }
+  .llegar__mapa { order: -1; }
+  .llegar__mapa svg { max-width: 260px; }
+  .llegar__pasos li { padding-left: 42px; }
+  .llegar__btns .btn { padding-left: 14px; gap: 8px; }
   .countdown .core { gap: 8px; }
   .core { padding: calc(var(--f) + 26px) calc(var(--f) + 22px); }
   .core::after { inset: 13px; }
