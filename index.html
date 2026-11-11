@@ -14,7 +14,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/estilo.css?v=25">
+  <link rel="stylesheet" href="css/estilo.css?v=26">
   <script>
     (function () {
       document.documentElement.dataset.theme = 'light';
@@ -189,20 +189,20 @@
                 <h4>De la A-5 a la entrada del camino</h4>
               </div>
               <div class="ruta__screen">
-                <div class="ruta__frames" aria-hidden="true"><img src="img/llegada/01.jpg" width="640" height="400" alt="" loading="lazy" decoding="async" class="is-on"><img src="img/llegada/02.jpg" width="640" height="400" alt="" loading="lazy" decoding="async"><img src="img/llegada/03.jpg" width="640" height="400" alt="" loading="lazy" decoding="async"><img src="img/llegada/04.jpg" width="640" height="400" alt="" loading="lazy" decoding="async"><img src="img/llegada/05.jpg" width="640" height="400" alt="" loading="lazy" decoding="async"><img src="img/llegada/06.jpg" width="640" height="400" alt="" loading="lazy" decoding="async"><img src="img/llegada/07.jpg" width="640" height="400" alt="" loading="lazy" decoding="async"><img src="img/llegada/08.jpg" width="640" height="400" alt="" loading="lazy" decoding="async"><img src="img/llegada/09.jpg" width="640" height="400" alt="" loading="lazy" decoding="async"><img src="img/llegada/10.jpg" width="640" height="400" alt="" loading="lazy" decoding="async"><img src="img/llegada/11.jpg" width="640" height="400" alt="" loading="lazy" decoding="async"><img src="img/llegada/12.jpg" width="640" height="400" alt="" loading="lazy" decoding="async"><img src="img/llegada/13.jpg" width="640" height="400" alt="" loading="lazy" decoding="async"><img src="img/llegada/14.jpg" width="640" height="400" alt="" loading="lazy" decoding="async"><img src="img/llegada/15.jpg" width="640" height="400" alt="" loading="lazy" decoding="async"><img src="img/llegada/16.jpg" width="640" height="400" alt="" loading="lazy" decoding="async"><img src="img/llegada/17.jpg" width="640" height="400" alt="" loading="lazy" decoding="async"><img src="img/llegada/18.jpg" width="640" height="400" alt="" loading="lazy" decoding="async"><img src="img/llegada/19.jpg" width="640" height="400" alt="" loading="lazy" decoding="async"><img src="img/llegada/20.jpg" width="640" height="400" alt="" loading="lazy" decoding="async"><img src="img/llegada/21.jpg" width="640" height="400" alt="" loading="lazy" decoding="async"><img src="img/llegada/22.jpg" width="640" height="400" alt="" loading="lazy" decoding="async"><img src="img/llegada/23.jpg" width="640" height="400" alt="" loading="lazy" decoding="async"><img src="img/llegada/24.jpg" width="640" height="400" alt="" loading="lazy" decoding="async"></div>
-                <p class="ruta__cap" aria-live="polite"><span class="ruta__dist">Faltan 3,9 km</span><span class="ruta__txt">Por la A-5, salida 182</span></p>
+                <video class="ruta__video" poster="img/llegada-poster.jpg" muted playsinline preload="none" width="640" height="360" aria-label="Recorrido en coche desde la salida 182 de la A-5 hasta la entrada del camino de la finca"><source src="video/llegada.mp4" type="video/mp4"><source src="video/llegada.webm" type="video/webm"></video>
+                <p class="ruta__cap" aria-live="polite"><span class="ruta__dist">Faltan 4,2 km</span><span class="ruta__txt">Por la A-5 hacia la salida 182</span></p>
               </div>
               <div class="ruta__ctrl">
                 <button class="ruta__play" type="button" aria-label="Pausar"><svg viewBox="0 0 24 24" aria-hidden="true"><path class="i-pause" d="M8 5h3v14H8zM13 5h3v14h-3z"/><path class="i-play" d="M8 5v14l11-7z"/></svg></button>
-                <input class="ruta__bar" type="range" min="0" max="23" value="0" step="1" aria-label="Avanzar por el recorrido">
+                <input class="ruta__bar" type="range" min="0" max="1000" value="0" step="1" aria-label="Avanzar por el recorrido">
               </div>
               <div class="ruta__chaps" role="group" aria-label="Ir a un punto del recorrido">
-                <button type="button" data-f="0">Salida 182</button>
-                <button type="button" data-f="3">A la izquierda</button>
-                <button type="button" data-f="5">Rotonda</button>
-                <button type="button" data-f="6">CC-408</button>
-                <button type="button" data-f="19">Km 3</button>
-                <button type="button" data-f="23">Entrada</button>
+                <button type="button" data-t="2.2">Salida 182</button>
+                <button type="button" data-t="6.2">A la izquierda</button>
+                <button type="button" data-t="7.6">Rotonda</button>
+                <button type="button" data-t="9.4">CC-408</button>
+                <button type="button" data-t="26.6">Km 3</button>
+                <button type="button" data-t="28.8">Entrada</button>
               </div>
               <p class="ruta__src">Imágenes: Google Street View</p>
             </div>
@@ -459,9 +459,9 @@
     </div>
   </footer>
 
-  <script src="js/config.js?v=25"></script>
-  <script src="js/app.js?v=25"></script>
-  <script src="js/mapa.js?v=25"></script>
-  <script src="js/ruta.js?v=25"></script>
+  <script src="js/config.js?v=26"></script>
+  <script src="js/app.js?v=26"></script>
+  <script src="js/mapa.js?v=26"></script>
+  <script src="js/ruta.js?v=26"></script>
 </body>
 </html>
